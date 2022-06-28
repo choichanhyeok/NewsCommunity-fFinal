@@ -1,4 +1,4 @@
-name: harmony-fFinal
+name: NewsCommunity-fFinal
 on:
   push:
     branches:
