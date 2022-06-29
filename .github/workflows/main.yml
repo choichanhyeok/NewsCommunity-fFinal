@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout source code.
-        uses: actions/checkout@master
+        uses: actions/checkout@devlop
 
       - name: Upload binary to S3 bucket
         uses: jakejarvis/s3-sync-action@master
