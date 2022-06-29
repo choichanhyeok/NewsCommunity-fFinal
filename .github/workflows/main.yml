@@ -21,7 +21,7 @@ jobs:
           args: --acl public-read --exclude '*' --include 'index.html'
         env:
           AWS_S3_BUCKET: ${{ secrets.BUCKET_NAME }}
-          SOURCE_DIR = './'
+          SOURCE_DIR: './'
 
 
       - name: Invalidate cache CloudFront
