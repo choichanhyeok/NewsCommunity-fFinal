@@ -1,4 +1,4 @@
-name: harmony-fFinal
+name: NewsCommunity -fFinal
 on:
   push:
     branches:
@@ -13,12 +13,12 @@ jobs:
 
     steps:
       - name: Checkout source code.
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
 
       - name: Upload binary to S3 bucket
         uses: jakejarvis/s3-sync-action@master
         with:
-          args: --acl public-read --exclude '*' --include 'index.html'
+          args: --acl public-read --exclude '.git/*' --include 'index.html'
         env:
           AWS_S3_BUCKET: ${{ secrets.BUCKET_NAME }}
 
@@ -26,5 +26,5 @@ jobs:
         uses: chetan/invalidate-cloudfront-action@master
         env:
           DISTRIBUTION: ${{ secrets.DISTRIBUTION_ID }}
-          PATHS: '/index.html'
+          PATHS: '/*'
         continue-on-error: true
