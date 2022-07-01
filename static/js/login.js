@@ -4,7 +4,7 @@ $(document).ready(function () {
 	var csrftoken = $('meta[name=csrf-token]').attr('content')
 	$.ajaxSetup({
 		beforeSend: function (xhr, settings) {
-			settings.url = "https://Newscommunitybackfinal-env.eba-fq3yepez.ap-northeast-2.elasticbeanstalk.com"+this.url; // have to modify
+			settings.url = "https://chanhyeoking.com"+this.url; // have to modify
 			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
