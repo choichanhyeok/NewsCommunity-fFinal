@@ -1,4 +1,4 @@
-name: NewsCommunity -fFinal
+name: NewsCommunity -fFinal2
 on:
   push:
     branches:
