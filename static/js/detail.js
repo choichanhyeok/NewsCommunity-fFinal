@@ -44,7 +44,7 @@ function postComment() {
     }
     $.ajax({
         type: "POST",
-        url: `/api/comments`,
+        url: `/api/user/comments`,
         contentType: "application/json", // JSON 형식으로 전달함을 알리기
         data: JSON.stringify(data),
         success: function (response) {
@@ -178,7 +178,7 @@ function editComment(commentId) {
 
     $.ajax({
         type: "PUT",
-        url: `/api/comments/${commentId}`,
+        url: `/api/user/comments/${commentId}`,
         contentType: "application/json",
         data: JSON.stringify(data),
         success: function (response) {
@@ -201,7 +201,7 @@ function deleteConfirm(commentId) {
 function deleteComment(commentId) {
     $.ajax({
         type: "DELETE",
-        url: `/api/comments/${commentId}`,
+        url: `/api/user/comments/${commentId}`,
         success: function (response) {
             alert('댓글 삭제에 성공하였습니다.');
             window.location.reload();
