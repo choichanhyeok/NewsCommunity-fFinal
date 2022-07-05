@@ -199,8 +199,8 @@ function addHTML(commentId, createdAt, content, username) {
                         </div>
                     </article>
                     <div id="${commentId}-editor-container" class="comment-editarea">
-                        <textarea id="${commentId}-editor" class="textarea" placeholder="수정할 내용 입력"></textarea>
-                        <button class="button is-success" onclick="editComment(${commentId})">수정</button>
+                        <textarea id="${commentId}-editor" class="textarea" placeholder="수정할 내용 입력">${content}</textarea>
+                        <button class="edit-btn button is-info" onclick="editComment(${commentId})">수정</button>
                     </div>`;
     } else {
         tempHtml = `<article class="media">
@@ -233,8 +233,6 @@ function addHTML(commentId, createdAt, content, username) {
 
 function showEditTextarea(commentId) {
     document.getElementById(`${commentId}-editor-container`).classList.toggle("comment-editarea");
-    let content = $(`${commentId}-content`).text().trim();
-    $(`#${commentId}-editor`).val(content);
 }
 
 

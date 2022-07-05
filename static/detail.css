@@ -143,3 +143,11 @@
 .heart {
     color: red;
 }
+
+.comment-show {
+    padding: 20px;
+}
+
+.edit-btn {
+    margin-top: 5px;
+}
