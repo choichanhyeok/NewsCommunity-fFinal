@@ -83,7 +83,7 @@ String.replaceAll = function(search, replacement) {
 // 현재 보고 있는 뉴스의 아이디(PK)를 얻는 함수
 function getNewsId() {
     let params = new URLSearchParams(document.location.search);
-    let newsId = params.get("news_id");
+    let newsId = params.get("name");
     return newsId;
 }
 
@@ -152,16 +152,15 @@ function getComments() {
                 let comment = response[i];
                 let commentId = comment.commentId;
                 let createdAt = comment.createdAt;
-                let time = time2str(createdAt);
                 let content = comment.content;
                 let username = comment.user.username;
-                addHTML(commentId, time, content, username);
+                addHTML(commentId, createdAt, content, username);
             }
         }
     })
 }
 
-function addHTML(commentId, time, content, username) {
+function addHTML(commentId, createdAt, content, username) {
 
     let currentLoginUserName = $.ajax({
         async: false,
@@ -172,7 +171,7 @@ function addHTML(commentId, time, content, username) {
 
     let tempHtml = ``;
     if (currentLoginUserName == username) {
-        tempHtml = `<article class="media">
+        tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">
                                 <img src="https://bulma.io/images/placeholders/128x128.png">
@@ -181,9 +180,9 @@ function addHTML(commentId, time, content, username) {
                         <div class="media-content">
                             <div class="content">
                                 <p>
-                                    <strong>nickname</strong> <small>@${username}</small> <small>${time}</small>
+                                    <strong>nickname</strong> <small>@${username}</small> <small>${createdAt}</small>
                                     <br>
-                                    ${content}
+                                    <span id="${commentId}-content">${content}</span>
                                 </p>
                             </div>
                             <nav class="level is-mobile">
@@ -195,7 +194,7 @@ function addHTML(commentId, time, content, username) {
                             </nav>
                         </div>
                         <div class="media-right">
-                            <i class="fa-solid fa-pen-to-square" onclick="showEditTextarea(${commentId}, ${content})"></i>
+                            <i class="fa-solid fa-pen-to-square" onclick="showEditTextarea(${commentId})"></i>
                             <i class="fa-solid fa-trash-can" onclick="deleteConfirm(${commentId})"></i>
                         </div>
                     </article>
@@ -213,7 +212,7 @@ function addHTML(commentId, time, content, username) {
                         <div class="media-content">
                             <div class="content">
                                 <p>
-                                    <strong>nickname</strong> <small>@${username}</small> <small>${time}</small>
+                                    <strong>nickname</strong> <small>@${username}</small> <small>${createdAt}</small>
                                     <br>
                                     ${content}
                                 </p>
@@ -232,8 +231,9 @@ function addHTML(commentId, time, content, username) {
     $("#comment-box").append(tempHtml);
 }
 
-function showEditTextarea(commentId, content) {
-    document.querySelector(`#${commentId}-editor-container`).classList.toggle("comment-editarea");
+function showEditTextarea(commentId) {
+    document.getElementById(`${commentId}-editor-container`).classList.toggle("comment-editarea");
+    let content = $(`${commentId}-content`).text().trim();
     $(`#${commentId}-editor`).val(content);
 }
 
