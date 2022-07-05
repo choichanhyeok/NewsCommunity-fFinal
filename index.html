@@ -23,8 +23,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Do+Hyeon&family=IBM+Plex+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./static/base.css">
-    <link rel="stylesheet" href="./static/style.css" />
+    <link rel="stylesheet" href="/NewsCommunity-fFinal/static/base.css">
+    <link rel="stylesheet" href="/NewsCommunity-fFinal/static/style.css" />
 
     <!-- script 모음 -->
     <!-- jQuery -->
@@ -37,26 +37,26 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
 
-    <script src="./static/js/login.js"></script>
-    <script src="./static/js/ui.js"></script>
-    <script src="./static/js/weather_api.js"></script>
-    <script src="./static/js/listing.js"></script>
-    <script src="./static/js/profile_about.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/login.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/ui.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/weather_api.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/listing.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/profile_about.js"></script>
 </head>
 
 <body class="has-navbar-fixed-top">
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="./index.html">
+            <a class="navbar-item" href="/NewsCommunity-fFinal/index.html">
                 <small class="navbar_team">TEAM.</small>
                 <div class="navbar_text">harmony2</div>
             </a>
         </div>
         <div class="navbar_icon">
             {% if status == False %}
-                <a class="login_icon" onclick="window.location.href = './login.html'"><i class="fa-solid fa-arrow-right-to-bracket"></i></a>
+                <a class="login_icon" onclick="window.location.href = '/NewsCommunity-fFinal/login.html'"><i class="fa-solid fa-arrow-right-to-bracket"></i></a>
             {% else %}
-                <a class="profile_icon" href="./profile.html"><i class="fa-regular fa-user"></i></a>
+                <a class="profile_icon" href="/NewsCommunity-fFinal/profile.html"><i class="fa-regular fa-user"></i></a>
                 <a class="logout_icon" onclick="sign_out()"><i class="fa-solid fa-right-from-bracket"
                                              aria-hidden="true"></i></a>
             {% endif %}

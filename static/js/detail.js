@@ -1,3 +1,59 @@
+$(document).ready(function () {
+  console.log("start!!!!")
+  detail_listing();
+});
+
+const detail_listing = () =>{
+    let news_id = location.href.split("?")[1].split("=")[1];
+    console.log("test!!!")
+    console.log("이 뉴스의 id는 바로 ~~~~: " + news_id)
+
+    $.ajax({
+        type: 'GET',
+        url: '/api/news/detail/'+news_id, // 테스트용 url
+        data: {},
+        success: function (response) {
+            let news_obj = response['body']['result'];
+            $('#news-box').empty();
+            // 서버로 부터 받은 뉴스 리스트의 각 뉴스에 접근해 관련 정보를 받는다.
+            let post_id = news_obj['id'];
+            let title = news_obj['title'];
+            let contents = news_obj['summary']
+            let news_url = news_obj['news_url']
+            let image_url = news_obj['image_url'];
+            let write_time = news_obj['write_time']
+            console.log(write_time)
+            console.log(title)
+//            let view = news_obj['view']
+            // 받아온 정보를 토대로 card-box html을 구성해준다.
+            let html_data = `<div class="news_title title"><h4>${title}</h4></div>
+                                <div class="news_time level-left">
+                                    <small>${write_time}</small>
+                                </div>
+                                <div class="news_icon level-right">
+                                    <div class="news_url level-item">
+                                        <a href="${news_url}" target="_blank">
+                                            <span class="icon is-small"><i class="icon_ fa-solid fa-link"></i></span>
+                                        </a>
+                                    </div>
+                                    <div id="bookmark" class="bookmark level-item">
+                                        <div id="${post_id}">
+                                            <a class="is-sparta" aria-label="bookmark"
+                                               onclick="toggle_bookmark(${post_id})">
+                                                                            <span class="icon is-small"><i class="icon_ fa fa-solid fa-bookmark-o"
+                                                                                                           aria-hidden="true"></i></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="news_photo"><img src="${image_url}" alt="Image"></span>
+                                <div class="news_summary" style="white-space: pre-line">${contents}</div>`;
+            $('#news-box').append(html_data);
+
+        }
+    })
+}
+
 // 댓글 정렬 함수 - ye
 function set_sorting_method(sorting_item) {
     let status_text = $(sorting_item).text();

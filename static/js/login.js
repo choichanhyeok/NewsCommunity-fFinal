@@ -4,11 +4,11 @@ $(document).ready(function () {
 	var csrftoken = $('meta[name=csrf-token]').attr('content')
 	$.ajaxSetup({
 		beforeSend: function (xhr, settings) {
-			settings.url = "https://www.chanhyeoking.com"+this.url; // have to modify
+			settings.url = "http://localhost:4993"+this.url; // have to modify
 			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
-			xhr.setRequestHeader("Authorization", "Bearer "+token);
+			xhr.setRequestHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbXkiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjU2OTg0MTk1fQ.ru2qsr7KqvBEHra4G8b4SZUpsNL8kYFKYmPK-8Me-Rs");
 		}
 	});
 })
