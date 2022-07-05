@@ -1,0 +1,93 @@
+
+.wraper {
+    padding: 50px 150px 0 150px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover{
+    color: green;
+}
+table {
+    text-align: center;
+    margin-top: 20px;
+    padding: 0;
+    border-radius: 5px;
+}
+thead{
+    background-color: white;
+}
+
+
+th:nth-child(1) {
+    width: 20px;
+    border-radius: 5px 0 0 0;
+}
+
+th:nth-child(2) {
+    width: 200px;
+}
+
+th:nth-child(3) {
+    width: 50px;
+}
+
+th:nth-child(4) {
+    width: 20px;
+    border-radius:  0 5px 0  0 ;
+}
+
+.name {
+    text-align: left;
+}
+.text_area {
+    background-color: #FFF !important;
+}
+
+
+.writing_button_div {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.writing_button {
+    margin-left: auto;
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+}
+
+.submit_card {
+    padding: 20px;
+    margin-bottom: 30px;
+    width: 80%;
+    display: none;
+}
+
+.input-group-text {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.content_btn_div {
+    display: flex;
+}
+
+.content_btn_sub_div {
+    margin-left: auto;
+}
+.form-label{
+    margin:5px;
+}
+.edit_btn, .cancle_btn, .submit_btn {
+    border: 1px solid lightgray;
+}
+.tr_title:hover {
+    background-color: rgba(142,185,139,0.48)
+}
+
