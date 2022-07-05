@@ -151,7 +151,7 @@ function getComments() {
             for (let i=0; i<response.length; i++) {
                 let comment = response[i];
                 let commentId = comment.commentId;
-                let modifiedDate = comment.modifiedDate;
+                let modifiedDate = comment.modifiedAt;
                 let time = time2str(new Date(modifiedDate));
                 let content = comment.content;
                 let username = comment.user.username;
