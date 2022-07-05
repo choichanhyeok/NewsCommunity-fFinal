@@ -2,6 +2,7 @@ $(document).ready(function () {
   console.log("start!!!!")
   detail_listing();
   getComments();
+  getCommentCount();
 });
 
 const detail_listing = () =>{
@@ -157,6 +158,23 @@ function getComments() {
                 let username = comment.user.username;
                 addHTML(commentId, time, content, username);
             }
+        }
+    })
+}
+
+// 댓글 개수 가져오는 함수
+function getCommentCount() {
+    let newsId = getNewsId();
+    $.ajax({
+        type: "GET",
+        url: `/api/user/comments/count/${newsId}`,
+        success: function (response) {
+            let tempHtml = `            
+                    <p class="subtitle is-5">
+                        <strong>${response}</strong>
+                    </p>
+                    <small style="margin-bottom: 1rem">&nbsp;comments</small>`
+            $('#comment-count-box').append(tempHtml);
         }
     })
 }
