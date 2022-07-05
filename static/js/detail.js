@@ -109,7 +109,7 @@ function postComment() {
 
 // 댓글 작성 시간 단위
 function time2str(date) {
-    let today = new Date()
+    let today = new Date();
     let time = (today - date) / 1000 / 60  // 분
 
     if (time < 60) {
@@ -151,16 +151,17 @@ function getComments() {
             for (let i=0; i<response.length; i++) {
                 let comment = response[i];
                 let commentId = comment.commentId;
-                let createdAt = comment.createdAt;
+                let modifiedDate = comment.modifiedDate;
+                let time = time2str(new Date(modifiedDate));
                 let content = comment.content;
                 let username = comment.user.username;
-                addHTML(commentId, createdAt, content, username);
+                addHTML(commentId, time, content, username);
             }
         }
     })
 }
 
-function addHTML(commentId, createdAt, content, username) {
+function addHTML(commentId, time, content, username) {
 
     let currentLoginUserName = $.ajax({
         async: false,
@@ -180,7 +181,7 @@ function addHTML(commentId, createdAt, content, username) {
                         <div class="media-content">
                             <div class="content">
                                 <p>
-                                    <strong>nickname</strong> <small>@${username}</small> <small>${createdAt}</small>
+                                    <strong>nickname</strong> <small>@${username}</small> <small>${time}</small>
                                     <br>
                                     <span id="${commentId}-content">${content}</span>
                                 </p>
@@ -212,7 +213,7 @@ function addHTML(commentId, createdAt, content, username) {
                         <div class="media-content">
                             <div class="content">
                                 <p>
-                                    <strong>nickname</strong> <small>@${username}</small> <small>${createdAt}</small>
+                                    <strong>nickname</strong> <small>@${username}</small> <small>${time}</small>
                                     <br>
                                     ${content}
                                 </p>
