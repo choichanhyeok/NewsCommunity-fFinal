@@ -109,69 +109,85 @@ function getComments() {
 }
 
 function addHTML(commentId, time, content, username) {
-    let tempHtml = `<div class="box" id="${comment["_id"]}">
-                        <article class="media">
-                            <div class="media-left">
-                                <a class="image is-64x64" href="/profile/${comment['user_id']}">
-                                    <img class="is-rounded" src="/static/profile_pics/profile_placeholder"
-                                         alt="Image">
-                                </a>
+
+    let currentLoginUserName = $.ajax({
+        async: false,
+        url: "/api/user/me",
+        type: "GET",
+        dataType: "text"
+    }).responseText;
+
+    let tempHtml = ``;
+    if (currentLoginUserName == username) {
+        tempHtml = `<article class="media">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <strong>nickname</strong> <small>@${username}</small> <small>${time}</small>
+                                    <br>
+                                    ${content}
+                                </p>
                             </div>
-                            <div class="media-content">
-                                <div class="content">
-                                    <div class="level">
-                                        <p class="level-left">
-                                            <strong style="font-weight: bold">닉네임</strong>
-                                            &nbsp;<small style="font-size: 0.9rem">@${username}</small>
-                                            &nbsp;&nbsp;<small style="font-size: 0.9rem">${time}</small>
-                                        </p>
-                                        <small id="modalBtn" class="level-right">수정</small>
-                                        <small onclick="deleteConfirm(${commentId})" class="level-right">삭제</small>
-                                    </div>
-                                    <div class="comment">${content}</div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+                                    <a class="level-item">
+                                        <span class="heart icon is-small"><i class="fa fa-heart-o"></i></span>
+                                    </a>
                                 </div>
-                                <nav class="level is-mobile">
-                                    <div class="level-left">
-                                        <a class="level-item like_icon" aria-label="like" onclick="toggle_like('${comment['_id']}')">
-                                                                                    <span class="icon is-small"><i class="fa ${icon}"
-                                                                                                                   aria-hidden="true"></i></span>&nbsp;<span class="like-num">${count}</span>
-                                        </a>
-                                    </div>
-                                </nav>
-                            </div>
-                        </article>
-                   </div>
-                   <div id="testModal" class="modal" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">댓글 수정하기</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                        <textarea id="modifiedContent" class="modalTextArea" placeholder="${content}"></textarea>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                                    <button type="button" class="btn btn-primary" onclick="editComment(${commentId})">수정완료</button>
-                                </div>
-                            </div>
+                            </nav>
                         </div>
+                        <div class="media-right">
+                            <i class="fa-solid fa-pen-to-square" onclick="showEditTextarea(${commentId}, ${content})"></i>
+                            <i class="fa-solid fa-trash-can" onclick="deleteConfirm(${commentId})"></i>
+                        </div>
+                    </article>
+                    <div id="${commentId}-editor-container" class="comment-editarea">
+                        <textarea id="${commentId}-editor" class="textarea" placeholder="수정할 내용 입력"></textarea>
+                        <button class="button is-success" onclick="editComment(${commentId})">수정</button>
                     </div>`;
+    } else {
+        tempHtml = `<article class="media">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <strong>nickname</strong> <small>@${username}</small> <small>${time}</small>
+                                    <br>
+                                    ${content}
+                                </p>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+                                    <a class="level-item">
+                                        <span class="heart icon is-small"><i class="fa fa-heart-o"></i></span>
+                                    </a>
+                                </div>
+                            </nav>
+                        </div>
+                    </article>`;
+    }
+
     $("#comment-box").append(tempHtml);
 }
 
-// 댓글 수정 시 모달 띄우기
-$('#modalBtn').click(function(e){
-    e.preventDefault();
-    $('#testModal').modal("show");
-})
+function showEditTextarea(commentId, content) {
+    document.querySelector(`#${commentId}-editor-container`).classList.toggle("comment-editarea");
+    $(`#${commentId}-editor`).val(content);
+}
+
 
 // 댓글 수정 함수
 function editComment(commentId) {
-    let content = $('#modifiedContent').val();
+    let content = $(`#${commentId}-editor`).val();
     let data = {
         "content": content
     }

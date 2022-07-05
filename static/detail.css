@@ -135,3 +135,11 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+.comment-editarea {
+    display: none;
+}
+
+.heart {
+    color: red;
+}
