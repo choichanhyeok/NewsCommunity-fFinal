@@ -133,4 +133,13 @@ a:active {
     bottom: -2px;
 }
 
+.modalTextArea {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.close {
+    border-radius: 5px;
+}
+
 

@@ -24,11 +24,11 @@
     <!-- Font Awesome CSS -->
     <script src="https://kit.fontawesome.com/f6788aacd4.js" crossorigin="anonymous"></script>
 
-    <script src="/NewsCommunity-fFinal/static/js/login.js"></script>
-    <script src="/NewsCommunity-fFinal/static/js/ui.js"></script>
-    <script src="/NewsCommunity-fFinal/static/js/listing.js"></script>
-    <script src="/NewsCommunity-fFinal/static/js/profile_about.js"></script>
-    <script src="/NewsCommunity-fFinal/static/js/detail.js"></script>
+<!--    <script src="/NewsCommunity-fFinal/static/js/login.js"></script>-->
+<!--    <script src="/NewsCommunity-fFinal/static/js/ui.js"></script>-->
+<!--    <script src="/NewsCommunity-fFinal/static/js/listing.js"></script>-->
+<!--    <script src="/NewsCommunity-fFinal/static/js/profile_about.js"></script>-->
+<!--    <script src="/NewsCommunity-fFinal/static/js/detail.js"></script>-->
 </head>
 
 <body class="has-navbar-fixed-top">
@@ -72,19 +72,40 @@
             </div>
         </div>
     </div>
+    <span class="news_photo"><img src="{{ post.image_url }}" alt="Image"></span>
+    <div class="news_summary" style="white-space: pre-line">{{ post.summary|safe }}</div>
 </div>
 
 
 <hr class="comment_hr fixed">
 
 <div class="comment_wrap fixed">
-    <div class="control">
-        <textarea id="comment" class="textarea is-hovered" placeholder="의견을 남겨주세요 👍🏻"></textarea>
+    <article id="editArea" class="media comment-textarea">
+        <figure class="media-left">
+            <p class="image is-64x64">
+                <img src="https://bulma.io/images/placeholders/128x128.png">
+            </p>
+        </figure>
+        <div class="media-content">
+            <div class="field">
+                <p class="control">
+                    <textarea id="comment" class="textarea" placeholder="의견을 남겨주세요"></textarea>
+                </p>
+            </div>
+            <nav class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <a class="button is-info" onclick="postComment()">작성</a>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
 
-        <div class="button-wrap">
-            <button class="button post_comment" onclick="post_comment()">의견 등록</button>
+                    </div>
+                </div>
+            </nav>
         </div>
-    </div>
+    </article>
 </div>
 <hr class="comment_hr_second fixed">
 
@@ -124,6 +145,33 @@
     </div>
 
     <div id="comment-box" class="container fixed">
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-64x64">
+                    <img src="https://bulma.io/images/placeholders/128x128.png">
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="content">
+                    <p>
+                        <strong>nickname</strong> <small>username</small> <small>time</small>
+                        <br>
+                        <span id="1-content">content</span>
+                    </p>
+                </div>
+                <nav class="level is-mobile">
+                    <div class="level-left">
+                        <a class="level-item">
+                            <span class="heart icon is-small"><i class="fa fa-heart-o"></i></span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+            <div class="media-right">
+                <i class="fa-solid fa-pen-to-square" onclick="showEditTextarea(1)"></i>
+                <i class="fa-solid fa-trash-can" onclick="deleteConfirm(1)"></i>
+            </div>
+        </article>
     </div>
 </section>
 
@@ -134,5 +182,11 @@
          data-ad-height = "50"></ins>
         <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
     </div>
+
+    <script src="/NewsCommunity-fFinal/static/js/login.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/ui.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/listing.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/profile_about.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/detail.js"></script>
 </body>
 </html>

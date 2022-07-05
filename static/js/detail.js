@@ -1,6 +1,7 @@
 $(document).ready(function () {
   console.log("start!!!!")
   detail_listing();
+  getComments();
 });
 
 const detail_listing = () =>{
@@ -79,57 +80,36 @@ String.replaceAll = function(search, replacement) {
     return this.split(search).join(replacement);
 };
 
+// 현재 보고 있는 뉴스의 아이디(PK)를 얻는 함수
+function getNewsId() {
+    let params = new URLSearchParams(document.location.search);
+    let newsId = params.get("name");
+    return newsId;
+}
+
 // 댓글 작성 함수 -hj
-function post_comment() {
-    const date = new Date().toISOString()
-    var comment_value = document.querySelector('textarea').value;
-    comment_value = comment_value.replaceAll(/(\r|\n|\r\n)/g, "<br/>").replaceAll(/ /g, "&nbsp;");
-    $.ajax({
-        type: "POST",
-        url: "/comment",
-        data: {
-            comment_give: comment_value,
-            date_give: date,
-            id_give: now_post_id,
-        },
-        success: function (response) {
-            alert(response['msg'])
-            window.location.reload()
-            $('#comment').val('')
-            comments_get("",now_post_id)
-        }
-    })
-}
-
-// 댓글을 삭제하기 전 한 번 더 물어보게 하기 위한 자바스크립트 내장 confirm 함수 사용
-function delete_confirm(comment_idx) {
-    if (confirm('정말로 삭제하시겠습니까?')) {
-        delete_comment(comment_idx)  // 확인 누르면 댓글 삭제
-    } else {
-        return false  // 취소 누르면 아무런 일도 일어나지 않음
+function postComment() {
+    let content = $('#comment').val();
+    let newsId = getNewsId();
+    let data = {
+        "content": content,
+        "newsId": newsId
     }
-}
-
-// 댓글 삭제 함수
-function delete_comment(comment_idx) {
     $.ajax({
         type: "POST",
-        url: "/comment/delete",
-        data: {
-            comment_idx_give: comment_idx,
-        },
+        url: `/api/user/comments`,
+        contentType: "application/json", // JSON 형식으로 전달함을 알리기
+        data: JSON.stringify(data),
         success: function (response) {
-            if(response['success'] == '성공') {
-                alert('삭제되었습니다.')
-                window.location.reload()
-            }
+            alert('댓글이 성공적으로 작성되었습니다.');
+            window.location.reload();
         }
-    })
+    });
 }
 
 // 댓글 작성 시간 단위
 function time2str(date) {
-    let today = new Date()
+    let today = new Date();
     let time = (today - date) / 1000 / 60  // 분
 
     if (time < 60) {
@@ -161,98 +141,140 @@ function num2str(count) {
 }
 
 // 댓글 리스팅
-function comments_get(user_id, post_id, sorting_status_eng) {
-    if (user_id == undefined) {
-        user_id = ""
-    } else if (post_id == undefined) {
-        post_id = ""
-    }
+function getComments() {
+    let newsId = getNewsId();
     $("#comment-box").empty()
     $.ajax({
         type: "GET",
-        url: `/comments_get?user_id_give=${user_id}&post_id_give=${post_id}&sorting_status_give=${sorting_status_eng}`,
-        data: {},
+        url: `/api/user/comments/${newsId}`,
         success: function (response) {
-            if (response["result"] == "success") {
-                let comments = response["comments"]
-                for (let i = 0; i < comments.length; i++) {
-                    let comment = comments[i]
-                    let time = time2str(new Date(comment["date"]))
-                    let count = num2str(comment["count_like"])
-                    let icon = comment['like_by_me'] ? "fa-heart" : "fa-heart-o"
-                    let temp_html = ''
-                    // 자기가 쓴 댓글인 경우에는 삭제 버튼이 보이는 temp_html 구성 그렇지 않은 경우에는 삭제 버튼 안 보이게 temp_html 구성
-                    if (comment['mine'] == true) {
-                        temp_html = `<div class="box" id="${comment["_id"]}">
-                                        <article class="media">
-                                            <div class="media-left">
-                                                <a class="image is-64x64" href="/profile/${comment['user_id']}">
-                                                    <img class="is-rounded" src="/static/${comment['profile_pic_real']}"
-                                                         alt="Image">
-                                                </a>
-                                            </div>
-                                            <div class="media-content">
-                                                <div class="content">
-                                                    <div class="level">
-                                                        <p class="level-left">
-                                                        <strong style="font-weight: bold">${comment['nick_name']}</strong> 
-                                                        &nbsp;<small style="font-size: 0.9rem">@${comment['user_id']}</small> 
-                                                        &nbsp;&nbsp;<small style="font-size: 0.9rem">${time}</small>
-                                                        </p>
-                                                        <small onclick="delete_confirm(${comment['idx']})" class="delete_word level-right">삭제</small>
-                                                    </div>
-                                                    <div class="comment">${comment['comment']}</div>
-                                                </div>
-                                                <nav class="level is-mobile">
-                                                    <div class="level-left">
-                                                        <a class="level-item like_icon" aria-label="like" onclick="toggle_like('${comment['_id']}')">
-                                                            <span class="icon is-small"><i class="fa ${icon}"
-                                                                                           aria-hidden="true"></i></span>&nbsp;<span class="like-num">${count}</span>
-                                                        </a>
-                                                    </div>
-
-                                                </nav>
-                                            </div>
-                                        </article>                                     
-                                    </div>`
-                    } else {
-                        temp_html = `<div class="box" id="${comment["_id"]}">
-                                        <article class="media">
-                                            <div class="media-left">
-                                                <a class="image is-64x64" href="/profile/${comment['user_id']}">
-                                                    <img class="is-rounded" src="/static/${comment['profile_pic_real']}"
-                                                         alt="Image">
-                                                </a>
-                                            </div>
-                                           <div class="media-content">
-                                                <div class="content">
-                                                    <div class="level">
-                                                        <p class="level-left">
-                                                        <strong style="font-weight: bold">${comment['nick_name']}</strong> 
-                                                        &nbsp;<small style="font-size: 0.9rem">@${comment['user_id']}</small> 
-                                                        &nbsp;&nbsp;<small style="font-size: 0.9rem">${time}</small>
-                                                        </p>
-                                                    </div>
-                                                    <div class="comment">${comment['comment']}</div>
-                                                </div>
-                                                <nav class="level is-mobile">
-                                                    <div class="level-left">
-                                                        <a class="level-item like_icon" aria-label="like" onclick="toggle_like('${comment['_id']}')">
-                                                            <span class="icon is-small"><i class="fa ${icon}"
-                                                                                           aria-hidden="true"></i></span>&nbsp;<span class="like-num">${count}</span>
-                                                        </a>
-                                                    </div>
-
-                                                </nav>
-                                            </div>
-                                        </article>                                     
-                                    </div>`
-                    }
-                    $("#comment-box").append(temp_html)
-                }
+            for (let i=0; i<response.length; i++) {
+                let comment = response[i];
+                let commentId = comment.commentId;
+                let modifiedDate = comment.modifiedAt;
+                let time = time2str(new Date(modifiedDate));
+                let content = comment.content;
+                let username = comment.user.username;
+                addHTML(commentId, time, content, username);
             }
         }
     })
+}
+
+function addHTML(commentId, time, content, username) {
+
+    let currentLoginUserName = $.ajax({
+        async: false,
+        url: "/api/user/me",
+        type: "GET",
+        dataType: "text"
+    }).responseText;
+
+    let tempHtml = ``;
+    if (currentLoginUserName == username) {
+        tempHtml = `<article class="media comment-show">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <strong>nickname</strong> <small>@${username}</small> <small>${time}</small>
+                                    <br>
+                                    <span id="${commentId}-content">${content}</span>
+                                </p>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+                                    <a class="level-item">
+                                        <span class="heart icon is-small"><i class="fa fa-heart-o"></i></span>
+                                    </a>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="media-right">
+                            <i class="fa-solid fa-pen-to-square" onclick="showEditTextarea(${commentId})"></i>
+                            <i class="fa-solid fa-trash-can" onclick="deleteConfirm(${commentId})"></i>
+                        </div>
+                    </article>
+                    <div id="${commentId}-editor-container" class="comment-editarea">
+                        <textarea id="${commentId}-editor" class="textarea" placeholder="수정할 내용 입력">${content}</textarea>
+                        <button class="edit-btn button is-info" onclick="editComment(${commentId})">수정</button>
+                    </div>`;
+    } else {
+        tempHtml = `<article class="media">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <strong>nickname</strong> <small>@${username}</small> <small>${time}</small>
+                                    <br>
+                                    ${content}
+                                </p>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+                                    <a class="level-item">
+                                        <span class="heart icon is-small"><i class="fa fa-heart-o"></i></span>
+                                    </a>
+                                </div>
+                            </nav>
+                        </div>
+                    </article>`;
+    }
+
+    $("#comment-box").append(tempHtml);
+}
+
+function showEditTextarea(commentId) {
+    document.getElementById(`${commentId}-editor-container`).classList.toggle("comment-editarea");
+}
+
+
+// 댓글 수정 함수
+function editComment(commentId) {
+    let content = $(`#${commentId}-editor`).val();
+    let data = {
+        "content": content
+    }
+
+    $.ajax({
+        type: "PUT",
+        url: `/api/user/comments/${commentId}`,
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            alert('댓글을 수정했습니다.');
+            window.location.reload();
+        }
+    });
+}
+
+// 댓글을 삭제하기 전 한 번 더 물어보게 하기 위한 자바스크립트 내장 confirm 함수 사용
+function deleteConfirm(commentId) {
+    if (confirm('정말로 삭제하시겠습니까?')) {
+        deleteComment(commentId)  // 확인 누르면 댓글 삭제
+    } else {
+        return false  // 취소 누르면 아무런 일도 일어나지 않음
+    }
+}
+
+// 댓글 삭제 함수
+function deleteComment(commentId) {
+    $.ajax({
+        type: "DELETE",
+        url: `/api/user/comments/${commentId}`,
+        success: function (response) {
+            alert('댓글 삭제에 성공하였습니다.');
+            window.location.reload();
+        }
+    });
 }
 
 // 북마크 여부 확인
