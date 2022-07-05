@@ -8,17 +8,14 @@
     <!-- link 모음 -->
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <!-- BootStrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Googole Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Do+Hyeon&family=Nanum+Gothic:wght@400;700&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="./static/base.css">
-    <link rel="stylesheet" href="./static/detail.css">
+    <link rel="stylesheet" href="/NewsCommunity-fFinal/static/base.css">
+    <link rel="stylesheet" href="/NewsCommunity-fFinal/static/detail.css">
 
     <!-- script 모음 -->
     <!-- jQuery -->
@@ -27,35 +24,34 @@
     <!-- Font Awesome CSS -->
     <script src="https://kit.fontawesome.com/f6788aacd4.js" crossorigin="anonymous"></script>
 
-    <script src="./static/js/login.js"></script>
-    <script src="./static/js/ui.js"></script>
-    <script src="./static/js/weather_api.js"></script>
-    <script src="./static/js/listing.js"></script>
-    <script src="./static/js/profile_about.js"></script>
-    <script src="./static/js/detail.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/login.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/ui.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/listing.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/profile_about.js"></script>
+    <script src="/NewsCommunity-fFinal/static/js/detail.js"></script>
 </head>
 
 <body class="has-navbar-fixed-top">
 <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="./index.html">
+        <a class="navbar-item" href="/NewsCommunity-fFinal/index.html">
             <small class="navbar_team">TEAM.</small>
             <div class="navbar_text">harmony</div>
         </a>
     </div>
     <div class="navbar_icon">
         {% if status == False %}
-        <a class="login_icon" onclick="window.location.href = './login.html'"><i
-                class="fa-solid fa-arrow-right-to-bracket"></i></a>
+            <a class="login_icon" onclick="window.location.href = '/NewsCommunity-fFinal/login.html'"><i
+                    class="fa-solid fa-arrow-right-to-bracket"></i></a>
         {% else %}
-        <a class="profile_icon" href="./profile.html/{{ user_info.user_id }}"><i class="fa-regular fa-user"></i></a>
-        <a class="logout_icon" onclick="sign_out()"><i class="fa-solid fa-right-from-bracket"
-                                                       aria-hidden="true"></i></a>
+            <a class="profile_icon" href="/NewsCommunity-fFinal/profile.html/{{ user_info.user_id }}"><i class="fa-regular fa-user"></i></a>
+            <a class="logout_icon" onclick="sign_out()"><i class="fa-solid fa-right-from-bracket"
+                                                           aria-hidden="true"></i></a>
         {% endif %}
     </div>
 </nav>
 
-<div class="news_wrap box fixed">
+<div class="news_wrap box fixed" id = "news-box">
     <div class="news_title title"><h4>{{ post.title }}</h4></div>
     <div class="news_time level-left">
         <small>{{ post.write_time }}</small>
@@ -79,6 +75,7 @@
     <span class="news_photo"><img src="{{ post.image_url }}" alt="Image"></span>
     <div class="news_summary" style="white-space: pre-line">{{ post.summary|safe }}</div>
 </div>
+
 
 <hr class="comment_hr fixed">
 
@@ -151,12 +148,12 @@
     </div>
 </section>
 
-<div class="ad-banner">
-    <ins class="kakao_ad_area" style="display:none;"
-         data-ad-unit="DAN-Iw0hzEbLSnNtE7TJ"
-         data-ad-width="320"
-         data-ad-height="50"></ins>
-    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-</div>
+    <div class="ad-banner">
+        <ins class="kakao_ad_area" style="display:none;"
+         data-ad-unit = "DAN-Iw0hzEbLSnNtE7TJ"
+         data-ad-width = "320"
+         data-ad-height = "50"></ins>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+    </div>
 </body>
 </html>
