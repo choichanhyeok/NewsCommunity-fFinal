@@ -12,8 +12,9 @@ $(document).ready(function () {
 		}
 	});
 })
+
 // 회원가입 버튼, 취소 버튼 전환
-function toggle_sign_up() {
+function toggleSignUp() {
 	$("#double_ck").toggleClass("is-hidden")
 	$("#undertext_id").toggleClass("is-hidden")
 	$("#undertext_pw").toggleClass("is-hidden")
@@ -21,30 +22,29 @@ function toggle_sign_up() {
 	$("#signin_up_btn").toggleClass("is-hidden")
 	$("#sign_up_nav").toggleClass("is-hidden")
 	$("#pw_ch2").toggleClass("is-hidden")
-	console.log("toggle")
 }
 
 // 아이디 양식 확인
-function is_nickname(asValue) {
+function isNickname(asValue) {
 	var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
 	return regExp.test(asValue);
 }
+
 // 비밀번호 양식 확인
-function is_password(asValue) {
+function isPassword(asValue) {
 	var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
 	return regExp.test(asValue);
 }
 
 // 아이디 중복 확인
-function check_dup() {
+function checkDuplication() {
 	let username = $("#input_id").val()
-	console.log(username)
 	if (username == "") {
 		$("#undertext_id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
 		$("#input_id").focus()
 		return;
 	}
-	if (!is_nickname(username)) {
+	if (!isNickname(username)) {
 		$("#undertext_id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
 		$("#input_id").focus()
 		return;
@@ -58,13 +58,10 @@ function check_dup() {
 			username_give: username
 		},
 		success: function (response) {
-			console.log(typeof response["exists"]);
 			if (response["exists"]) {
-				console.log("true")
 				$("#undertext_id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
 				$("#input_id").focus()
 			} else {
-				console.log("false")
 				$("#undertext_id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
 			}
 			$("#undertext_id").removeClass("is-loading")
@@ -73,7 +70,7 @@ function check_dup() {
 }
 
 // 회원가입
-function sign_up() {
+function signUp() {
 	let username = $("#input_id").val()
 	let password = $("#input_pw").val()
 	let password2 = $("#input_pw2").val()
@@ -89,7 +86,7 @@ function sign_up() {
 		$("#undertext_pw").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
 		$("#input_pw").focus()
 		return;
-	} else if (!is_password(password)) {
+	} else if (!isPassword(password)) {
 		$("#undertext_pw").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
 		$("#input_pw").focus()
 		return
@@ -119,11 +116,10 @@ function sign_up() {
 			window.location.replace("/login")
 		}
 	});
-
 }
 
 // 로그인
-function sign_in() {
+function signIn() {
 	let username = $("#input_id").val()
 	let password = $("#input_pw").val()
 
