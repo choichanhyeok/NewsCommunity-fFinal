@@ -1,4 +1,5 @@
 var token = localStorage.getItem('les_uid');
+var id = localStorage.getItem('IllllIlIII_hid');
 
 $(document).ready(function () {
 	var csrftoken = $('meta[name=csrf-token]').attr('content')
@@ -150,7 +151,9 @@ function signIn() {
 			console.log("test")
 			if (output == "success") {
 				token = response.getResponseHeader("token");
+				id = atob(response.getResponseHeader("username"));
 				localStorage.setItem("les_uid",token)
+				localStorage.setItem("IllllIlIII_hid",id)
 				window.location.replace("./index.html")
 				alert("login success")
 			} else {
