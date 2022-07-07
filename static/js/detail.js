@@ -1,7 +1,11 @@
+const DESC = "DESC";
+const ASC = "ASC";
+
 $(document).ready(function () {
   console.log("start!!!!")
   detail_listing();
   getComments();
+  getCommentCount();
 });
 
 const detail_listing = () =>{
@@ -55,27 +59,6 @@ const detail_listing = () =>{
     })
 }
 
-// 댓글 정렬 함수 - ye
-function set_sorting_method(sorting_item) {
-    let status_text = $(sorting_item).text();
-    let sorting_txt = document.getElementById("sort_comments_txt");
-    if (status_text == "") {
-        sorting_txt.textContent = "댓글 정렬";
-    } else {
-        sorting_txt.textContent = status_text;
-    }
-    let sorting_txt_selected = document.getElementById("sort_comments_txt").textContent;
-    sorting_txt_selected = sorting_txt_selected.trim();
-    if (sorting_txt_selected == "오래된 순") {
-        sorting_status_eng = "old"
-    } else if (sorting_txt_selected == "좋아요 순") {
-        sorting_status_eng = "like"
-    } else if (sorting_txt_selected == "최신 순") {
-        sorting_status_eng = "new"
-    }
-    comments_get("", now_post_id, sorting_status_eng)
-}
-
 String.replaceAll = function(search, replacement) {
     return this.split(search).join(replacement);
 };
@@ -87,7 +70,7 @@ function getNewsId() {
     return newsId;
 }
 
-// 댓글 작성 함수 -hj
+// 댓글 작성 함수
 function postComment() {
     let content = $('#comment').val();
     let newsId = getNewsId();
@@ -161,6 +144,69 @@ function getComments() {
     })
 }
 
+// 댓글 개수 가져오는 함수 + 정렬 UI
+function getCommentCount() {
+    let newsId = getNewsId();
+    $.ajax({
+        type: "GET",
+        url: `/api/user/comments/count/${newsId}`,
+        success: function (response) {
+            let tempHtml = `
+                <div>
+                    <div id="comment-count-box" class="comments_count level-left">
+                        <p class="subtitle is-5">
+                            <strong>${response}</strong>
+                        </p>
+                        <small style="margin-bottom: 1rem">&nbsp;comments</small>\`
+                    </div>
+            
+                    <div class="dropdown is-right is-hoverable level-right">
+                        <div class="dropdown-trigger">
+                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                                <span id="sort_comments_txt">댓글 정렬</span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+                            <div class="dropdown-content">
+                                <a class="dropdown-item" onclick="getSortedComments(DESC)">
+                                    최신 순
+                                </a>
+                                <a class="dropdown-item" onclick="getSortedComments(ASC)">
+                                    오래된 순
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            $('#comment_box-head').append(tempHtml);
+        }
+    })
+}
+
+// 댓글 정렬
+function getSortedComments(direction) {
+    let newsId = getNewsId();
+    $("#comment-box").empty()
+    $.ajax({
+        type: "GET",
+        url: `/api/user/comments/sort/${newsId}?direction=${direction}`,
+        success: function(response) {
+            for (let i=0; i<response.length; i++) {
+                let comment = response[i];
+                let commentId = comment.commentId;
+                let createdDate = comment.createdAt;
+                let time = time2str(new Date(createdDate));
+                let content = comment.content;
+                let username = comment.user.username;
+                addHTML(commentId, time, content, username);
+            }
+        }
+    })
+}
+
 function addHTML(commentId, time, content, username) {
 
     let currentLoginUserName = $.ajax({
@@ -172,6 +218,7 @@ function addHTML(commentId, time, content, username) {
 
     let tempHtml = ``;
     if (currentLoginUserName == username) {
+
         tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">

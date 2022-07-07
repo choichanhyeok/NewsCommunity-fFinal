@@ -111,37 +111,34 @@
 
 
 <section class="section">
-    <div class="comment_box_head fixed level">
-        <div class="comments_count level-left">
-            <p class="subtitle is-5">
-                <strong>{{ count_comments }}</strong>
-            </p>
-            <small style="margin-bottom: 1rem">&nbsp;comments</small>
-        </div>
+    <div id="comment_box-head" class="comment_box_head fixed level">
+<!--        <div id="comment-count-box" class="comments_count level-left">-->
+<!--            <p class="subtitle is-5">-->
+<!--                <strong>${response}</strong>-->
+<!--            </p>-->
+<!--            <small style="margin-bottom: 1rem">&nbsp;comments</small>`-->
+<!--        </div>-->
 
-        <div class="dropdown is-right is-hoverable level-right">
-            <div class="dropdown-trigger">
-                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
-                    <span id="sort_comments_txt">댓글 정렬</span>
-                    <span class="icon is-small">
-                        <i class="fas fa-angle-down" aria-hidden="true"></i>
-                    </span>
-                </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu3" role="menu">
-                <div class="dropdown-content">
-                    <a class="dropdown-item" onclick="set_sorting_method(this)">
-                        최신 순
-                    </a>
-                    <a class="dropdown-item" onclick="set_sorting_method(this)">
-                        오래된 순
-                    </a>
-                    <a class="dropdown-item" onclick="set_sorting_method(this)">
-                        좋아요 순
-                    </a>
-                </div>
-            </div>
-        </div>
+<!--        <div class="dropdown is-right is-hoverable level-right">-->
+<!--            <div class="dropdown-trigger">-->
+<!--                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">-->
+<!--                    <span id="sort_comments_txt">댓글 정렬</span>-->
+<!--                    <span class="icon is-small">-->
+<!--                        <i class="fas fa-angle-down" aria-hidden="true"></i>-->
+<!--                    </span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="dropdown-menu" id="dropdown-menu3" role="menu">-->
+<!--                <div class="dropdown-content">-->
+<!--                    <a class="dropdown-item" onclick="getSortedCommentsDesc()">-->
+<!--                        최신 순-->
+<!--                    </a>-->
+<!--                    <a class="dropdown-item" onclick="getSortedCommentsAsc()">-->
+<!--                        오래된 순-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 
     <div id="comment-box" class="container fixed">
@@ -187,6 +184,7 @@
     <script src="/NewsCommunity-fFinal/static/js/ui.js"></script>
     <script src="/NewsCommunity-fFinal/static/js/listing.js"></script>
     <script src="/NewsCommunity-fFinal/static/js/profile_about.js"></script>
-    <script src="/NewsCommunity-fFinal/static/js/detail.js"></script>
+    <script src="./static/js/detail.js"></script>
+
 </body>
 </html>
