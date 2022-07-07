@@ -52,7 +52,7 @@
             <div class="field has-addons" style="padding: 0; margin: 0;">
                 <input id="input_id" class="input" type="text" placeholder="아이디">
                 <div id="btn-check-dup" class="control ">
-                    <button id="double_ck" class="button is-dark is-hidden" onclick="check_dup()">중복확인</button>
+                    <button id="double_ck" class="button is-dark is-hidden" onclick="checkDuplication()">중복확인</button>
                 </div>
             </div>
             <span id="undertext_id" class="help undertexts is-hidden" style="margin-top: 0; margin-bottom: 5px"> 아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</span>
@@ -72,21 +72,21 @@
             <div class="signin_up_btn">
 
                 <div id="login-signup">
-                    <button class="button is-fullwidth is-dark" onclick="sign_in()">로그인</button>
+                    <button class="button is-fullwidth is-dark" onclick="signIn()">로그인</button>
 
                     <hr>
 
                     <span class="help">아직 회원이 아니라면</span>
                     <div style="padding-top: 5px">
-                        <button class="button is-fullwidth" onclick="toggle_sign_up()">회원가입</button>
+                        <button class="button is-fullwidth" onclick="toggleSignUp()">회원가입</button>
                     </div>
                 </div>
             </div>
             <nav id="sign_up_nav" class="level is-mobile is-hidden">
-                <button class="level-item button is-dark" style="width: 40%" onclick="sign_up()">
+                <button class="level-item button is-dark" style="width: 40%" onclick="signUp()">
                     회원가입
                 </button>
-                <button class="level-item button is-outlined" style="width: 40%" onclick="toggle_sign_up()">
+                <button class="level-item button is-outlined" style="width: 40%" onclick="toggleSignUp()">
                     취소
                 </button>
             </nav>
