@@ -218,6 +218,7 @@ function addHTML(commentId, time, content, username) {
 
     let tempHtml = ``;
     if (currentLoginUserName == username) {
+
         tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">
