@@ -152,7 +152,7 @@ function getCommentCount() {
         url: `/api/user/comments/count/${newsId}`,
         success: function (response) {
             let tempHtml = `
-                <div>
+                <div class="comment-head">
                     <div id="comment-count-box" class="comments_count level-left">
                         <p class="subtitle is-5">
                             <strong>${response}</strong>
@@ -216,6 +216,13 @@ function addHTML(commentId, time, content, username) {
         dataType: "text"
     }).responseText;
 
+    let likesCount = $.ajax({
+        async: false,
+        url: `/api/user/likes/${commentId}`,
+        type: "GET",
+        dataType: "text"
+    }).responseText;
+
     let tempHtml = ``;
     if (currentLoginUserName == username) {
 
@@ -236,7 +243,7 @@ function addHTML(commentId, time, content, username) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i class="fa fa-heart-o"></i></span>
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="like-number">${likesCount}</span>
                                     </a>
                                 </div>
                             </nav>
@@ -251,7 +258,7 @@ function addHTML(commentId, time, content, username) {
                         <button class="edit-btn button is-info" onclick="editComment(${commentId})">수정</button>
                     </div>`;
     } else {
-        tempHtml = `<article class="media">
+        tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">
                                 <img src="https://bulma.io/images/placeholders/128x128.png">
@@ -268,7 +275,7 @@ function addHTML(commentId, time, content, username) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i class="fa fa-heart-o"></i></span>
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="like-number">${likesCount}</span>
                                     </a>
                                 </div>
                             </nav>
@@ -322,6 +329,21 @@ function deleteComment(commentId) {
             window.location.reload();
         }
     });
+}
+
+// 좋아요 기능
+function updateLike(commentId) {
+
+        let data = {}
+        $.ajax({
+            type: "POST",
+            url: `/api/user/likes/${commentId}`,
+            contentType: "application/json", // JSON 형식으로 전달함을 알리기
+            data: JSON.stringify(data),
+            success: function(response) {
+                window.location.reload();
+            }
+        })
 }
 
 // 북마크 여부 확인

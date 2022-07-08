@@ -8,7 +8,7 @@ $(document).ready(function () {
 			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
-			xhr.setRequestHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbXkiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjU3MTc0NTY5fQ.6pVkD4nAQgU4UgzfDmYy80DlX76Tjd4YX4y3Sl8a174");
+			xhr.setRequestHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImV4cCI6MTY1NzI4NzA1N30.-NMAgZLdB2ay2qH0WwP2WEzSRDhffHRuEwgriD7KwWo");
 		}
 	});
 })
