@@ -23,6 +23,7 @@
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <!--custom file-->
+    <script src="/NewsCommunity-fFinal/static/js/basic.js"></script>
     <script type="text/javascript" src="/static/js/support.js"></script>
 
 </head>
@@ -35,13 +36,6 @@
             </a>
         </div>
         <div class="navbar_icon">
-            {% if status == False %}
-            <a class="login_icon" onclick="window.location.href = './login.html'"><i class="fa-solid fa-arrow-right-to-bracket"></i></a>
-            {% else %}
-            <a class="profile_icon" href="./profile.html"><i class="fa-regular fa-user"></i></a>
-            <a class="logout_icon" onclick="sign_out()"><i class="fa-solid fa-right-from-bracket"
-                                                           aria-hidden="true"></i></a>
-            {% endif %}
         </div>
     </nav>
 
