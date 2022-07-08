@@ -2,12 +2,11 @@ var profileUser = location.href.split("?")[1].split("=")[1];
 
 $(document).ready(function () {
 	console.log("이 profile 주인은 바로 ~~~~: " + profileUser)
-	get_profile(profileUser)
+	getProfile(profileUser)
 });
 
 // 프로필 업데이트
-$(document).on("click", "#update-profile", function updateProfile() {
-	console.log("update")
+$(document).on("click", "#update_profile", function updateProfile() {
 	let name = $('#input-name').val()
 	let file = $('#input-pic')[0].files[0]
 	let about = $("#textarea-about").val()
@@ -34,7 +33,7 @@ $(document).on("click", "#update-profile", function updateProfile() {
 });
 
 // 프로필 가져오기
-function get_profile(username) {
+function getProfile(username) {
 	$("#profile-pic, #nickname, #profile-info, #edit-area, #nav-icon").empty();
 	$.ajax({
 		type: "GET",
@@ -89,7 +88,7 @@ function canEdit(nickname, picName, info) {
                                     <div class="control is-expanded">
                                         <div class="file has-name field has-addons" id = 'file-with-js'>
                                             <label class="file-label control" style="width:100%">
-                                                <input id="input-pic" class="file-input" type="file" name="resume">
+                                                <input id="input-pic" class="file-input" type="file" accept="image/gif, image/jpeg, image/png" name="resume">
                                                 <span class="file-cta"><span class="file-icon"><i
                                                         class="fa fa-upload"></i></span>
                                                     <span class="file-label">파일 선택</span>
@@ -116,7 +115,7 @@ function canEdit(nickname, picName, info) {
                                     </div>
                                     <div class="level-right">
                                         <div class="level-item">
-                                            <a id="update-profile" class="button is-sparta">업데이트</a>
+                                            <a id="update_profile" class="button is-sparta">업데이트</a>
                                         </div>
                                         <div class="level-item">
                                             <a class="button is-sparta is-outlined"
@@ -161,7 +160,7 @@ $(document).on("click", "#file-with-js>.control>.button", function makeDefaultIm
 });
 
 // 북마크 기사 가져오기
-function posts_get(user_id) {
+function getPosts(user_id) {
 	$("#comment-box").empty()
 	$.ajax({
 		type: "GET",
@@ -184,7 +183,7 @@ function posts_get(user_id) {
 }
 
 // 프로필 탭
-function toggle_tab(type) {
+function toggleTab(type) {
 	console.log(type)
 	let $li_tab = $(`#${type}`)
 	if (`${type}`=="posts") {

@@ -9,10 +9,32 @@ $(document).ready(function () {
 			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
-			xhr.setRequestHeader("Authorization", "Bearer "+token);
+			xhr.setRequestHeader("Authorization", "Bearer " + token);
 		}
 	});
+	refreshToken();
 })
+
+// 토큰 값 갱신
+function refreshToken() {
+	$.ajax({
+		type: "GET",
+		url: '/api/token/refresh',
+		data: {},
+		xhrFields: { withCredentials: true },
+		success: function (output, status, response) {
+			if (output == "success") {
+				token = response.getResponseHeader("token");
+				localStorage.setItem("les_uid", token)
+				window.location.href = "/NewsCommunity-fFinal/index.html"
+			}
+		},
+		error: function () {
+			localStorage.removeItem('les_uid');
+			localStorage.removeItem('IllllIlIII_hid');
+		}
+	});
+}
 
 // 회원가입 버튼, 취소 버튼 전환
 function toggleSignUp() {
