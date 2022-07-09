@@ -1,4 +1,5 @@
 var id = localStorage.getItem('IllllIlIII_hid');
+var token = localStorage.getItem('les_uid');
 
 $(document).ready(function () {
 	var csrftoken = $('meta[name=csrf-token]').attr('content')
