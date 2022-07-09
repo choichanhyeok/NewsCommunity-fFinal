@@ -142,6 +142,7 @@
 
 .heart {
     color: red;
+    font-weight: bold;
 }
 
 .comment-show {
@@ -150,4 +151,20 @@
 
 .edit-btn {
     margin-top: 5px;
+}
+
+.like-number {
+    margin-left: 4px;
+    color: black;
+    font-weight: bold;
+}
+
+.comment-head {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.dropdown {
+    margin-left: 500px;
 }

@@ -1,4 +1,3 @@
-var token = localStorage.getItem('les_uid');
 var id = localStorage.getItem('IllllIlIII_hid');
 
 $(document).ready(function () {
