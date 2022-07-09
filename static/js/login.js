@@ -1,4 +1,4 @@
-var token = localStorage.getItem('les_uid');
+var id = localStorage.getItem('IllllIlIII_hid');
 
 $(document).ready(function () {
 	var csrftoken = $('meta[name=csrf-token]').attr('content')
@@ -8,10 +8,32 @@ $(document).ready(function () {
 			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
-			xhr.setRequestHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImV4cCI6MTY1NzI4NzA1N30.-NMAgZLdB2ay2qH0WwP2WEzSRDhffHRuEwgriD7KwWo");
+			xhr.setRequestHeader("Authorization", "Bearer " + token);
 		}
 	});
+	refreshToken();
 })
+
+// 토큰 값 갱신
+function refreshToken() {
+	$.ajax({
+		type: "GET",
+		url: '/api/token/refresh',
+		data: {},
+		xhrFields: { withCredentials: true },
+		success: function (output, status, response) {
+			if (output == "success") {
+				token = response.getResponseHeader("token");
+				localStorage.setItem("les_uid", token)
+				window.location.href = "/NewsCommunity-fFinal/index.html"
+			}
+		},
+		error: function () {
+			localStorage.removeItem('les_uid');
+			localStorage.removeItem('IllllIlIII_hid');
+		}
+	});
+}
 
 // 회원가입 버튼, 취소 버튼 전환
 function toggleSignUp() {
@@ -150,7 +172,9 @@ function signIn() {
 			console.log("test")
 			if (output == "success") {
 				token = response.getResponseHeader("token");
+				id = atob(response.getResponseHeader("username"));
 				localStorage.setItem("les_uid",token)
+				localStorage.setItem("IllllIlIII_hid",id)
 				window.location.replace("./index.html")
 				alert("login success")
 			} else {
