@@ -370,40 +370,6 @@ function bookmarked(post_id) {
     })
 }
 
-// 좋아요, 좋아요 취소
-function toggle_like(comment_id) {
-    let $a_like = $(`#${comment_id} a[aria-label='like']`)
-    let $i_like = $(`#${comment_id} a[aria-label='like']`).find("i")
-    if ($i_like.hasClass("fa-heart")) {
-        $.ajax({
-            type: "POST",
-            url: "/like_update",
-            data: {
-                comment_id_give: comment_id,
-                action_give: "unlike"
-            },
-            success: function (response) {
-                $i_like.addClass("fa-heart-o").removeClass("fa-heart")
-                $a_like.find("span.like-num").text(num2str(response["count"]))
-            }
-        })
-    } else {
-        $.ajax({
-            type: "POST",
-            url: "/like_update",
-            data: {
-                comment_id_give: comment_id,
-                action_give: "like"
-            },
-            success: function (response) {
-                $i_like.addClass("fa-heart").removeClass("fa-heart-o")
-                $a_like.find("span.like-num").text(num2str(response["count"]))
-            }
-        })
-
-    }
-}
-
 // 북마크, 북마크 취소
 function toggle_bookmark(post_id) {
     let $i_bookmark = $(`#${post_id} a[aria-label='bookmark']`).find("i")
