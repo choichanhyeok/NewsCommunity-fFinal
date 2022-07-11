@@ -44,7 +44,7 @@ function navIcon() {
 		`
 	} else {
 		tempHtml=`
-			<a class="profile_iconsupport_icon" onclick="window.location.href = '/NewsCommunity-fFinal/support.html'"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>
+			<a class="support_icon" onclick="window.location.href = '/NewsCommunity-fFinal/support.html'"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>
 			<a class="login_icon" onclick="window.location.href = '/NewsCommunity-fFinal/login.html'"><i class="fa-solid fa-arrow-right-to-bracket"></i></a>
 		`
 	}
