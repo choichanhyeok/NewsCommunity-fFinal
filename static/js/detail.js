@@ -216,13 +216,6 @@ function addHTML(commentId, time, content, username) {
         dataType: "text"
     }).responseText;
 
-    // let likesCount = $.ajax({
-    //     async: false,
-    //     url: `/api/user/likes/${commentId}`,
-    //     type: "GET",
-    //     dataType: "text"
-    // }).responseText;
-
     let tempHtml = ``;
     if (currentLoginUserName == username) {
 
@@ -333,9 +326,6 @@ function deleteComment(commentId) {
 
 // 좋아요 기능
 function updateLike(commentId) {
-
-
-
 
         let data = {}
         $.ajax({
