@@ -37,12 +37,16 @@ function refreshToken() {
 function navIcon() {
 	let tempHtml;
 	if (id || token) {
-		tempHtml=`<a class="profile_icon" href="/NewsCommunity-fFinal/profile.html?user=${id}"><i class="fa-regular fa-user"></i></a>
-		<a class="logout_icon"><i class="fa-solid fa-right-from-bracket"
-                                               aria-hidden="true"></i></a>`
+		tempHtml=`
+		<a class="support_icon" onclick="window.location.href = '/NewsCommunity-fFinal/support.html'"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>
+		<a class="profile_icon" href="/NewsCommunity-fFinal/profile.html?user=${id}"><i class="fa-regular fa-user"></i></a>
+		<a class="logout_icon"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i></a>
+		`
 	} else {
-		tempHtml=`<a class="login_icon" onclick="window.location.href = '/NewsCommunity-fFinal/login.html'">
-		<i class="fa-solid fa-arrow-right-to-bracket"></i></a>`
+		tempHtml=`
+			<a class="profile_iconsupport_icon" onclick="window.location.href = '/NewsCommunity-fFinal/support.html'"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>
+			<a class="login_icon" onclick="window.location.href = '/NewsCommunity-fFinal/login.html'"><i class="fa-solid fa-arrow-right-to-bracket"></i></a>
+		`
 	}
 	$(".navbar>.navbar_icon").empty().append(tempHtml);
 }
