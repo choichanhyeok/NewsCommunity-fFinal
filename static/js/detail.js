@@ -216,12 +216,12 @@ function addHTML(commentId, time, content, username) {
         dataType: "text"
     }).responseText;
 
-    let likesCount = $.ajax({
-        async: false,
-        url: `/api/user/likes/${commentId}`,
-        type: "GET",
-        dataType: "text"
-    }).responseText;
+    // let likesCount = $.ajax({
+    //     async: false,
+    //     url: `/api/user/likes/${commentId}`,
+    //     type: "GET",
+    //     dataType: "text"
+    // }).responseText;
 
     let tempHtml = ``;
     if (currentLoginUserName == username) {
@@ -243,7 +243,7 @@ function addHTML(commentId, time, content, username) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="like-number">${likesCount}</span>
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">0</span>
                                     </a>
                                 </div>
                             </nav>
@@ -275,7 +275,7 @@ function addHTML(commentId, time, content, username) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="like-number">${likesCount}</span>
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">0</span>
                                     </a>
                                 </div>
                             </nav>
@@ -334,6 +334,9 @@ function deleteComment(commentId) {
 // 좋아요 기능
 function updateLike(commentId) {
 
+
+
+
         let data = {}
         $.ajax({
             type: "POST",
@@ -341,7 +344,14 @@ function updateLike(commentId) {
             contentType: "application/json", // JSON 형식으로 전달함을 알리기
             data: JSON.stringify(data),
             success: function(response) {
-                window.location.reload();
+                let likesCount = $.ajax({
+                    async: false,
+                    url: `/api/user/likes/${commentId}`,
+                    type: "GET",
+                    dataType: "text"
+                }).responseText;
+                $(`.${commentId}-like-number`).empty();
+                $(`.${commentId}-like-number`).append(likesCount);
             }
         })
 }
