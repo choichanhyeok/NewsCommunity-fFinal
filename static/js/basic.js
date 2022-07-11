@@ -50,7 +50,7 @@ function navIcon() {
 $(document).on("click", ".logout_icon", function signOut() {
 	$.ajax({
 		type: "GET",
-		url: '/api/token/signout',
+		url: '/api/user/signout',
 		data: {},
 		xhrFields: { withCredentials: true },
 		success: function (response) {
