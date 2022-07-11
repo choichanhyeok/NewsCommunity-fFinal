@@ -11,9 +11,9 @@ $(document).on("click", "#update_profile", function updateProfile() {
 	let file = $('#input-pic')[0].files[0]
 	let about = $("#textarea-about").val()
 	let form_data = new FormData()
-	form_data.append("file_give", file)
-	form_data.append("name_give", name)
-	form_data.append("about_give", about)
+	form_data.append("file", file)
+	form_data.append("name", name)
+	form_data.append("about", about)
 	console.log(name, file, about, form_data)
 
 	$.ajax({
