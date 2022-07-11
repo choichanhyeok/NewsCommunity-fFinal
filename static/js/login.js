@@ -78,7 +78,7 @@ function checkDuplication() {
 		type: "POST",
 		url: "/api/signup/checkdup",
 		data: {
-			username_give: username
+			"username": username
 		},
 		success: function (response) {
 			if (response["exists"]) {
@@ -131,10 +131,10 @@ function signUp() {
 		type: "POST",
 		url: "/api/signup",
 		data: {
-			username_give: username,
-			password_give: password
+			username: username,
+			password: password
 		},
-		success: function (response) {
+		success: function () {
 			alert("회원가입을 축하드립니다!")
 			window.location.replace("/login")
 		}
@@ -164,8 +164,8 @@ function signIn() {
 		type: "POST",
 		url: "/api/login",
 		data: {
-			username_give: username,
-			password_give: password
+			username: username,
+			password: password
 		},
 		xhrFields: { withCredentials: true },
 		success: function (output,status,response) {
