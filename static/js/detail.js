@@ -216,13 +216,6 @@ function addHTML(commentId, time, content, username) {
         dataType: "text"
     }).responseText;
 
-    let likesCount = $.ajax({
-        async: false,
-        url: `/api/user/likes/${commentId}`,
-        type: "GET",
-        dataType: "text"
-    }).responseText;
-
     let tempHtml = ``;
     if (currentLoginUserName == username) {
 
@@ -243,7 +236,7 @@ function addHTML(commentId, time, content, username) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="like-number">${likesCount}</span>
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">0</span>
                                     </a>
                                 </div>
                             </nav>
@@ -275,7 +268,7 @@ function addHTML(commentId, time, content, username) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="like-number">${likesCount}</span>
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">0</span>
                                     </a>
                                 </div>
                             </nav>
@@ -341,7 +334,14 @@ function updateLike(commentId) {
             contentType: "application/json", // JSON 형식으로 전달함을 알리기
             data: JSON.stringify(data),
             success: function(response) {
-                window.location.reload();
+                let likesCount = $.ajax({
+                    async: false,
+                    url: `/api/user/likes/${commentId}`,
+                    type: "GET",
+                    dataType: "text"
+                }).responseText;
+                $(`.${commentId}-like-number`).empty();
+                $(`.${commentId}-like-number`).append(likesCount);
             }
         })
 }
@@ -368,40 +368,6 @@ function bookmarked(post_id) {
             }
         }
     })
-}
-
-// 좋아요, 좋아요 취소
-function toggle_like(comment_id) {
-    let $a_like = $(`#${comment_id} a[aria-label='like']`)
-    let $i_like = $(`#${comment_id} a[aria-label='like']`).find("i")
-    if ($i_like.hasClass("fa-heart")) {
-        $.ajax({
-            type: "POST",
-            url: "/like_update",
-            data: {
-                comment_id_give: comment_id,
-                action_give: "unlike"
-            },
-            success: function (response) {
-                $i_like.addClass("fa-heart-o").removeClass("fa-heart")
-                $a_like.find("span.like-num").text(num2str(response["count"]))
-            }
-        })
-    } else {
-        $.ajax({
-            type: "POST",
-            url: "/like_update",
-            data: {
-                comment_id_give: comment_id,
-                action_give: "like"
-            },
-            success: function (response) {
-                $i_like.addClass("fa-heart").removeClass("fa-heart-o")
-                $a_like.find("span.like-num").text(num2str(response["count"]))
-            }
-        })
-
-    }
 }
 
 // 북마크, 북마크 취소
