@@ -41,12 +41,14 @@
 
     <div class="wraper">
         <div class="main">
+
             <div class="card">
                 <div class="card-header">
                     문의/건의
                 </div>
                 <div class="card-body">
                     질문 / 의견 / 건의 / 버그 제보 글을 작성해주세요
+                    <br>게시글 수정과 삭제는 본인만 가능합니다
                 </div>
             </div>
 
@@ -65,7 +67,7 @@
                 <tr class="tr_title" id="open_it">
                     <th scope="row"></th>
                     <td class="name">
-                        <span>게시물이 없습니다.       게시물을 작성해주세요.</span>
+                        <span>게시물이 없습니다. 게시물을 작성해주세요.</span>
                     </td>
                     <td></td>
                     <td></td>
@@ -74,7 +76,7 @@
             </table>
         </div>
         <div class="writing_button_div">
-            <button type="button" class="writing_button btn btn-light" id="writing_toggle" onclick="toggle_writing()">글쓰기
+            <button type="button" class="writing_button btn btn-light" id="writing_toggle" onclick="toggleWriting()">글쓰기
             </button>
         </div>
     </div>
@@ -87,24 +89,19 @@
                 <input id="input_title" type="text" class="form-control" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-default">
             </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text" style="background-color: #f7f7f7">이 름</span>
-                <input id="input_name" type="text" class="form-control" aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-default">
-            </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text" style="background-color: #f7f7f7" id="inputGroup-sizing-default">Email</span>
-                <input type="text" class="form-control" aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-default">
-            </div>
+<!--            <div class="input-group mb-3">-->
+<!--                <span class="input-group-text" style="background-color: #f7f7f7">이 름</span>-->
+<!--                <input id="input_name" type="text" class="form-control" aria-label="Sizing example input"-->
+<!--                       aria-describedby="inputGroup-sizing-default">-->
+<!--            </div>-->
             <div class="mb-3">
                 <label class="form-label">문의 내역</label>
                 <textarea id="input_text" class="form-control" rows="3"></textarea>
             </div>
             <div class="content_btn_div">
                 <div class="content_btn_sub_div">
-                    <button onclick="toggle_writing()" type="button" class="cancle_btn btn btn-light">취소</button>
-                    <button onclick="submit_content()" type="button" class="submit_btn btn btn-light">제출</button>
+                    <button onclick="toggleWriting()" type="button" class="cancle_btn btn btn-light">취소</button>
+                    <button onclick="submitContent()" type="button" class="submit_btn btn btn-light">제출</button>
                 </div>
             </div>
         </div>
