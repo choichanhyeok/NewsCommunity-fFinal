@@ -11,7 +11,7 @@ const detail_listing = () =>{
 
     $.ajax({
         type: 'GET',
-        url: '/api/news/details/'+news_id, // 테스트용 url
+        url: '/api/news/details/'+news_id,
         data: {},
         success: function (response) {
             let news_obj = response['body']['result'];
