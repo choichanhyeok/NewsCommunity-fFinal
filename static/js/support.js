@@ -25,7 +25,7 @@ function submitContent() {
     let newTitle = $("#input_title").val();
     let newText = $("#input_text").val();
     let newEmail = $("#input_email").val();
-    let data = {"post_title": newTitle, "post_content": newText, "email":newEmail};
+    let data = {"post_title": newTitle, "post_content": newText, "post_email": newEmail};
     let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 
     if (regEmail.test(newEmail) !== true) {
