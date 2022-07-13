@@ -31,6 +31,10 @@ const detail_listing = () =>{
                                 <div class="news_time level-left">
                                     <small>${writeTime}</small>
                                 </div>
+                                <div class="news_time level-left">
+                                    <small>조회수: ${view}</small>
+                                </div>
+
                                 <div class="news_icon level-right">
                                     <div class="news_url level-item">
                                         <a href="${newsUrl}" target="_blank">
