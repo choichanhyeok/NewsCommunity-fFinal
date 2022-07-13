@@ -5,10 +5,15 @@ $(document).ready(function () {
 });
 
 function toggleWriting() {
-    $("#sumbit_toggle").toggle();
-    $("#input_text").val('');
-    $("#input_name").val('');
-    $("#input_title").val('');
+    let getToken = localStorage.getItem('IllllIlIII_hid');
+    if (getToken == null){
+        alert('작성은 로그인 후 가능합니다')
+    } else {
+        $("#sumbit_toggle").toggle();
+        $("#input_text").val('');
+        $("#input_name").val('');
+        $("#input_title").val('');
+    }
 }
 
 function toggleMyId(num) {
