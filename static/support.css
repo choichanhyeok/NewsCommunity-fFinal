@@ -18,7 +18,7 @@ table {
     border-radius: 5px;
 }
 thead{
-    background-color: white;
+    background-color: lightgray;
 }
 
 
@@ -43,10 +43,16 @@ th:nth-child(4) {
 .name {
     text-align: left;
 }
-.text_area {
-    background-color: #FFF !important;
-}
 
+textarea{
+    height:20rem;
+}
+.readmodify_textarea, .readmodify_textarea:focus, .readmodify_textarea:active, textarea:focus{
+    background-color: #FFF !important;
+    outline: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
 
 .writing_button_div {
     display: flex;
@@ -57,6 +63,7 @@ th:nth-child(4) {
     margin-left: auto;
 }
 
+
 .submit {
     display: flex;
     justify-content: center;
@@ -65,13 +72,16 @@ th:nth-child(4) {
 .submit_card {
     padding: 20px;
     margin-bottom: 30px;
-    width: 80%;
+    width: 75%;
     display: none;
+    background-color: lightgray;
 }
+
 
 .input-group-text {
     padding-left: 20px;
     padding-right: 20px;
+    background-color: #f7f7f7;
 }
 
 .content_btn_div {
@@ -91,3 +101,16 @@ th:nth-child(4) {
     background-color: rgba(142,185,139,0.48)
 }
 
+.row_title{
+    font-weight: bold;
+    background-color: lightgray;
+}
+
+.onlymine_btn{
+    border: darkgreen solid 2px;
+}
+button:active, button:focus{
+    outline: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
