@@ -98,7 +98,8 @@ textarea{
     border: 1px solid lightgray;
 }
 .tr_title:hover {
-    background-color: rgba(142,185,139,0.48)
+    background-color: rgba(142,185,139,0.48);
+    cursor:pointer;
 }
 
 .row_title{
