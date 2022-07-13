@@ -228,6 +228,13 @@ function getComments(){
 
 // 댓글 보여주는 HTML
 function addHTML(commentId, time, content, username, nickname) {
+	let likesCount = $.ajax({
+		async: false,
+		url: `/api/user/likes/count/${commentId}`,
+		type: "GET",
+		dataType: "text"
+	}).responseText;
+
 	let tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">
@@ -245,7 +252,7 @@ function addHTML(commentId, time, content, username, nickname) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">0</span>
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
                                     </a>
                                 </div>
                             </nav>
