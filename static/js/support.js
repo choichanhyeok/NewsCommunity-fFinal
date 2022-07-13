@@ -133,8 +133,14 @@ function convertList(){
 }
 
 function getList() {
+    let getToken = localStorage.getItem('IllllIlIII_hid');
+    if (getToken != null){
+        $('.onlymine_btn').show();
+    }else {
+        $('.onlymine_btn').hide();
+    }
     $.ajax({
-        url: '/api/supports',
+        url: defaultURLforGetList,
         type: 'GET',
         success: function (result) {
             $('#table_body').empty();
@@ -150,11 +156,9 @@ function getList() {
                 let createdWithTime = getCreatedAt.slice(0, 10) + ' ' + getCreatedAt.slice(11, 19);
 
                 let myhtml = `
-                            <tr class="tr_title" id="open_it">
+                            <tr class="tr_title" onclick="toggleMyId(${idx})">
                                 <th scope="row">${idx}</th>
-                                <td class="name">
-                                    <a onclick="toggleMyId(${idx})"> ${getTitle} </a>
-                                </td>
+                                <td class="name">${getTitle}</td>
                                 <td id="username-${idx}">${getUsername}</td>
                                 <td>${createdYYMMDD}</td>
                             </tr>
@@ -173,7 +177,7 @@ function getList() {
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" style="background-color: #f7f7f7">작성 내용</span>
                                             <span class="form-control" style="background-color: white">
-                                                <textarea id="contents-${idx}" style="border: none;height:20rem;" readonly class="form-control text_area">${getContent}</textarea>
+                                                <textarea id="contents-${idx}" style="border: none;" readonly class="form-control readmodify_textarea">${getContent}</textarea>
                                             </span>
                                         </div>
 
