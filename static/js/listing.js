@@ -17,7 +17,7 @@ const listing = () => {
                 let postId = newsList[i]['id'];
                 let title = newsList[i]['title'];
                 let contents = newsList[i]['explains']
-                let imageUrl = newsList[i]['imageUrl'];
+                let imageUrl = newsList[i]['image_url'];
                 let view = newsList[i]['view']
                 // 받아온 정보를 토대로 card-box html을 구성해준다.
                 let html_data = `<div class="col">
