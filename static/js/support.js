@@ -50,6 +50,7 @@ function submitContent() {
 function editContent(contentIdx, countedTime) {
     let getToken = localStorage.getItem('IllllIlIII_hid');
     let setContentsID = '#contents-' + contentIdx;
+    let edit_btnID = '#edit_btn-' + contentIdx;
     let setUsername = '#username-' + contentIdx;
     let getUsername = $(setUsername).text();
 
