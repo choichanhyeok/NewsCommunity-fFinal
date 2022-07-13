@@ -16,7 +16,7 @@ const listing = () => {
                 // 서버로 부터 받은 뉴스 리스트의 각 뉴스에 접근해 관련 정보를 받는다.
                 let postId = newsList[i]['id'];
                 let title = newsList[i]['title'];
-                let contents = newsList[i]['explain']
+                let contents = newsList[i]['explains']
                 let imageUrl = newsList[i]['imageUrl'];
                 let view = newsList[i]['view']
                 // 받아온 정보를 토대로 card-box html을 구성해준다.
