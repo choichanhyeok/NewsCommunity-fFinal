@@ -47,19 +47,25 @@ function submitContent() {
     }
 }
 
-function editContent(contentIdx) {
+function editContent(contentIdx, countedTime) {
     let getToken = localStorage.getItem('IllllIlIII_hid');
     let setContentsID = '#contents-' + contentIdx;
     let setUsername = '#username-' + contentIdx;
     let getUsername = $(setUsername).text();
 
+
     if(getToken==getUsername){
-        if ($('.edit_btn').html() == "수정") { //수정 시작
-            alert('수정을 시작합니다');
-            $(setContentsID).attr("readonly", false);
-            $('.edit_btn').html('저장');
-        } else { //저장버튼 클릭 후
-            $('.edit_btn').html('수정'); //저장 버튼 클릭 => 수정으로 글씨 변경 및 서버 전송
+        if ($(edit_btnID).html() == "수정") { //수정 시작
+            if (countedTime>=1800){
+                alert('작성 한 후 30분이 지나서 수정이 불가합니다')
+            }else{
+                alert('수정을 시작합니다');
+                $(setContentsID).attr("readonly", false);
+                $(edit_btnID).html('저장');
+            }
+        } else  {
+            $(edit_btnID).html('저장');
+            $(edit_btnID).html('수정'); //저장 버튼 클릭 => 수정으로 글씨 변경 및 서버 전송
             $(setContentsID).attr("readonly", true);
             let contents = $(setContentsID).val();
             let data = {"post_content": contents};
@@ -77,29 +83,52 @@ function editContent(contentIdx) {
     }else{
         alert("권한이 없습니다.")
     }
-
-
 }
 
-function deleteContent(contentIdx){
+function deleteContent(contentIdx,countedTime){
     let getToken = localStorage.getItem('IllllIlIII_hid');
     let setUsername = '#username-' + contentIdx;
     let getUsername = $(setUsername).text();
-
     if(getToken==getUsername){
-
-        $.ajax({
-            type: "DELETE",
-            url: `/api/user/supports/${contentIdx}`,
-            contentType: "application/json",
-            success: function (response) {
-                window.location.reload()
-                alert("삭제완료")
-            }
-        });
+        if (countedTime>=1800) {
+            alert('작성 한 후 30분이 지나서 삭제가 불가합니다')
+        }else{
+            $.ajax({
+                type: "DELETE",
+                url: `/api/user/supports/${contentIdx}`,
+                contentType: "application/json",
+                success: function (response) {
+                    window.location.reload()
+                    alert("삭제완료")
+                }
+            });
+        }
     }else{
         alert("권한이 없습니다.")
     }
+}
+function timeCalculate(createdTime){
+    let now = new Date();
+    let createdAt = new Date(createdTime);
+
+    let nowToCreate = now.getTime() - createdAt.getTime();
+    nowToCreate = parseInt(nowToCreate) / 1000;
+    return nowToCreate;
+}
+
+let defaultURLforGetList = '/api/supports'
+function convertList(){
+    let currentUrl = defaultURLforGetList;
+    let urlForAll = '/api/supports';
+    let urlForMe = '/api/user/supports/mine';
+    if(currentUrl === urlForAll){
+        currentUrl = urlForMe;
+    }
+    else if(currentUrl === urlForMe){
+        currentUrl = urlForAll;
+    }
+    defaultURLforGetList = currentUrl;
+    getList()
 }
 
 function getList() {
@@ -114,9 +143,10 @@ function getList() {
                 let getContent = result[i]["post_content"];
                 let idx = result[i]["id"];
 
-                let created = result[i]["created_at"];
-                let createdYYMMDD = created.slice(0, 10);
-                let createdWithTime = created.slice(0, 10) + ' ' + created.slice(11, 19);
+                let getCreatedAt = result[i]["created_at"];
+                let calculatedTime = timeCalculate(getCreatedAt);
+                let createdYYMMDD = getCreatedAt.slice(0, 10);
+                let createdWithTime = getCreatedAt.slice(0, 10) + ' ' + getCreatedAt.slice(11, 19);
 
                 let myhtml = `
                             <tr class="tr_title" id="open_it">
@@ -132,7 +162,7 @@ function getList() {
                                     <div >
                                         <div class="content_btn_div" style="display: flex; justify-items: right;">
                                             <div class="content_btn_sub_div" style="margin-left: auto; padding-bottom: 10px;">
-                                                <button onclick="deleteContent(${idx})" type="button" class="submit_btn btn btn-light">게시글 삭제하기</button>
+                                                <button onclick="deleteContent(${idx}, ${calculatedTime})" type="button" class="submit_btn btn btn-light">게시글 삭제하기</button>
                                             </div>
                                         </div>
                                         <div class="input-group mb-3" >
@@ -148,7 +178,7 @@ function getList() {
 
                                         <div class="content_btn_div" style="display: flex; justify-items: right;">
                                             <div class="content_btn_sub_div" style="margin-left: auto;">
-                                                <button onclick="editContent(${idx})" type="button" class="edit_btn btn btn-light">수정</button>
+                                                <button onclick="editContent(${idx}, ${calculatedTime})" id ="edit_btn-${idx}"type="button" class="btn btn-light">수정</button>
                                                 <button onclick="toggleMyId(${idx})" type="button" class="submit_btn btn btn-light">닫기</button>
                                             </div>
                                         </div>
