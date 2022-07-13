@@ -10,7 +10,7 @@ const listing = () => {
         url: '/api/news', // 테스트용 url
         data: {},
         success: function (response) {
-            let news_list = response['body']['result']['newsTableList'];
+            let news_list = response['newsTableList'];
             $('#cards-box').empty();
             for (let i = 0; i < news_list.length; i++) {
                 // 서버로 부터 받은 뉴스 리스트의 각 뉴스에 접근해 관련 정보를 받는다.

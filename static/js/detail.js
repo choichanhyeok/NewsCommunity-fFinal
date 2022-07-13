@@ -137,8 +137,9 @@ function getComments() {
                 let modifiedDate = comment.modifiedAt;
                 let time = time2str(new Date(modifiedDate));
                 let content = comment.content;
-                let username = comment.user.username;
-                addHTML(commentId, time, content, username);
+                let username = comment.profileResponseDto.username;
+                let nickname = comment.profileResponseDto.nickname;
+                addHTML(commentId, time, content, username, nickname);
             }
         }
     })
@@ -200,14 +201,15 @@ function getSortedComments(direction) {
                 let createdDate = comment.createdAt;
                 let time = time2str(new Date(createdDate));
                 let content = comment.content;
-                let username = comment.user.username;
-                addHTML(commentId, time, content, username);
+                let username = comment.profileResponseDto.username;
+                let nickname = comment.profileResponseDto.nickname;
+                addHTML(commentId, time, content, username, nickname);
             }
         }
     })
 }
 
-function addHTML(commentId, time, content, username) {
+function addHTML(commentId, time, content, username, nickname) {
 
     let currentLoginUserName = $.ajax({
         async: false,
@@ -228,7 +230,7 @@ function addHTML(commentId, time, content, username) {
                         <div class="media-content">
                             <div class="content">
                                 <p>
-                                    <strong>nickname</strong> <small>@${username}</small> <small>${time}</small>
+                                    <strong>${nickname}</strong> <small>@${username}</small> <small>${time}</small>
                                     <br>
                                     <span id="${commentId}-content">${content}</span>
                                 </p>
@@ -260,7 +262,7 @@ function addHTML(commentId, time, content, username) {
                         <div class="media-content">
                             <div class="content">
                                 <p>
-                                    <strong>nickname</strong> <small>@${username}</small> <small>${time}</small>
+                                    <strong>${nickname}</strong> <small>@${username}</small> <small>${time}</small>
                                     <br>
                                     ${content}
                                 </p>
@@ -336,7 +338,7 @@ function updateLike(commentId) {
             success: function(response) {
                 let likesCount = $.ajax({
                     async: false,
-                    url: `/api/user/likes/${commentId}`,
+                    url: `/api/user/likes/count/${commentId}`,
                     type: "GET",
                     dataType: "text"
                 }).responseText;
