@@ -222,6 +222,13 @@ function addHTML(commentId, time, content, username, nickname) {
         dataType: "text"
     }).responseText;
 
+    let likesCount = $.ajax({
+        async: false,
+        url: `/api/user/likes/count/${commentId}`,
+        type: "GET",
+        dataType: "text"
+    }).responseText;
+
     let tempHtml = ``;
     if (currentLoginUserName == username) {
 
@@ -242,7 +249,7 @@ function addHTML(commentId, time, content, username, nickname) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">0</span>
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
                                     </a>
                                 </div>
                             </nav>
@@ -274,7 +281,7 @@ function addHTML(commentId, time, content, username, nickname) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">0</span>
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
                                     </a>
                                 </div>
                             </nav>
@@ -332,7 +339,6 @@ function deleteComment(commentId) {
 
 // 좋아요 기능
 function updateLike(commentId) {
-
         let data = {}
         $.ajax({
             type: "POST",
