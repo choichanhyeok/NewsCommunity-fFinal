@@ -14,40 +14,40 @@ const detail_listing = () =>{
         url: '/api/news/details/'+news_id,
         data: {},
         success: function (response) {
-            let news_obj = response['body']['result'];
+            let newsObj = response['body']['result'];
             $('#news-box').empty();
             // 서버로 부터 받은 뉴스 리스트의 각 뉴스에 접근해 관련 정보를 받는다.
-            let post_id = news_obj['id'];
-            let title = news_obj['title'];
-            let contents = news_obj['summary']
-            let news_url = news_obj['news_url']
-            let image_url = news_obj['image_url'];
-            let write_time = news_obj['write_time']
-            console.log(write_time)
+            let postId = newsObj['id'];
+            let title = newsObj['title'];
+            let contents = newsObj['summary']
+            let newsUrl = newsObj['news_url']
+            let imageUrl = newsObj['image_url'];
+            let writeTime = newsObj['write_time']
+            console.log(writeTime)
             console.log(title)
-//            let view = news_obj['view']
+            let view = newsObj['view']
             // 받아온 정보를 토대로 card-box html을 구성해준다.
             let html_data = `<div class="news_title title"><h4>${title}</h4></div>
                                 <div class="news_time level-left">
-                                    <small>${write_time}</small>
+                                    <small>${writeTime}</small>
                                 </div>
                                 <div class="news_icon level-right">
                                     <div class="news_url level-item">
-                                        <a href="${news_url}" target="_blank">
+                                        <a href="${newsUrl}" target="_blank">
                                             <span class="icon is-small"><i class="icon_ fa-solid fa-link"></i></span>
                                         </a>
                                     </div>
                                     <div id="bookmark" class="bookmark level-item">
-                                        <div id="${post_id}">
+                                        <div id="${postId}">
                                             <a class="is-sparta" aria-label="bookmark"
-                                               onclick="toggle_bookmark(${post_id})">
+                                               onclick="toggle_bookmark(${postId})">
                                                                             <span class="icon is-small"><i class="icon_ fa fa-solid fa-bookmark-o"
                                                                                                            aria-hidden="true"></i></span>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                                <span class="news_photo"><img src="${image_url}" alt="Image"></span>
+                                <span class="news_photo"><img src="${imageUrl}" alt="Image"></span>
                                 <div class="news_summary" style="white-space: pre-line">${contents}</div>`;
             $('#news-box').append(html_data);
 
