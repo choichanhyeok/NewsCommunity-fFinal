@@ -24,8 +24,15 @@ function toggleMyId(num) {
 function submitContent() {
     let newTitle = $("#input_title").val();
     let newText = $("#input_text").val();
-    let data = {"post_title": newTitle, "post_content": newText};
-    if (newTitle != null && newText != null) {
+    let newEmail = $("#input_email").val();
+    let data = {"post_title": newTitle, "post_content": newText, "email":newEmail};
+    let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+
+    if (regEmail.test(newEmail) !== true) {
+        return alert('이메일이 형식에 맞지 않습니다');
+    }
+
+    if (newTitle != '' && newText != '') {
         $.ajax({
             type: "POST",
             url: `/api/user/supports/`,
@@ -35,6 +42,8 @@ function submitContent() {
                 window.location.reload()
             }
         });
+    }else{
+        alert('빠진 곳이 없는지 확인해주세요!\n전부 입력해주셔야 등록이 가능합니다');
     }
 }
 
