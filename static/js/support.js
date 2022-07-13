@@ -58,7 +58,7 @@ function editContent(contentIdx, countedTime) {
     if(getToken==getUsername){
         if ($(edit_btnID).html() == "수정") { //수정 시작
             if (countedTime>=1800){
-                alert('작성 한 후 30분이 지나서 수정이 불가합니다')
+                alert('일정 시간이 경과하여 수정이 불가합니다.')
             }else{
                 alert('수정을 시작합니다');
                 $(setContentsID).attr("readonly", false);
@@ -77,7 +77,7 @@ function editContent(contentIdx, countedTime) {
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function (response) {
-                    alert('수정 완료');
+                    alert('수정 완료되었습니다.');
                 }
             });
         }
@@ -92,7 +92,7 @@ function deleteContent(contentIdx,countedTime){
     let getUsername = $(setUsername).text();
     if(getToken==getUsername){
         if (countedTime>=1800) {
-            alert('작성 한 후 30분이 지나서 삭제가 불가합니다')
+            alert('일정 시간이 경과하여 삭제가 불가합니다.')
         }else{
             $.ajax({
                 type: "DELETE",
@@ -100,7 +100,7 @@ function deleteContent(contentIdx,countedTime){
                 contentType: "application/json",
                 success: function (response) {
                     window.location.reload()
-                    alert("삭제완료")
+                    alert("삭제 완료되었습니다.")
                 }
             });
         }
@@ -124,9 +124,11 @@ function convertList(){
     let urlForMe = '/api/user/supports/mine';
     if(currentUrl === urlForAll){
         currentUrl = urlForMe;
+        $('.onlymine_btn').html("전체 게시물 확인하기");
     }
     else if(currentUrl === urlForMe){
         currentUrl = urlForAll;
+        $('.onlymine_btn').html("내가 쓴 게시글만 확인하기");
     }
     defaultURLforGetList = currentUrl;
     getList()

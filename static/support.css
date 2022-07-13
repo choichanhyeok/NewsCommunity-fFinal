@@ -107,11 +107,12 @@ textarea{
     background-color: lightgray;
 }
 
-.onlymine_btn{
-    border: darkgreen solid 2px;
-}
-button:active, button:focus{
+btns:active, btns:focus{
     outline: 0 !important;
     border: none !important;
+    box-shadow: none !important;
+}
+.onlymine_btn, .onlymine_btn:focus, .onlymine_btn:active{
+    border: darkgreen solid 2px;
     box-shadow: none !important;
 }
