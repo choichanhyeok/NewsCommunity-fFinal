@@ -31,15 +31,19 @@ function submitContent() {
     if (regEmail.test(newEmail) !== true) {
         return alert('이메일이 형식에 맞지 않습니다');
     }
+    let removeSpaceTitle = newTitle.replace(/\s/g,"")
+    let removeSpaceText = newTitle.replace(/\s/g,"")
 
-    if (newTitle.length !== 0 && newText.length !== 0) {
+    if (removeSpaceTitle.length !== 0 && removeSpaceText.length !== 0) {
         $.ajax({
             type: "POST",
             url: `/api/user/supports/`,
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (response) {
-                window.location.reload()
+                toggleWriting();
+                alert('등록이 완료되었습니다');
+                getList()
             }
         });
     }else{
