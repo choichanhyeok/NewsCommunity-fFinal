@@ -32,7 +32,7 @@ function submitContent() {
         return alert('이메일이 형식에 맞지 않습니다');
     }
 
-    if (newTitle != '' && newText != '') {
+    if (newTitle.length !== 0 && newText.length !== 0) {
         $.ajax({
             type: "POST",
             url: `/api/user/supports/`,
