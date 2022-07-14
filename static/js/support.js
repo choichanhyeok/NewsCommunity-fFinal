@@ -74,7 +74,6 @@ function editContent(contentIdx, countedTime) {
             $(setContentsID).attr("readonly", true);
             let contents = $(setContentsID).val();
             let data = {"post_content": contents};
-            console.log(data)
             $.ajax({
                 type: "PUT",
                 url: `/api/user/supports/${contentIdx}`,
