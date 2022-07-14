@@ -1,7 +1,7 @@
 var profileUser = location.href.split("?")[1].split("=")[1];
 
 $(document).ready(function () {
-	console.log("이 profile 주인은 바로 ~~~~: " + profileUser)
+	$('title').prepend(profileUser)
 	getProfile(profileUser)
 	getComments()
 });
