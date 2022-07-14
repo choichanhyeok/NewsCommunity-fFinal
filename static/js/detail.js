@@ -158,7 +158,8 @@ function getComments() {
                 let content = comment.content;
                 let username = comment.profileResponseDto.username;
                 let nickname = comment.profileResponseDto.nickname;
-                addHTML(commentId, time, content, username, nickname);
+                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : "https://bulma.io/images/placeholders/128x128.png";
+                addHTML(commentId, time, content, username, nickname, profilePicLink);
             }
         }
     })
@@ -223,13 +224,14 @@ function getSortedComments(direction) {
                 let content = comment.content;
                 let username = comment.profileResponseDto.username;
                 let nickname = comment.profileResponseDto.nickname;
-                addHTML(commentId, time, content, username, nickname);
+                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : "https://bulma.io/images/placeholders/128x128.png";
+                addHTML(commentId, time, content, username, nickname, profilePicLink);
             }
         }
     })
 }
 
-function addHTML(commentId, time, content, username, nickname) {
+function addHTML(commentId, time, content, username, nickname, profilePicLink) {
 
     let currentLoginUserName = $.ajax({
         async: false,
@@ -251,7 +253,7 @@ function addHTML(commentId, time, content, username, nickname) {
         tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">
-                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                                <img src=${profilePicLink}>
                             </p>
                         </figure>
                         <div class="media-content">
@@ -283,7 +285,7 @@ function addHTML(commentId, time, content, username, nickname) {
         tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">
-                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                                <img src=${profilePicLink}>
                             </p>
                         </figure>
                         <div class="media-content">
