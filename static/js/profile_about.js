@@ -34,8 +34,8 @@ $(document).on("click", "#update_profile", function updateProfile() {
 	let file = $('#input-pic')[0].files[0]
 	let about = $("#textarea-about").val()
 	let form_data = new FormData()
-	form_data.append("file", file)
 	form_data.append("name", name)
+	if(file) form_data.append("file", file)
 	form_data.append("about", about)
 	console.log(name, file, about, form_data)
 
