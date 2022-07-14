@@ -99,7 +99,7 @@ function deleteContent(contentIdx,countedTime){
                 url: `/api/user/supports/${contentIdx}`,
                 contentType: "application/json",
                 success: function (response) {
-                    window.location.reload()
+                    getList();
                     alert("삭제 완료되었습니다.")
                 }
             });
