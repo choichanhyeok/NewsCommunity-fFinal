@@ -145,7 +145,8 @@ function getList() {
         url: defaultURLforGetList,
         type: 'GET',
         success: function (result) {
-            $('#table_body').empty();
+            if(result.length != 0){ $('#table_body').empty();}
+
             for (let i = 0; i < result.length; i++) {
                 let getUsername = result[i]["username"];
                 let getTitle = result[i]["post_title"];
