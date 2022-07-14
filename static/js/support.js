@@ -25,21 +25,28 @@ function submitContent() {
     let newTitle = $("#input_title").val();
     let newText = $("#input_text").val();
     let newEmail = $("#input_email").val();
-    let data = {"post_title": newTitle, "post_content": newText, "email":newEmail};
+
+    let data = {"post_title": newTitle, "post_content": newText, "post_email": newEmail};
     let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 
     if (regEmail.test(newEmail) !== true) {
         return alert('이메일이 형식에 맞지 않습니다');
     }
 
-    if (newTitle != '' && newText != '') {
+    let removeSpaceTitle = newTitle.replace(/\s/g,"")
+    let removeSpaceText = newTitle.replace(/\s/g,"")
+
+    if (removeSpaceTitle.length !== 0 && removeSpaceText.length !== 0) {
+
         $.ajax({
             type: "POST",
             url: `/api/user/supports/`,
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (response) {
-                window.location.reload()
+                toggleWriting();
+                alert('등록이 완료되었습니다');
+                getList()
             }
         });
     }else{
@@ -99,7 +106,7 @@ function deleteContent(contentIdx,countedTime){
                 url: `/api/user/supports/${contentIdx}`,
                 contentType: "application/json",
                 success: function (response) {
-                    window.location.reload()
+                    getList();
                     alert("삭제 완료되었습니다.")
                 }
             });
@@ -107,14 +114,6 @@ function deleteContent(contentIdx,countedTime){
     }else{
         alert("권한이 없습니다.")
     }
-}
-function timeCalculate(createdTime){
-    let now = new Date();
-    let createdAt = new Date(createdTime);
-
-    let nowToCreate = now.getTime() - createdAt.getTime();
-    nowToCreate = parseInt(nowToCreate) / 1000;
-    return nowToCreate;
 }
 
 let defaultURLforGetList = '/api/supports'
@@ -134,6 +133,7 @@ function convertList(){
     getList()
 }
 
+
 function getList() {
     let getToken = localStorage.getItem('IllllIlIII_hid');
     if (getToken != null){
@@ -145,7 +145,8 @@ function getList() {
         url: defaultURLforGetList,
         type: 'GET',
         success: function (result) {
-            $('#table_body').empty();
+            if(result.length != 0){ $('#table_body').empty();}
+
             for (let i = 0; i < result.length; i++) {
                 let getUsername = result[i]["username"];
                 let getTitle = result[i]["post_title"];
