@@ -102,7 +102,9 @@ function postComment() {
         data: JSON.stringify(data),
         success: function (response) {
             alert('댓글이 성공적으로 작성되었습니다.');
-            window.location.reload();
+            $('#comment').val("");
+            getComments();
+            getCommentCount();
         }
     });
 }
@@ -165,6 +167,7 @@ function getComments() {
 // 댓글 개수 가져오는 함수 + 정렬 UI
 function getCommentCount() {
     let newsId = getNewsId();
+    $('#comment_box-head').empty();
     $.ajax({
         type: "GET",
         url: `/api/user/comments/count/${newsId}`,
@@ -175,7 +178,7 @@ function getCommentCount() {
                         <p class="subtitle is-5">
                             <strong>${response}</strong>
                         </p>
-                        <small style="margin-bottom: 1rem">&nbsp;comments</small>\`
+                        <small style="margin-bottom: 1rem">&nbsp;comments</small>
                     </div>
             
                     <div class="dropdown is-right is-hoverable level-right">
