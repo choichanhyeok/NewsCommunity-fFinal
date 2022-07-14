@@ -6,7 +6,20 @@ $(document).ready(function () {
   detail_listing();
   getComments();
   getCommentCount();
+  addView();
 });
+
+
+// 조회수 증가 함수
+function addView() {
+    let newsId = getNewsId();
+    $.ajax({
+        type: "PUT",
+        url: '/api/news/views/' +newsId,
+        success: function (response) {
+        }
+    });
+}
 
 const detail_listing = () =>{
     let news_id = location.href.split("?")[1].split("=")[1];
