@@ -44,7 +44,7 @@ const detail_listing = () =>{
             console.log(title)
             let view = newsObj['view']
             // 받아온 정보를 토대로 card-box html을 구성해준다.
-            let html_data = `<div class="news_title title"><h4>${title}</h4></div>
+            let html_data = `<div class="news_title title" id = "news_title"><h4>${title}</h4></div>
                                 <div class="news_time level-left">
                                     <small>${writeTime}</small>
                                 </div>
@@ -441,6 +441,7 @@ function toggleBookmark(post_id) {
     let data = {'newsId': post_id,
                 'userId': userName,
                 'title': title}
+    console.log(title)
     if ($i_bookmark.hasClass("fa-bookmark")) {
         $.ajax({
             type: "DELETE",

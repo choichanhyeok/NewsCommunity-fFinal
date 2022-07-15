@@ -182,28 +182,28 @@ $(document).on("click", "#file-with-js>.control>.button", function makeDefaultIm
 	fileNameContainer.textContent = '기존 이미지'
 });
 
-// 북마크 기사 가져오기
-function getPosts(user_id) {
+function getBookmark(user_id) {
 	$("#comment-box").empty()
 	$.ajax({
 		type: "GET",
-		url: `/posts_get?user_id_give=${user_id}`,
+		url: `/api/bookmarks/profiles/${user_id}`,
 		data: {},
 		success: function (response) {
-			console.log(response["msg"])
-			if (response["result"] == "success") {
-				let posts = response["posts"].reverse()
-				for (let i = 0; i < posts.length; i++) {
-					let post = posts[i]
-					let temp_html = `<div class="bookmark_post box" id="${post["post_id"]}">
-                                            <a href="/detail/${post["post_id"]}">${post["title"]}</a>
-                                        </div>`
-					$("#comment-box").append(temp_html)
-				}
-			}
+			res = response['bookmarksList']
+            console.log(res)
+            let bookmarks = res.reverse()
+            for (let i = 0; i < bookmarks.length; i++) {
+                let bookmark = bookmarks[i]
+                let temp_html = `<div class="bookmark_post box" id="${bookmark["newsId"]}">
+                                        <a href="detail.html?name=${bookmark["newsId"]}">${bookmark["title"]}</a>
+                                    </div>`
+                $("#comment-box").append(temp_html)
+            }
+
 		}
 	})
 }
+
 
 // 자기가 쓴 댓글만 불러오기
 function getComments(){
@@ -322,14 +322,14 @@ function deleteComment(commentId) {
 	});
 }
 
-
 // 프로필 탭
 function toggleTab(type) {
 	console.log(type)
 	let $li_tab = $(`#${type}`)
 	if (`${type}`=="posts") {
 		$li_tab.addClass("is-active").siblings().removeClass("is-active")
-		posts_get(now_user_id)
+		let userName = localStorage.getItem("IllllIlIII_hid")
+		getBookmark(userName)
 	} else if (`${type}`=="comments") {
 		$li_tab.addClass("is-active").siblings().removeClass("is-active")
 		comments_get(now_user_id,"")
