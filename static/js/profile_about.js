@@ -208,6 +208,20 @@ function getPosts(user_id) {
 // 자기가 쓴 댓글만 불러오기
 function getComments(){
 	$("#comment-box").empty()
+
+	let currentLoginUserName = $.ajax({
+		async: false,
+		url: "/api/user/me",
+		type: "GET",
+		dataType: "text"
+	}).responseText;
+
+	let profileUrl = $.ajax({
+		async: false,
+		url: `/user/profile/pic/${currentLoginUserName}`,
+		type: "GET",
+		dataType: "text"
+	}).responseText;
 	$.ajax({
 		type: "GET",
 		url: `/api/user/comments/profile`,
@@ -220,14 +234,15 @@ function getComments(){
 				let content = comment.content;
 				let username = comment.profileResponseDto.username;
 				let nickname = comment.profileResponseDto.nickname;
-				addHTML(commentId, time, content, username, nickname);
+				let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : profileUrl;
+				addHTML(commentId, time, content, username, nickname, profilePicLink);
 			}
 		}
 	})
 }
 
 // 댓글 보여주는 HTML
-function addHTML(commentId, time, content, username, nickname) {
+function addHTML(commentId, time, content, username, nickname, profilePicLink) {
 	let likesCount = $.ajax({
 		async: false,
 		url: `/api/user/likes/count/${commentId}`,
@@ -238,7 +253,7 @@ function addHTML(commentId, time, content, username, nickname) {
 	let tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">
-                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                                <img src=${profilePicLink}>
                             </p>
                         </figure>
                         <div class="media-content">
