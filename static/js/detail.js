@@ -377,25 +377,27 @@ function updateLike(commentId) {
 }
 
 // 북마크 여부 확인
-function bookmarked(post_id) {
+function bookmarked() {
+    let newsId = getNewsId();
+    let userName = localStorage.getItem("IllllIlIII_hid")
     $("#bookmark").empty()
+
     $.ajax({
         type: "GET",
-        url: `/bookmarked?post_id_give=${post_id}`,
-        data: {},
+        url: `/api/bookmarks?newsId=${newsId}&userId=${userName}`,
+        async: false,
         success: function (response) {
-            if (response["result"] == "success") {
-                let bookmark_by_me = response["bookmark_by_me"]
-                let icon = bookmark_by_me ? "fa-bookmark" : "fa-bookmark-o"
-                let temp_html = `<div id="${post_id}" class="bookmark">
-                                    <a class="level-item is-sparta" aria-label="bookmark"
-                                           onclick=toggleBookmark("${post_id})">
-                                                    <span class="icon is-small"><i class="icon_ fa fa-solid ${icon}"
-                                                                                   aria-hidden="true"></i></span>
-                                    </a>
-                                  </div>`
-                $("#bookmark").append(temp_html)
-            }
+            let bookmark_by_me = response.body.result
+            console.log(bookmark_by_me)
+            let icon = bookmark_by_me ? "fa-bookmark" : "fa-bookmark-o"
+            let temp_html = `<div id="${newsId}" class="bookmark">
+                                <a class="level-item is-sparta" aria-label="bookmark"
+                                       onclick=toggle_bookmark("${newsId}")>
+                                                <span class="icon is-small"><i class="icon_ fa fa-solid ${icon}"
+                                                                               aria-hidden="true"></i></span>
+                                </a>
+                              </div>`
+            $("#bookmark").append(temp_html)
         }
     })
 }
