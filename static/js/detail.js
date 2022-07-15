@@ -61,7 +61,7 @@ const detail_listing = () =>{
                                     <div id="bookmark" class="bookmark level-item">
                                         <div id="${postId}">
                                             <a class="is-sparta" aria-label="bookmark"
-                                               onclick="toggle_bookmark(${postId})">
+                                               onclick=toggleBookmark("${postId})">
                                                                             <span class="icon is-small"><i class="icon_ fa fa-solid fa-bookmark-o"
                                                                                                            aria-hidden="true"></i></span>
                                             </a>
@@ -389,7 +389,7 @@ function bookmarked(post_id) {
                 let icon = bookmark_by_me ? "fa-bookmark" : "fa-bookmark-o"
                 let temp_html = `<div id="${post_id}" class="bookmark">
                                     <a class="level-item is-sparta" aria-label="bookmark"
-                                           onclick="toggle_bookmark(${post_id})">
+                                           onclick=toggleBookmark("${post_id})">
                                                     <span class="icon is-small"><i class="icon_ fa fa-solid ${icon}"
                                                                                    aria-hidden="true"></i></span>
                                     </a>
@@ -401,7 +401,7 @@ function bookmarked(post_id) {
 }
 
 // 북마크, 북마크 취소
-function toggle_bookmark(post_id) {
+function toggleBookmark(post_id) {
     let $i_bookmark = $(`#${post_id} a[aria-label='bookmark']`).find("i")
     if ($i_bookmark.hasClass("fa-bookmark")) {
         $.ajax({
