@@ -71,7 +71,7 @@ const detail_listing = () =>{
                                 <span class="news_photo"><img src="${imageUrl}" alt="Image"></span>
                                 <div class="news_summary" style="white-space: pre-line">${contents}</div>`;
             $('#news-box').append(html_data);
-
+            bookmarked();
         }
     })
 }
@@ -422,7 +422,7 @@ function bookmarked() {
             let icon = bookmark_by_me ? "fa-bookmark" : "fa-bookmark-o"
             let temp_html = `<div id="${newsId}" class="bookmark">
                                 <a class="level-item is-sparta" aria-label="bookmark"
-                                       onclick=toggle_bookmark("${newsId}")>
+                                       onclick=toggleBookmark("${newsId}")>
                                                 <span class="icon is-small"><i class="icon_ fa fa-solid ${icon}"
                                                                                aria-hidden="true"></i></span>
                                 </a>
@@ -435,14 +435,18 @@ function bookmarked() {
 // 북마크, 북마크 취소
 function toggleBookmark(post_id) {
     let $i_bookmark = $(`#${post_id} a[aria-label='bookmark']`).find("i")
+    let userName = localStorage.getItem("IllllIlIII_hid")
+    let title = $('#news_title').text()
+
+    let data = {'newsId': post_id,
+                'userId': userName,
+                'title': title}
     if ($i_bookmark.hasClass("fa-bookmark")) {
         $.ajax({
-            type: "POST",
-            url: "/bookmark",
-            data: {
-                post_id_give: post_id,
-                action_give: "unbookmark"
-            },
+            type: "DELETE",
+            url: "/api/bookmarks",
+            contentType: "application/json",
+            data: JSON.stringify(data),
             success: function (response) {
                 $i_bookmark.addClass("fa-bookmark-o").removeClass("fa-bookmark")
             }
@@ -450,15 +454,12 @@ function toggleBookmark(post_id) {
     } else {
         $.ajax({
             type: "POST",
-            url: "/bookmark",
-            data: {
-                post_id_give: post_id,
-                action_give: "bookmark"
-            },
+            url: "/api/bookmarks",
+            contentType: "application/json",
+            data: JSON.stringify(data),
             success: function (response) {
                 $i_bookmark.addClass("fa-bookmark").removeClass("fa-bookmark-o")
             }
         })
-
     }
 }
