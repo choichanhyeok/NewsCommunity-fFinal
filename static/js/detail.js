@@ -145,7 +145,22 @@ function num2str(count) {
 // 댓글 리스팅
 function getComments() {
     let newsId = getNewsId();
-    $("#comment-box").empty()
+    $("#comment-box").empty();
+
+    let currentLoginUserName = $.ajax({
+        async: false,
+        url: "/api/user/me",
+        type: "GET",
+        dataType: "text"
+    }).responseText;
+
+    let profileUrl = $.ajax({
+        async: false,
+        url: `/user/profile/pic/${currentLoginUserName}`,
+        type: "GET",
+        dataType: "text"
+    }).responseText;
+
     $.ajax({
         type: "GET",
         url: `/api/user/comments/${newsId}`,
@@ -158,7 +173,7 @@ function getComments() {
                 let content = comment.content;
                 let username = comment.profileResponseDto.username;
                 let nickname = comment.profileResponseDto.nickname;
-                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : "https://bulma.io/images/placeholders/128x128.png";
+                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : profileUrl;
                 addHTML(commentId, time, content, username, nickname, profilePicLink);
             }
         }
@@ -212,6 +227,21 @@ function getCommentCount() {
 function getSortedComments(direction) {
     let newsId = getNewsId();
     $("#comment-box").empty()
+
+    let currentLoginUserName = $.ajax({
+        async: false,
+        url: "/api/user/me",
+        type: "GET",
+        dataType: "text"
+    }).responseText;
+
+    let profileUrl = $.ajax({
+        async: false,
+        url: `/user/profile/pic/${currentLoginUserName}`,
+        type: "GET",
+        dataType: "text"
+    }).responseText;
+
     $.ajax({
         type: "GET",
         url: `/api/user/comments/sort/${newsId}?direction=${direction}`,
@@ -224,7 +254,7 @@ function getSortedComments(direction) {
                 let content = comment.content;
                 let username = comment.profileResponseDto.username;
                 let nickname = comment.profileResponseDto.nickname;
-                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : "https://bulma.io/images/placeholders/128x128.png";
+                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : profileUrl;
                 addHTML(commentId, time, content, username, nickname, profilePicLink);
             }
         }
