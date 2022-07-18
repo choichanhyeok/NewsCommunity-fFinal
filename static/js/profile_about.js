@@ -332,6 +332,6 @@ function toggleTab(type) {
 		getBookmark(userName)
 	} else if (`${type}`=="comments") {
 		$li_tab.addClass("is-active").siblings().removeClass("is-active")
-		comments_get(now_user_id,"")
+		getComments();
 	}
 }
