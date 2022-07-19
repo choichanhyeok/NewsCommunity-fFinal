@@ -87,6 +87,27 @@ function getNewsId() {
     return newsId;
 }
 
+// 댓글 입력창에서 글자 수 제한을 바이트 단위로 체크하는 함수
+function checkCommentByte(obj) {
+    const maxByte = 500;
+    const content = obj.value;
+    const contentLength = content.length;
+
+    let totalByte = 0;
+    for (let i=0; i<contentLength; i++) {
+        const eachChar = content.charAt(i);
+        const uniChar = escape(eachChar);
+        if (uniChar.length > 4) {
+            totalByte += 2;
+        } else {
+            totalByte += 1;
+        }
+    }
+    if (totalByte > maxByte) {
+        alert("최대 글자 허용 길이를 초과하셨습니다.");
+    }
+}
+
 // 댓글 작성 함수
 function postComment() {
     let content = $('#comment').val();
@@ -94,6 +115,10 @@ function postComment() {
     let data = {
         "content": content,
         "newsId": newsId
+    }
+    if (content == "") {
+        alert("내용을 입력하세요");
+        return
     }
     $.ajax({
         type: "POST",
