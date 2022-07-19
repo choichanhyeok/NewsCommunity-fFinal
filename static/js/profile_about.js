@@ -328,8 +328,7 @@ function toggleTab(type) {
 	let $li_tab = $(`#${type}`)
 	if (`${type}`=="posts") {
 		$li_tab.addClass("is-active").siblings().removeClass("is-active")
-		let userName = localStorage.getItem("IllllIlIII_hid")
-		getBookmark(userName)
+		getBookmark(profileUser)
 	} else if (`${type}`=="comments") {
 		$li_tab.addClass("is-active").siblings().removeClass("is-active")
 		getComments();
