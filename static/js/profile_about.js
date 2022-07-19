@@ -224,7 +224,7 @@ function getComments(){
 	}).responseText;
 	$.ajax({
 		type: "GET",
-		url: `/api/user/comments/profile`,
+		url: `/api/user/comments/profile/${profileUser}`,
 		success: function (response) {
 			for (let i=0; i<response.length; i++) {
 				let comment = response[i];
