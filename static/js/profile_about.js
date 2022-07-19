@@ -189,8 +189,7 @@ function getBookmark(user_id) {
 		url: `/api/bookmarks/profiles/${user_id}`,
 		data: {},
 		success: function (response) {
-			res = response['bookmarksList']
-            console.log(res)
+			res = response
             let bookmarks = res.reverse()
             for (let i = 0; i < bookmarks.length; i++) {
                 let bookmark = bookmarks[i]
