@@ -31,7 +31,7 @@ const detail_listing = () =>{
         url: '/api/news/details/'+news_id,
         data: {},
         success: function (response) {
-            let newsObj = response['body']['result'];
+            let newsObj = response;
             $('#news-box').empty();
             // 서버로 부터 받은 뉴스 리스트의 각 뉴스에 접근해 관련 정보를 받는다.
             let postId = newsObj['id'];
@@ -417,7 +417,7 @@ function bookmarked() {
         url: `/api/bookmarks?newsId=${newsId}&userId=${userName}`,
         async: false,
         success: function (response) {
-            let bookmark_by_me = response.body.result
+            let bookmark_by_me = response
             console.log(bookmark_by_me)
             let icon = bookmark_by_me ? "fa-bookmark" : "fa-bookmark-o"
             let temp_html = `<div id="${newsId}" class="bookmark">
