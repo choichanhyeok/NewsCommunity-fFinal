@@ -208,22 +208,15 @@ function getBookmark(user_id) {
 function getComments(){
 	$("#comment-box").empty()
 
-	let currentLoginUserName = $.ajax({
-		async: false,
-		url: "/api/user/me",
-		type: "GET",
-		dataType: "text"
-	}).responseText;
-
 	let profileUrl = $.ajax({
 		async: false,
-		url: `/user/profile/pic/${currentLoginUserName}`,
+		url: `/user/profile/pic/${profileUser}`,
 		type: "GET",
 		dataType: "text"
 	}).responseText;
 	$.ajax({
 		type: "GET",
-		url: `/api/user/comments/profile`,
+		url: `/api/user/comments/profile/${profileUser}`,
 		success: function (response) {
 			for (let i=0; i<response.length; i++) {
 				let comment = response[i];
