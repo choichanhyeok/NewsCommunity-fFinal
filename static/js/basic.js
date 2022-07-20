@@ -10,15 +10,18 @@ $(document).ready(function () {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
 			xhr.setRequestHeader("Authorization", "Bearer " + token);
+		},
+		error: function (output, status, response) {
+			if (status === 403) {
+				refreshToken($.ajax(this))
+			}
 		}
 	});
-	refreshToken();
 	navIcon()
 })
 
 // 토큰 값 갱신
-function refreshToken() {
-	console.log("refresh");
+function refreshToken(a) {
 	$.ajax({
 		async: false,
 		type: "GET",
@@ -28,7 +31,8 @@ function refreshToken() {
 		success: function (output, status, response) {
 			if (output == "success") {
 				token = response.getResponseHeader("token");
-				localStorage.setItem("les_uid", token)
+				localStorage.setItem("les_uid", token);
+				setTimeout(a, 500);
 			}
 		}
 	});
