@@ -270,12 +270,7 @@ function getSortedComments(direction) {
 
 function addHTML(commentId, time, content, username, nickname, profilePicLink) {
 
-    let currentLoginUserName = $.ajax({
-        async: false,
-        url: "/api/user/me",
-        type: "GET",
-        dataType: "text"
-    }).responseText;
+    let loginUserId = localStorage.getItem('IllllIlIII_hid');
 
     let likesCount = $.ajax({
         async: false,
@@ -285,7 +280,7 @@ function addHTML(commentId, time, content, username, nickname, profilePicLink) {
     }).responseText;
 
     let tempHtml = ``;
-    if (currentLoginUserName == username) {
+    if (loginUserId == username) {
 
         tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
