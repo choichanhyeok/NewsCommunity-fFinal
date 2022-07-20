@@ -63,23 +63,21 @@ function getProfile(username) {
 		url: `/api/user/profile/${username}`,
 		data: {},
 		success: function (response) {
-			if (response['status']) {
-				let status = response['status']
-				let link = response['link']!="default" ? response['link'] : "/static/profile_pics/profile_placeholder.png"
-				let nickname = response['profile']['nickname']
-				let picName = response['profile']['profile_pic']!="default" ? response['profile']['profile_pic'] : "기본 이미지"
-				let info = response['profile']['profile_info']!=null ? response['profile']['profile_info'] : ""
-				let img = `<img class="is-rounded" src=${link} alt="No img"/>`
-				$("#profile-pic").append(img)
-				$("#nickname").append(nickname)
-				$("#profile-info").append(info!="" ? info : "멋진 소개글을 작성해 보세요!")
-				if (status) {
-					let tempHtml = canEdit(nickname, picName, info)
-					$("#edit-area").append(tempHtml)
-				}
-			} else {
-				console.log("error");
+			let status = response['status']
+			let link = response['link']!="default" ? response['link'] : "/static/profile_pics/profile_placeholder.png"
+			let nickname = response['profile']['nickname']
+			let picName = response['profile']['profile_pic']!="default" ? response['profile']['profile_pic'] : "기본 이미지"
+			let info = response['profile']['profile_info']!=null ? response['profile']['profile_info'] : ""
+			let img = `<img class="is-rounded" src=${link} alt="No img"/>`
+			$("#profile-pic").append(img)
+			$("#nickname").append(nickname)
+			$("#profile-info").append(info!="" ? info : "멋진 소개글을 작성해 보세요!")
+			if (status) {
+				let tempHtml = canEdit(nickname, picName, info)
+				$("#edit-area").append(tempHtml)
 			}
+		}, error: function (response) {
+			console.log(response)
 		}
 	});
 }
