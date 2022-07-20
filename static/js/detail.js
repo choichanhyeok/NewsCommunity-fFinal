@@ -180,12 +180,15 @@ function getComments() {
         dataType: "text"
     }).responseText;
 
-    let profileUrl = $.ajax({
-        async: false,
-        url: `/user/profile/pic/${currentLoginUserName}`,
-        type: "GET",
-        dataType: "text"
-    }).responseText;
+    function getProfileUrl(username) {
+        let profileUrl = $.ajax({
+            async: false,
+            url: `/user/profile/pic/${username}`,
+            type: "GET",
+            dataType: "text"
+        }).responseText;
+        return profileUrl;
+    }
 
     $.ajax({
         type: "GET",
@@ -199,7 +202,7 @@ function getComments() {
                 let content = comment.content;
                 let username = comment.profileResponseDto.username;
                 let nickname = comment.profileResponseDto.nickname;
-                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : profileUrl;
+                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
                 addHTML(commentId, time, content, username, nickname, profilePicLink);
             }
         }
