@@ -167,25 +167,20 @@ function num2str(count) {
     return count
 }
 
+function getProfileUrl(username) {
+    let profileUrl = $.ajax({
+        async: false,
+        url: `/user/profile/pic/${username}`,
+        type: "GET",
+        dataType: "text"
+    }).responseText;
+    return profileUrl;
+}
 
 // 댓글 리스팅
 function getComments() {
     let newsId = getNewsId();
     $("#comment-box").empty();
-
-    let currentLoginUserName = $.ajax({
-        async: false,
-        url: "/api/user/me",
-        type: "GET",
-        dataType: "text"
-    }).responseText;
-
-    let profileUrl = $.ajax({
-        async: false,
-        url: `/user/profile/pic/${currentLoginUserName}`,
-        type: "GET",
-        dataType: "text"
-    }).responseText;
 
     $.ajax({
         type: "GET",
@@ -199,7 +194,7 @@ function getComments() {
                 let content = comment.content;
                 let username = comment.profileResponseDto.username;
                 let nickname = comment.profileResponseDto.nickname;
-                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : profileUrl;
+                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
                 addHTML(commentId, time, content, username, nickname, profilePicLink);
             }
         }
@@ -254,20 +249,6 @@ function getSortedComments(direction) {
     let newsId = getNewsId();
     $("#comment-box").empty()
 
-    let currentLoginUserName = $.ajax({
-        async: false,
-        url: "/api/user/me",
-        type: "GET",
-        dataType: "text"
-    }).responseText;
-
-    let profileUrl = $.ajax({
-        async: false,
-        url: `/user/profile/pic/${currentLoginUserName}`,
-        type: "GET",
-        dataType: "text"
-    }).responseText;
-
     $.ajax({
         type: "GET",
         url: `/api/user/comments/sort/${newsId}?direction=${direction}`,
@@ -280,7 +261,7 @@ function getSortedComments(direction) {
                 let content = comment.content;
                 let username = comment.profileResponseDto.username;
                 let nickname = comment.profileResponseDto.nickname;
-                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : profileUrl;
+                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
                 addHTML(commentId, time, content, username, nickname, profilePicLink);
             }
         }
