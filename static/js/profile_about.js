@@ -208,7 +208,7 @@ function getComments(){
 
 	let profileUrl = $.ajax({
 		async: false,
-		url: `/user/profile/pic/${profileUser}`,
+		url: `/api/user/profile/pic/${profileUser}`,
 		type: "GET",
 		dataType: "text"
 	}).responseText;

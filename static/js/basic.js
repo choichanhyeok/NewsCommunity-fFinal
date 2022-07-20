@@ -20,6 +20,7 @@ $(document).ready(function () {
 function refreshToken() {
 	console.log("refresh");
 	$.ajax({
+		async: false,
 		type: "GET",
 		url: '/api/token/refresh',
 		data: {},
