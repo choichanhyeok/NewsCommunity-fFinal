@@ -2,6 +2,10 @@ var id = localStorage.getItem('IllllIlIII_hid');
 var token = localStorage.getItem('les_uid');
 
 $(document).ready(function () {
+	if (token != null) {
+		alert("로그아웃을 먼저 해주세요!")
+		window.location.replace("/NewsCommunity-fFinal/index.html")
+	}
 	var csrftoken = $('meta[name=csrf-token]').attr('content')
 	$.ajaxSetup({
 		beforeSend: function (xhr, settings) {
@@ -12,29 +16,7 @@ $(document).ready(function () {
 			xhr.setRequestHeader("Authorization", "Bearer " + token);
 		}
 	});
-	refreshToken();
 })
-
-// 토큰 값 갱신
-function refreshToken() {
-	$.ajax({
-		type: "GET",
-		url: '/api/token/refresh',
-		data: {},
-		xhrFields: { withCredentials: true },
-		success: function (output, status, response) {
-			if (output == "success") {
-				token = response.getResponseHeader("token");
-				localStorage.setItem("les_uid", token)
-				window.location.href = "/NewsCommunity-fFinal/index.html"
-			}
-		},
-		error: function () {
-			localStorage.removeItem('les_uid');
-			localStorage.removeItem('IllllIlIII_hid');
-		}
-	});
-}
 
 // 회원가입 버튼, 취소 버튼 전환
 function toggleSignUp() {

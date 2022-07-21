@@ -58,15 +58,16 @@ function navIcon() {
 
 $(document).on("click", ".logout_icon", function signOut() {
 	$.ajax({
+		async: false,
 		type: "GET",
 		url: '/api/user/signout',
 		data: {},
 		xhrFields: { withCredentials: true },
-		success: function (response) {
+		success: function () {
+			localStorage.removeItem('les_uid');
+			localStorage.removeItem('IllllIlIII_hid');
+			alert('로그아웃!')
+			window.location.href = "/NewsCommunity-fFinal/index.html"
 		}
 	});
-	localStorage.removeItem('les_uid');
-	localStorage.removeItem('IllllIlIII_hid');
-	alert('로그아웃!')
-	window.location.href = "/NewsCommunity-fFinal/index.html"
 });
