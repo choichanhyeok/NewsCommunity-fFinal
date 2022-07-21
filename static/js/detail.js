@@ -32,6 +32,7 @@ const detail_listing = () =>{
         url: '/api/news/details/'+news_id,
         data: {},
         success: function (response) {
+            console.log(response)
             let newsObj = response;
             $('#news-box').empty();
             // 서버로 부터 받은 뉴스 리스트의 각 뉴스에 접근해 관련 정보를 받는다.
@@ -210,27 +211,26 @@ function getProfileUrl(username) {
 // }
 function getComments() {
     let newsId = getNewsId();
-    $('#comment-box').empty();
+    $('#comment-container').empty();
     $('#pagination').pagination({
         dataSource: `http://localhost:4993/api/comments/${newsId}`,
-        locator: 'content',
+        locator: 'items',
+        totalNumber: 120,
         alias: {
             pageNumber: 'page',
             pageSize: 'size'
-        },
-        totalNumberLocator: (response) => {
-            return response.totalElements;
         },
         pageSize: 3,
         showPrevious: true,
         showNext: true,
         ajax: {
             beforeSend: function() {
-                console.log("으아!");
+                $('#comment-box').html('댓글 불러오는 중...');
             }
         },
         callback: function(data, pagination) {
-            $('#comment-box').empty();
+            console.log(pagination);
+            $('#comment-container').empty();
             for (let i=0; i<data.length; i++) {
                 let comment = data[i];
                 let commentId = comment.commentId;
@@ -384,7 +384,7 @@ function addHTML(commentId, time, content, username, nickname, profilePicLink) {
                     </article>`;
     }
 
-    $("#comment-box").append(tempHtml);
+    $('#comment-container').append(tempHtml);
 }
 
 function showEditTextarea(commentId) {
