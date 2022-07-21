@@ -185,17 +185,54 @@ function getProfileUrl(username) {
     return profileUrl;
 }
 
-// 댓글 리스팅
+// // 댓글 리스팅
+// function getComments() {
+//     let newsId = getNewsId();
+//     $("#comment-box").empty();
+//
+//     $.ajax({
+//         type: "GET",
+//         url: `/api/user/comments/${newsId}`,
+//         success: function (response) {
+//             for (let i=0; i<response.length; i++) {
+//                 let comment = response[i];
+//                 let commentId = comment.commentId;
+//                 let modifiedDate = comment.modifiedAt;
+//                 let time = time2str(new Date(modifiedDate));
+//                 let content = comment.content;
+//                 let username = comment.profileResponseDto.username;
+//                 let nickname = comment.profileResponseDto.nickname;
+//                 let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
+//                 addHTML(commentId, time, content, username, nickname, profilePicLink);
+//             }
+//         }
+//     })
+// }
 function getComments() {
     let newsId = getNewsId();
-    $("#comment-box").empty();
-
-    $.ajax({
-        type: "GET",
-        url: `/api/user/comments/${newsId}`,
-        success: function (response) {
-            for (let i=0; i<response.length; i++) {
-                let comment = response[i];
+    $('#comment-box').empty();
+    $('#pagination').pagination({
+        dataSource: `http://localhost:4993/api/comments/${newsId}`,
+        locator: 'content',
+        alias: {
+            pageNumber: 'page',
+            pageSize: 'size'
+        },
+        totalNumberLocator: (response) => {
+            return response.totalElements;
+        },
+        pageSize: 3,
+        showPrevious: true,
+        showNext: true,
+        ajax: {
+            beforeSend: function() {
+                console.log("으아!");
+            }
+        },
+        callback: function(data, pagination) {
+            $('#comment-box').empty();
+            for (let i=0; i<data.length; i++) {
+                let comment = data[i];
                 let commentId = comment.commentId;
                 let modifiedDate = comment.modifiedAt;
                 let time = time2str(new Date(modifiedDate));
@@ -215,7 +252,7 @@ function getCommentCount() {
     $('#comment_box-head').empty();
     $.ajax({
         type: "GET",
-        url: `/api/user/comments/count/${newsId}`,
+        url: `/api/user/comments/count/${newsId}?page=0$size=3`,
         success: function (response) {
             let tempHtml = `
                 <div class="comment-head">
