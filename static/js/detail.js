@@ -192,7 +192,7 @@ function getComments() {
 
     $.ajax({
         type: "GET",
-        url: `/api/user/comments/${newsId}?page=0&size=3`,
+        url: `/api/user/comments/${newsId}`,
         success: function (response) {
             for (let i=0; i<response.length; i++) {
                 let comment = response[i];
@@ -215,7 +215,7 @@ function getCommentCount() {
     $('#comment_box-head').empty();
     $.ajax({
         type: "GET",
-        url: `/api/user/comments/count/${newsId}?page=0&size=3`,
+        url: `/api/user/comments/count/${newsId}`,
         success: function (response) {
             let tempHtml = `
                 <div class="comment-head">
