@@ -1,9 +1,32 @@
 var profileUser = location.href.split("?")[1].split("=")[1];
 
 $(document).ready(function () {
-	console.log("이 profile 주인은 바로 ~~~~: " + profileUser)
+	$('title').prepend(profileUser)
 	getProfile(profileUser)
+	getComments()
 });
+
+function time2str(date) {
+	let today = new Date();
+	let time = (today - date) / 1000 / 60  // 분
+
+	if (time < 60) {
+		return parseInt(time) + "분 전"
+	}
+	time = time / 60  // 시간
+	if (time < 24) {
+		return parseInt(time) + "시간 전"
+	}
+	time = time / 24
+	if (time < 7) {
+		return parseInt(time) + "일 전"
+	}
+	return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
+}
+
+function showEditTextarea(commentId) {
+	document.getElementById(`${commentId}-editor-container`).classList.toggle("comment-editarea");
+}
 
 // 프로필 업데이트
 $(document).on("click", "#update_profile", function updateProfile() {
@@ -11,8 +34,8 @@ $(document).on("click", "#update_profile", function updateProfile() {
 	let file = $('#input-pic')[0].files[0]
 	let about = $("#textarea-about").val()
 	let form_data = new FormData()
-	form_data.append("file", file)
 	form_data.append("name", name)
+	if(file) form_data.append("file", file)
 	form_data.append("about", about)
 	console.log(name, file, about, form_data)
 
@@ -40,23 +63,21 @@ function getProfile(username) {
 		url: `/api/user/profile/${username}`,
 		data: {},
 		success: function (response) {
-			if (response['status']) {
-				let status = response['status']
-				let link = response['link']!="default" ? response['link'] : "/static/profile_pics/profile_placeholder.png"
-				let nickname = response['profile']['nickname']
-				let picName = response['profile']['profile_pic']!="default" ? response['profile']['profile_pic'] : "기본 이미지"
-				let info = response['profile']['profile_info']!=null ? response['profile']['profile_info'] : ""
-				let img = `<img class="is-rounded" src=${link} alt="No img"/>`
-				$("#profile-pic").append(img)
-				$("#nickname").append(nickname)
-				$("#profile-info").append(info!="" ? info : "멋진 소개글을 작성해 보세요!")
-				if (status) {
-					let tempHtml = canEdit(nickname, picName, info)
-					$("#edit-area").append(tempHtml)
-				}
-			} else {
-				console.log("error");
+			let status = response['status']
+			let link = response['link']!="default" ? response['link'] : "/static/profile_pics/profile_placeholder.png"
+			let nickname = response['profile']['nickname']
+			let picName = response['profile']['profile_pic']!="default" ? response['profile']['profile_pic'] : "기본 이미지"
+			let info = response['profile']['profile_info']!=null ? response['profile']['profile_info'] : ""
+			let img = `<img class="is-rounded" src=${link} alt="No img"/>`
+			$("#profile-pic").append(img)
+			$("#nickname").append(nickname)
+			$("#profile-info").append(info!="" ? info : "멋진 소개글을 작성해 보세요!")
+			if (status) {
+				let tempHtml = canEdit(nickname, picName, info)
+				$("#edit-area").append(tempHtml)
 			}
+		}, error: function (response) {
+			console.log(response)
 		}
 	});
 }
@@ -159,27 +180,164 @@ $(document).on("click", "#file-with-js>.control>.button", function makeDefaultIm
 	fileNameContainer.textContent = '기존 이미지'
 });
 
-// 북마크 기사 가져오기
-function getPosts(user_id) {
+function getBookmark(user_id) {
 	$("#comment-box").empty()
 	$.ajax({
 		type: "GET",
-		url: `/posts_get?user_id_give=${user_id}`,
+		url: `/api/bookmarks/profiles/${user_id}`,
 		data: {},
 		success: function (response) {
-			console.log(response["msg"])
-			if (response["result"] == "success") {
-				let posts = response["posts"].reverse()
-				for (let i = 0; i < posts.length; i++) {
-					let post = posts[i]
-					let temp_html = `<div class="bookmark_post box" id="${post["post_id"]}">
-                                            <a href="/detail/${post["post_id"]}">${post["title"]}</a>
-                                        </div>`
-					$("#comment-box").append(temp_html)
-				}
+			res = response
+            let bookmarks = res.reverse()
+            for (let i = 0; i < bookmarks.length; i++) {
+                let bookmark = bookmarks[i]
+                let temp_html = `<div class="bookmark_post box" id="${bookmark["newsId"]}">
+                                        <a href="detail.html?name=${bookmark["newsId"]}">${bookmark["title"]}</a>
+                                    </div>`
+                $("#comment-box").append(temp_html)
+            }
+
+		}
+	})
+}
+
+
+// 자기가 쓴 댓글만 불러오기
+function getComments(){
+	$("#comment-box").empty()
+
+	let profileUrl = $.ajax({
+		async: false,
+		url: `/api/user/profile/pic/${profileUser}`,
+		type: "GET",
+		dataType: "text"
+	}).responseText;
+	$.ajax({
+		type: "GET",
+		url: `/api/user/comments/profile/${profileUser}`,
+		success: function (response) {
+			for (let i=0; i<response.length; i++) {
+				let comment = response[i];
+				let commentId = comment.commentId;
+				let modifiedDate = comment.modifiedAt;
+				let time = time2str(new Date(modifiedDate));
+				let content = comment.content;
+				let username = comment.profileResponseDto.username;
+				let nickname = comment.profileResponseDto.nickname;
+				let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : profileUrl;
+				addHTML(commentId, time, content, username, nickname, profilePicLink);
 			}
 		}
 	})
+}
+
+// 댓글 보여주는 HTML
+function addHTML(commentId, time, content, username, nickname, profilePicLink) {
+	let likesCount = $.ajax({
+		async: false,
+		url: `/api/user/likes/count/${commentId}`,
+		type: "GET",
+		dataType: "text"
+	}).responseText;
+
+	let loginUserId = localStorage.getItem('IllllIlIII_hid');
+	let tempHtml = ``;
+	if (loginUserId == profileUser) {
+		tempHtml = `<article class="media comment-show">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src=${profilePicLink}>
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <strong>${nickname}</strong> <small>@${username}</small> <small>${time}</small>
+                                    <br>
+                                    <span id="${commentId}-content">${content}</span>
+                                </p>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+                                    <a class="level-item">
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
+                                    </a>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="media-right">
+                            <i class="fa-solid fa-pen-to-square" onclick="showEditTextarea(${commentId})"></i>
+                            <i class="fa-solid fa-trash-can" onclick="deleteConfirm(${commentId})"></i>
+                        </div>
+                    </article>
+                    <div id="${commentId}-editor-container" class="comment-editarea">
+                        <textarea id="${commentId}-editor" class="textarea" placeholder="수정할 내용 입력">${content}</textarea>
+                        <button class="edit-btn button is-info" onclick="editComment(${commentId})">수정</button>
+                    </div>`;
+	} else {
+		tempHtml = `<article class="media comment-show">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src="${profilePicLink}" onclick="window.location.href='/NewsCommunity-fFinal/profile.html?user=${username}'">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <strong>${nickname}</strong> <small>@${username}</small> <small>${time}</small>
+                                    <br>
+                                    ${content}
+                                </p>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+                                    <a class="level-item">
+                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
+                                    </a>
+                                </div>
+                            </nav>
+                        </div>
+                    </article>`;
+	}
+	$('#comment-box').append(tempHtml);
+}
+
+function editComment(commentId) {
+	let content = $(`#${commentId}-editor`).val();
+	let data = {
+		"content": content
+	}
+
+	$.ajax({
+		type: "PUT",
+		url: `/api/user/comments/${commentId}`,
+		contentType: "application/json",
+		data: JSON.stringify(data),
+		success: function (response) {
+			alert('댓글을 수정했습니다.');
+			window.location.reload();
+		}
+	});
+}
+
+function deleteConfirm(commentId) {
+	if (confirm('정말로 삭제하시겠습니까?')) {
+		deleteComment(commentId)  // 확인 누르면 댓글 삭제
+	} else {
+		return false  // 취소 누르면 아무런 일도 일어나지 않음
+	}
+}
+
+// 댓글 삭제 함수
+function deleteComment(commentId) {
+	$.ajax({
+		type: "DELETE",
+		url: `/api/user/comments/${commentId}`,
+		success: function (response) {
+			alert('댓글 삭제에 성공하였습니다.');
+			window.location.reload();
+		}
+	});
 }
 
 // 프로필 탭
@@ -188,9 +346,9 @@ function toggleTab(type) {
 	let $li_tab = $(`#${type}`)
 	if (`${type}`=="posts") {
 		$li_tab.addClass("is-active").siblings().removeClass("is-active")
-		posts_get(now_user_id)
+		getBookmark(profileUser)
 	} else if (`${type}`=="comments") {
 		$li_tab.addClass("is-active").siblings().removeClass("is-active")
-		comments_get(now_user_id,"")
+		getComments();
 	}
 }

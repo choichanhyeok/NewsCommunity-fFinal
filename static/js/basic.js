@@ -10,16 +10,20 @@ $(document).ready(function () {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
 			xhr.setRequestHeader("Authorization", "Bearer " + token);
+		},
+		error: function (output, status, response) {
+			if (status === 403) {
+				refreshToken($.ajax(this))
+			}
 		}
 	});
-	refreshToken();
 	navIcon()
 })
 
 // 토큰 값 갱신
-function refreshToken() {
-	console.log("refresh");
+function refreshToken(a) {
 	$.ajax({
+		async: false,
 		type: "GET",
 		url: '/api/token/refresh',
 		data: {},
@@ -27,7 +31,8 @@ function refreshToken() {
 		success: function (output, status, response) {
 			if (output == "success") {
 				token = response.getResponseHeader("token");
-				localStorage.setItem("les_uid", token)
+				localStorage.setItem("les_uid", token);
+				setTimeout(a, 500);
 			}
 		}
 	});
@@ -53,15 +58,16 @@ function navIcon() {
 
 $(document).on("click", ".logout_icon", function signOut() {
 	$.ajax({
+		async: false,
 		type: "GET",
 		url: '/api/user/signout',
 		data: {},
 		xhrFields: { withCredentials: true },
-		success: function (response) {
+		success: function () {
+			localStorage.removeItem('les_uid');
+			localStorage.removeItem('IllllIlIII_hid');
+			alert('로그아웃!')
+			window.location.href = "/NewsCommunity-fFinal/index.html"
 		}
 	});
-	localStorage.removeItem('les_uid');
-	localStorage.removeItem('IllllIlIII_hid');
-	alert('로그아웃!')
-	window.location.href = "/NewsCommunity-fFinal/index.html"
 });
