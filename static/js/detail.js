@@ -7,6 +7,7 @@ $(document).ready(function () {
   getComments();
   getCommentCount();
   addView();
+  commentTextAreaControl();
 });
 
 
@@ -79,6 +80,13 @@ const detail_listing = () =>{
 String.replaceAll = function(search, replacement) {
     return this.split(search).join(replacement);
 };
+
+function commentTextAreaControl() {
+    let loginUserId = localStorage.getItem('IllllIlIII_hid');
+    if (loginUserId == null) {
+        $('#editArea').empty();
+    }
+}
 
 // 현재 보고 있는 뉴스의 아이디(PK)를 얻는 함수
 function getNewsId() {
@@ -184,7 +192,7 @@ function getComments() {
 
     $.ajax({
         type: "GET",
-        url: `/api/user/comments/${newsId}`,
+        url: `/api/user/comments/${newsId}?page=0&size=3`,
         success: function (response) {
             for (let i=0; i<response.length; i++) {
                 let comment = response[i];
@@ -207,7 +215,7 @@ function getCommentCount() {
     $('#comment_box-head').empty();
     $.ajax({
         type: "GET",
-        url: `/api/user/comments/count/${newsId}`,
+        url: `/api/user/comments/count/${newsId}?page=0&size=3`,
         success: function (response) {
             let tempHtml = `
                 <div class="comment-head">
