@@ -136,7 +136,7 @@ function signUp() {
 		},
 		success: function () {
 			alert("회원가입을 축하드립니다!")
-			window.location.replace("/login")
+			window.location.replace("/NewsCommunity-fFinal/login.html")
 		}
 	});
 }
