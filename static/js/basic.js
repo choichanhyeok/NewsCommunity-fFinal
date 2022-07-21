@@ -58,6 +58,7 @@ function navIcon() {
 
 $(document).on("click", ".logout_icon", function signOut() {
 	$.ajax({
+		async: false,
 		type: "GET",
 		url: '/api/user/signout',
 		data: {},
