@@ -115,6 +115,15 @@ function deleteContent(contentIdx,countedTime){
     }
 }
 
+function timeCalculate(createdTime){
+    let now = new Date();
+    let createdAt = new Date(createdTime);
+
+    let nowToCreate = now.getTime() - createdAt.getTime();
+    nowToCreate = parseInt(nowToCreate) / 1000;
+    return nowToCreate;
+}
+
 let defaultURLforGetList = '/api/supports'
 function convertList(){
     let currentUrl = defaultURLforGetList;
