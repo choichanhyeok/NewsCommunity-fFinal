@@ -7,6 +7,7 @@ $(document).ready(function () {
   getComments();
   getCommentCount();
   addView();
+  commentTextAreaControl();
 });
 
 
@@ -79,6 +80,13 @@ const detail_listing = () =>{
 String.replaceAll = function(search, replacement) {
     return this.split(search).join(replacement);
 };
+
+function commentTextAreaControl() {
+    let loginUserId = localStorage.getItem('IllllIlIII_hid');
+    if (loginUserId == null) {
+        $('#editArea').empty();
+    }
+}
 
 // 현재 보고 있는 뉴스의 아이디(PK)를 얻는 함수
 function getNewsId() {
