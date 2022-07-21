@@ -77,7 +77,6 @@ function editContent(contentIdx, countedTime) {
             $(setContentsID).attr("readonly", true);
             let contents = $(setContentsID).val();
             let data = {"post_content": contents};
-            console.log(data)
             $.ajax({
                 type: "PUT",
                 url: `/api/user/supports/${contentIdx}`,
@@ -114,6 +113,15 @@ function deleteContent(contentIdx,countedTime){
     }else{
         alert("권한이 없습니다.")
     }
+}
+
+function timeCalculate(createdTime){
+    let now = new Date();
+    let createdAt = new Date(createdTime);
+
+    let nowToCreate = now.getTime() - createdAt.getTime();
+    nowToCreate = parseInt(nowToCreate) / 1000;
+    return nowToCreate;
 }
 
 let defaultURLforGetList = '/api/supports'
