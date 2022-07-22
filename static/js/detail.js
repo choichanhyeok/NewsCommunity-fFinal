@@ -240,7 +240,8 @@ function getComments() {
                 let username = comment.profileResponseDto.username;
                 let nickname = comment.profileResponseDto.nickname;
                 let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
-                addHTML(commentId, time, content, username, nickname, profilePicLink);
+                let commentLike = comment.like ? 'fa-heart' : 'fa-heart-o'
+                addHTML(commentId, time, content, username, nickname, profilePicLink, commentLike);
             }
         }
     })
@@ -313,7 +314,7 @@ function getSortedComments(direction) {
     })
 }
 
-function addHTML(commentId, time, content, username, nickname, profilePicLink) {
+function addHTML(commentId, time, content, username, nickname, profilePicLink, commentLike) {
 
     let loginUserId = localStorage.getItem('IllllIlIII_hid');
 
@@ -344,7 +345,7 @@ function addHTML(commentId, time, content, username, nickname, profilePicLink) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
+                                        <span class="heart icon is-small"><i id="${commentId}-heart" onclick="updateLike(${commentId})" class="fa ${commentLike}"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
                                     </a>
                                 </div>
                             </nav>
@@ -376,7 +377,7 @@ function addHTML(commentId, time, content, username, nickname, profilePicLink) {
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
+                                        <span class="heart icon is-small"><i id="${commentId}-heart" onclick="updateLike(${commentId})" class="fa ${commentLike}"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
                                     </a>
                                 </div>
                             </nav>
@@ -449,6 +450,15 @@ function updateLike(commentId) {
                 }).responseText;
                 $(`.${commentId}-like-number`).empty();
                 $(`.${commentId}-like-number`).append(likesCount);
+                if(likesCount++) {
+                    $(`#${commentId}-heart`).removeClass('fa-heart-o');
+                    $(`#${commentId}-heart`).addClass('fa-heart');
+                } else if(likesCount--) {
+                    if($(`#${commentId}-heart`).hasClass('fa-heart')) {
+                        $(`#${commentId}-heart`).removeClass('fa-heart')
+                        $(`#${commentId}-heart`).addClass('fa-heart-o');
+                    }
+                }
             }
         })
 }

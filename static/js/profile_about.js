@@ -266,14 +266,16 @@ function getComments() {
 				let username = comment.profileResponseDto.username;
 				let nickname = comment.profileResponseDto.nickname;
 				let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : profileUrl;
-				addHTML(commentId, time, content, username, nickname, profilePicLink);
+				let commentLike = comment.like ? 'fa-heart' : 'fa-heart-o'
+				console.log(commentLike)
+				addHTML(commentId, time, content, username, nickname, profilePicLink, commentLike);
 			}
 		}
 	})
 }
 
 // 댓글 보여주는 HTML
-function addHTML(commentId, time, content, username, nickname, profilePicLink) {
+function addHTML(commentId, time, content, username, nickname, profilePicLink, commentLike) {
 	let likesCount = $.ajax({
 		async: false,
 		url: `/api/user/likes/count/${commentId}`,
@@ -299,9 +301,9 @@ function addHTML(commentId, time, content, username, nickname, profilePicLink) {
                                 </p>
                             </div>
                             <nav class="level is-mobile">
-                                <div class="level-left">
+                                <div  class="level-left">
                                     <a class="level-item">
-                                        <span class="heart icon is-small"><i onclick="updateLike(${commentId})" class="fa fa-heart-o"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
+                                        <span class="heart icon is-small"><i class="fa ${commentLike}"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
                                     </a>
                                 </div>
                             </nav>
