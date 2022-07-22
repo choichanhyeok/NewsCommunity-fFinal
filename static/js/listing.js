@@ -25,7 +25,7 @@ const listing = () => {
                                             <img class="card-image-box" src=${imageUrl}
                                                  class="card-img-top">
                                             <div class="card-body">
-                                                <a href="/NewsCommunity-fFinal/detail.html?name=${postId}"><h5 class="card-title">${title}</h5></a>
+                                                <a href="detail.html?name=${postId}"><h5 class="card-title">${title}</h5></a>
                                                 <p class="card-text">${contents}</p>
                                                 <p class="view">조회수: ${view}</p>
                                             </div>

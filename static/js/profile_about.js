@@ -240,7 +240,7 @@ function getComments() {
 	}).responseText;
 
 	$('#pagination').pagination({
-		dataSource: `http://localhost:4993/api/comments/profile/${profileUser}`,
+		dataSource: `https://www.chanhyeoking.com/api/comments/profile/${profileUser}`,
 		locator: 'items',
 		totalNumber: 120,
 		alias: {
@@ -321,7 +321,7 @@ function addHTML(commentId, time, content, username, nickname, profilePicLink, c
 		tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">
-                                <img src="${profilePicLink}" onclick="window.location.href='/NewsCommunity-fFinal/profile.html?user=${username}'">
+                                <img src="${profilePicLink}" onclick="window.location.href='profile.html?user=${username}'">
                             </p>
                         </figure>
                         <div class="media-content">
