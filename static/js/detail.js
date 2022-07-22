@@ -182,6 +182,7 @@ function getProfileUrl(username) {
 function getComments() {
     let newsId = getNewsId();
 	let loginUserId = localStorage.getItem('IllllIlIII_hid');
+	if (loginUserId==null) loginUserId = "="
 	$('#comment-container').empty();
     $('#pagination').pagination({
         dataSource: `https://www.chanhyeoking.com/api/comments/${newsId}/${loginUserId}`,

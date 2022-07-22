@@ -208,6 +208,7 @@ function getComments() {
 		dataType: "text"
 	}).responseText;
 	let loginUserId = localStorage.getItem('IllllIlIII_hid');
+	if (loginUserId==null) loginUserId = "="
 	$('#pagination').pagination({
 		dataSource: `https://www.chanhyeoking.com/api/comments/profile/${profileUser}/${loginUserId}`,
 		locator: 'items',
