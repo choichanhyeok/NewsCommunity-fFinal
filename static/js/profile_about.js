@@ -300,7 +300,7 @@ function addHTML(commentId, time, content, username, nickname, profilePicLink, c
                                     <span id="${commentId}-content">${content}</span>
                                 </p>
                             </div>
-                            <nav class="level is-mobile">
+                            <nav id ="like-heart" class="level is-mobile">
                                 <div  class="level-left">
                                     <a class="level-item">
                                         <span class="heart icon is-small"><i class="fa ${commentLike}"></i></span><span class="${commentId}-like-number like-count">${likesCount}</span>
