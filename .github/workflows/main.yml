@@ -2,7 +2,7 @@ name: NewsCommunity -fFinal2
 on:
   push:
     branches:
-      - develop
+      - deploy_2022-07-22
 jobs:
   build:
     runs-on: ubuntu-latest
