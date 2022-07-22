@@ -43,28 +43,7 @@
 </nav>
 
 <div class="news_wrap box fixed" id = "news-box">
-    <div class="news_title title"><h4>{{ post.title }}</h4></div>
-    <div class="news_time level-left">
-        <small>{{ post.write_time }}</small>
-    </div>
-    <div class="news_icon level-right">
-        <div class="news_url level-item">
-            <a href="{{ post.news_url }}" target="_blank">
-                <span class="icon is-small"><i class="icon_ fa-solid fa-link"></i></span>
-            </a>
-        </div>
-        <div id="bookmark" class="bookmark level-item">
-            <div id="{{ post.post_id }}">
-                <a class="is-sparta" aria-label="bookmark"
-                   onclick="toggle_bookmark({{ post.post_id }})">
-                                                <span class="icon is-small"><i class="icon_ fa fa-solid fa-bookmark-o"
-                                                                               aria-hidden="true"></i></span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <span class="news_photo"><img src="{{ post.image_url }}" alt="Image"></span>
-    <div class="news_summary" style="white-space: pre-line">{{ post.summary|safe }}</div>
+
 </div>
 
 
@@ -97,63 +76,11 @@
 
 <section class="section">
     <div id="comment_box-head" class="comment_box_head fixed level">
-<!--        <div id="comment-count-box" class="comments_count level-left">-->
-<!--            <p class="subtitle is-5">-->
-<!--                <strong>${response}</strong>-->
-<!--            </p>-->
-<!--            <small style="margin-bottom: 1rem">&nbsp;comments</small>`-->
-<!--        </div>-->
 
-<!--        <div class="dropdown is-right is-hoverable level-right">-->
-<!--            <div class="dropdown-trigger">-->
-<!--                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">-->
-<!--                    <span id="sort_comments_txt">댓글 정렬</span>-->
-<!--                    <span class="icon is-small">-->
-<!--                        <i class="fas fa-angle-down" aria-hidden="true"></i>-->
-<!--                    </span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div class="dropdown-menu" id="dropdown-menu3" role="menu">-->
-<!--                <div class="dropdown-content">-->
-<!--                    <a class="dropdown-item" onclick="getSortedCommentsDesc()">-->
-<!--                        최신 순-->
-<!--                    </a>-->
-<!--                    <a class="dropdown-item" onclick="getSortedCommentsAsc()">-->
-<!--                        오래된 순-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
     <div id="pagination" class="pagination"></div>
     <div id="comment-container" class="container fixed">
-        <article class="media">
-            <figure class="media-left">
-                <p class="image is-64x64">
-                    <img src="https://bulma.io/images/placeholders/128x128.png">
-                </p>
-            </figure>
-            <div class="media-content">
-                <div class="content">
-                    <p>
-                        <strong>nickname</strong> <small>username</small> <small>time</small>
-                        <br>
-                        <span id="1-content">content</span>
-                    </p>
-                </div>
-                <nav class="level is-mobile">
-                    <div class="level-left">
-                        <a class="level-item">
-                            <span class="heart icon is-small"><i class="fa fa-heart-o"></i></span>
-                        </a>
-                    </div>
-                </nav>
-            </div>
-            <div class="media-right">
-                <i class="fa-solid fa-pen-to-square" onclick="showEditTextarea(1)"></i>
-                <i class="fa-solid fa-trash-can" onclick="deleteConfirm(1)"></i>
-            </div>
-        </article>
+
     </div>
 </section>
 

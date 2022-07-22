@@ -151,8 +151,6 @@ function signIn() {
 		},
 		xhrFields: { withCredentials: true },
 		success: function (output,status,response) {
-
-			console.log("test")
 			if (output == "success") {
 				token = response.getResponseHeader("token");
 				id = atob(response.getResponseHeader("username"));

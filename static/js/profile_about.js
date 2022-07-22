@@ -37,7 +37,6 @@ $(document).on("click", "#update_profile", function updateProfile() {
 	form_data.append("name", name)
 	if(file) form_data.append("file", file)
 	form_data.append("about", about)
-	console.log(name, file, about, form_data)
 
 	$.ajax({
 		type: "POST",
@@ -170,7 +169,6 @@ $(document).on("change", "#file-with-js>.file-label>.file-input", function chang
 // 이미지 삭제 후 파일 이름 기존 이미지 처리
 $(document).on("click", "#file-with-js>.control>.button", function makeDefaultImgNm(){
 	document.getElementById("input-pic").value=null;
-	console.log(document.getElementById("input-pic").value)
 	var fileNameContainer =
 		document.querySelector(
 			"#file-with-js>.file-label>.file-name"
@@ -201,35 +199,6 @@ function getBookmark(user_id) {
 	})
 }
 
-
-// 자기가 쓴 댓글만 불러오기
-// function getComments(){
-// 	$("#comment-box").empty()
-//
-// 	let profileUrl = $.ajax({
-// 		async: false,
-// 		url: `/api/user/profile/pic/${profileUser}`,
-// 		type: "GET",
-// 		dataType: "text"
-// 	}).responseText;
-// 	$.ajax({
-// 		type: "GET",
-// 		url: `/api/user/comments/profile/${profileUser}`,
-// 		success: function (response) {
-// 			for (let i=0; i<response.length; i++) {
-// 				let comment = response[i];
-// 				let commentId = comment.commentId;
-// 				let modifiedDate = comment.modifiedAt;
-// 				let time = time2str(new Date(modifiedDate));
-// 				let content = comment.content;
-// 				let username = comment.profileResponseDto.username;
-// 				let nickname = comment.profileResponseDto.nickname;
-// 				let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : profileUrl;
-// 				addHTML(commentId, time, content, username, nickname, profilePicLink);
-// 			}
-// 		}
-// 	})
-// }
 function getComments() {
 	$("#comment-box").empty();
 	let profileUrl = $.ajax({
@@ -238,18 +207,22 @@ function getComments() {
 		type: "GET",
 		dataType: "text"
 	}).responseText;
-
+	let loginUserId = localStorage.getItem('IllllIlIII_hid');
 	$('#pagination').pagination({
-		dataSource: `https://www.chanhyeoking.com/api/comments/profile/${profileUser}`,
+		dataSource: `https://www.chanhyeoking.com/api/comments/profile/${profileUser}/${loginUserId}`,
 		locator: 'items',
 		totalNumber: 120,
 		alias: {
 			pageNumber: 'page',
 			pageSize: 'size'
 		},
-		pageSize: 3,
+		showLastOnEllipsisShow: false,
+		autoHidePrevious: true,
+		autoHideNext: true,
+		pageSize: 5,
 		showPrevious: true,
 		showNext: true,
+		showLast: false,
 		ajax: {
 			beforeSend: function() {
 				$('#comment-box').html('댓글 불러오는 중...');
@@ -267,7 +240,6 @@ function getComments() {
 				let nickname = comment.profileResponseDto.nickname;
 				let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : profileUrl;
 				let commentLike = comment.like ? 'fa-heart' : 'fa-heart-o'
-				console.log(commentLike)
 				addHTML(commentId, time, content, username, nickname, profilePicLink, commentLike);
 			}
 		}
@@ -385,7 +357,6 @@ function deleteComment(commentId) {
 
 // 프로필 탭
 function toggleTab(type) {
-	console.log(type)
 	let $li_tab = $(`#${type}`)
 	if (`${type}`=="posts") {
 		$li_tab.addClass("is-active").siblings().removeClass("is-active")
