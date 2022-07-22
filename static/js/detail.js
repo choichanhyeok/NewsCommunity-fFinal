@@ -181,18 +181,23 @@ function getProfileUrl(username) {
 
 function getComments() {
     let newsId = getNewsId();
-    $('#comment-container').empty();
+	let loginUserId = localStorage.getItem('IllllIlIII_hid');
+	$('#comment-container').empty();
     $('#pagination').pagination({
-        dataSource: `https://www.chanhyeoking.com/api/comments/${newsId}`,
+        dataSource: `https://www.chanhyeoking.com/api/comments/${newsId}/${loginUserId}`,
         locator: 'items',
         totalNumber: 120,
         alias: {
             pageNumber: 'page',
             pageSize: 'size'
         },
-        pageSize: 3,
+	    showLastOnEllipsisShow: false,
+	    autoHidePrevious: true,
+	    autoHideNext: true,
+        pageSize: 5,
         showPrevious: true,
         showNext: true,
+	    showLast: false,
         ajax: {
             beforeSend: function() {
                 $('#comment-container').html('댓글 불러오는 중...');
@@ -262,8 +267,7 @@ function getCommentCount() {
 // 댓글 정렬
 function getSortedComments(direction) {
     let newsId = getNewsId();
-    $("#comment-box").empty()
-
+    $("#comment-container").empty()
     $.ajax({
         type: "GET",
         url: `/api/user/comments/sort/${newsId}?direction=${direction}`,

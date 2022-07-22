@@ -207,18 +207,22 @@ function getComments() {
 		type: "GET",
 		dataType: "text"
 	}).responseText;
-
+	let loginUserId = localStorage.getItem('IllllIlIII_hid');
 	$('#pagination').pagination({
-		dataSource: `https://www.chanhyeoking.com/api/comments/profile/${profileUser}`,
+		dataSource: `https://www.chanhyeoking.com/api/comments/profile/${profileUser}/${loginUserId}`,
 		locator: 'items',
 		totalNumber: 120,
 		alias: {
 			pageNumber: 'page',
 			pageSize: 'size'
 		},
-		pageSize: 3,
+		showLastOnEllipsisShow: false,
+		autoHidePrevious: true,
+		autoHideNext: true,
+		pageSize: 5,
 		showPrevious: true,
 		showNext: true,
+		showLast: false,
 		ajax: {
 			beforeSend: function() {
 				$('#comment-box').html('댓글 불러오는 중...');
