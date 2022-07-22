@@ -33,6 +33,8 @@ function refreshToken(a) {
 			if (output == "success") {
 				token = response.getResponseHeader("token");
 				localStorage.setItem("les_uid", token);
+				id = atob(response.getResponseHeader("username"));
+				localStorage.setItem("IllllIlIII_hid",id)
 				setTimeout(a, 500);
 			}
 		},
