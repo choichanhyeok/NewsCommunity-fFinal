@@ -143,12 +143,14 @@ function convertList(){
 
 
 function getList() {
-    let getToken = localStorage.getItem('IllllIlIII_hid');
-    if (getToken != null){
+    let getUserID = localStorage.getItem('IllllIlIII_hid');
+    let buttonToggle = '';
+    if (getUserID != null){
         $('.onlymine_btn').show();
     }else {
         $('.onlymine_btn').hide();
     }
+
     $.ajax({
         url: defaultURLforGetList,
         type: 'GET',
@@ -166,6 +168,9 @@ function getList() {
                 let createdYYMMDD = getCreatedAt.slice(0, 10);
                 let createdWithTime = getCreatedAt.slice(0, 10) + ' ' + getCreatedAt.slice(11, 19);
 
+                if (getUserID != getUsername){
+                    buttonToggle = 'none';
+                }
                 let myhtml = `
                             <tr class="tr_title" onclick="toggleMyId(${idx})">
                                 <th scope="row">${idx}</th>
@@ -178,7 +183,7 @@ function getList() {
                                     <div >
                                         <div class="content_btn_div" style="display: flex; justify-items: right;">
                                             <div class="content_btn_sub_div" style="margin-left: auto; padding-bottom: 10px;">
-                                                <button onclick="deleteContent(${idx}, ${calculatedTime})" type="button" class="submit_btn btn btn-light">게시글 삭제하기</button>
+                                                <button onclick="deleteContent(${idx}, ${calculatedTime})" type="button" class="submit_btn btn btn-light" style="display: ${buttonToggle}">게시글 삭제하기</button>
                                             </div>
                                         </div>
                                         <div class="input-group mb-3" >
@@ -194,16 +199,15 @@ function getList() {
 
                                         <div class="content_btn_div" style="display: flex; justify-items: right;">
                                             <div class="content_btn_sub_div" style="margin-left: auto;">
-                                                <button onclick="editContent(${idx}, ${calculatedTime})" id ="edit_btn-${idx}"type="button" class="btn btn-light">수정</button>
+                                                <button onclick="editContent(${idx}, ${calculatedTime})" id ="edit_btn-${idx}"type="button" class="btn btn-light " style="display: ${buttonToggle}" >수정</button>
                                                 <button onclick="toggleMyId(${idx})" type="button" class="submit_btn btn btn-light">닫기</button>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </td>
                             </tr>;`
                 $('#table_body').append(myhtml);
+
             }
 
         },
@@ -211,5 +215,6 @@ function getList() {
             console.log(e);
         }
     });
+
 
 }
