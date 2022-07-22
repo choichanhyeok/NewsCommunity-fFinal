@@ -213,7 +213,7 @@ function getComments() {
     let newsId = getNewsId();
     $('#comment-container').empty();
     $('#pagination').pagination({
-        dataSource: `http://localhost:4993/api/comments/${newsId}`,
+        dataSource: `https://www.chanhyeoking.com/api/comments/${newsId}`,
         locator: 'items',
         totalNumber: 120,
         alias: {
