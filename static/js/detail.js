@@ -330,7 +330,7 @@ function addHTML(commentId, time, content, username, nickname, profilePicLink) {
         tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">
-                                <img src="${profilePicLink}" onclick="window.location.href='/NewsCommunity-fFinal/profile.html?user=${username}'">
+                                <img class="profile-image" src="${profilePicLink}" onclick="window.location.href='/NewsCommunity-fFinal/profile.html?user=${username}'">
                             </p>
                         </figure>
                         <div class="media-content">
@@ -362,7 +362,7 @@ function addHTML(commentId, time, content, username, nickname, profilePicLink) {
         tempHtml = `<article class="media comment-show">
                         <figure class="media-left">
                             <p class="image is-64x64">
-                                <img src="${profilePicLink}" onclick="window.location.href='/NewsCommunity-fFinal/profile.html?user=${username}'">
+                                <img class="profile-image" src="${profilePicLink}" onclick="window.location.href='/NewsCommunity-fFinal/profile.html?user=${username}'">
                             </p>
                         </figure>
                         <div class="media-content">
