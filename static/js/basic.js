@@ -9,7 +9,7 @@ $(document).ready(function () {
 			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
-			xhr.setRequestHeader("Authorization", "Bearer " + token);
+			if (token != null) xhr.setRequestHeader("Authorization", "Bearer " + token)
 		},
 		error: function (output, status, response) {
 			if (status === 403) {
