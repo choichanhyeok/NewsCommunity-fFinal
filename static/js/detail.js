@@ -225,7 +225,7 @@ function getComments() {
         showNext: true,
         ajax: {
             beforeSend: function() {
-                $('#comment-box').html('댓글 불러오는 중...');
+                $('#comment-container').html('댓글 불러오는 중...');
             }
         },
         callback: function(data, pagination) {
