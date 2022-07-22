@@ -80,3 +80,7 @@ input::-webkit-calendar-picker-indicator {
 .paging-controller {
     display: none;
 }
+
+#like-heart {
+    pointer-events: none;
+}
