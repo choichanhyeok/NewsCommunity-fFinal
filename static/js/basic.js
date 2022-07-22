@@ -34,6 +34,12 @@ function refreshToken(a) {
 				localStorage.setItem("les_uid", token);
 				setTimeout(a, 500);
 			}
+		},
+		error: function () {
+			localStorage.removeItem('les_uid');
+			localStorage.removeItem('IllllIlIII_hid');
+			alert("재로그인 해주세요!")
+			window.location.href = "/NewsCommunity-fFinal/login.html"
 		}
 	});
 }
@@ -64,10 +70,16 @@ $(document).on("click", ".logout_icon", function signOut() {
 		data: {},
 		xhrFields: { withCredentials: true },
 		success: function () {
-			localStorage.removeItem('les_uid');
-			localStorage.removeItem('IllllIlIII_hid');
-			alert('로그아웃!')
-			window.location.href = "/NewsCommunity-fFinal/index.html"
+			afterSignOut()
+		}, error: function () {
+			afterSignOut()
 		}
 	});
 });
+
+function afterSignOut() {
+	localStorage.removeItem('les_uid');
+	localStorage.removeItem('IllllIlIII_hid');
+	alert('로그아웃!')
+	window.location.href = "/NewsCommunity-fFinal/index.html"
+}
