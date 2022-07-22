@@ -179,7 +179,7 @@ function num2str(count) {
 function getProfileUrl(username) {
     let profileUrl = $.ajax({
         async: false,
-        url: `/user/profile/pic/${username}`,
+        url: `/api/user/profile/pic/${username}`,
         type: "GET",
         dataType: "text"
     }).responseText;
