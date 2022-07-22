@@ -34,6 +34,12 @@ function refreshToken(a) {
 				localStorage.setItem("les_uid", token);
 				setTimeout(a, 500);
 			}
+		},
+		error: function () {
+			localStorage.removeItem('les_uid');
+			localStorage.removeItem('IllllIlIII_hid');
+			alert("재로그인 해주세요!")
+			window.location.href = "/NewsCommunity-fFinal/login.html"
 		}
 	});
 }
