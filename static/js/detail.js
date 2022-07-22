@@ -32,6 +32,7 @@ const detail_listing = () =>{
         url: '/api/news/details/'+news_id,
         data: {},
         success: function (response) {
+            console.log(response)
             let newsObj = response;
             $('#news-box').empty();
             // 서버로 부터 받은 뉴스 리스트의 각 뉴스에 접근해 관련 정보를 받는다.
@@ -185,17 +186,53 @@ function getProfileUrl(username) {
     return profileUrl;
 }
 
-// 댓글 리스팅
+// // 댓글 리스팅
+// function getComments() {
+//     let newsId = getNewsId();
+//     $("#comment-box").empty();
+//
+//     $.ajax({
+//         type: "GET",
+//         url: `/api/user/comments/${newsId}`,
+//         success: function (response) {
+//             for (let i=0; i<response.length; i++) {
+//                 let comment = response[i];
+//                 let commentId = comment.commentId;
+//                 let modifiedDate = comment.modifiedAt;
+//                 let time = time2str(new Date(modifiedDate));
+//                 let content = comment.content;
+//                 let username = comment.profileResponseDto.username;
+//                 let nickname = comment.profileResponseDto.nickname;
+//                 let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
+//                 addHTML(commentId, time, content, username, nickname, profilePicLink);
+//             }
+//         }
+//     })
+// }
 function getComments() {
     let newsId = getNewsId();
-    $("#comment-box").empty();
-
-    $.ajax({
-        type: "GET",
-        url: `/api/user/comments/${newsId}`,
-        success: function (response) {
-            for (let i=0; i<response.length; i++) {
-                let comment = response[i];
+    $('#comment-container').empty();
+    $('#pagination').pagination({
+        dataSource: `http://localhost:4993/api/comments/${newsId}`,
+        locator: 'items',
+        totalNumber: 120,
+        alias: {
+            pageNumber: 'page',
+            pageSize: 'size'
+        },
+        pageSize: 3,
+        showPrevious: true,
+        showNext: true,
+        ajax: {
+            beforeSend: function() {
+                $('#comment-container').html('댓글 불러오는 중...');
+            }
+        },
+        callback: function(data, pagination) {
+            console.log(pagination);
+            $('#comment-container').empty();
+            for (let i=0; i<data.length; i++) {
+                let comment = data[i];
                 let commentId = comment.commentId;
                 let modifiedDate = comment.modifiedAt;
                 let time = time2str(new Date(modifiedDate));
@@ -215,7 +252,7 @@ function getCommentCount() {
     $('#comment_box-head').empty();
     $.ajax({
         type: "GET",
-        url: `/api/user/comments/count/${newsId}`,
+        url: `/api/user/comments/count/${newsId}?page=0$size=3`,
         success: function (response) {
             let tempHtml = `
                 <div class="comment-head">
@@ -347,7 +384,7 @@ function addHTML(commentId, time, content, username, nickname, profilePicLink) {
                     </article>`;
     }
 
-    $("#comment-box").append(tempHtml);
+    $('#comment-container').append(tempHtml);
 }
 
 function showEditTextarea(commentId) {
