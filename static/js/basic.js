@@ -11,9 +11,10 @@ $(document).ready(function () {
 			}
 			if (token != null) xhr.setRequestHeader("Authorization", "Bearer " + token)
 		},
-		error: function (output, status, response) {
-			if (status === 403) {
+		error: function (output) {
+			if (output['status'] == 403) {
 				refreshToken($.ajax(this))
+				window.location.reload();
 			}
 		}
 	});
@@ -32,6 +33,8 @@ function refreshToken(a) {
 			if (output == "success") {
 				token = response.getResponseHeader("token");
 				localStorage.setItem("les_uid", token);
+				id = atob(response.getResponseHeader("username"));
+				localStorage.setItem("IllllIlIII_hid",id)
 				setTimeout(a, 500);
 			}
 		},
