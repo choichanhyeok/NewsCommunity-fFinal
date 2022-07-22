@@ -388,8 +388,11 @@ function toggleTab(type) {
 	if (`${type}`=="posts") {
 		$li_tab.addClass("is-active").siblings().removeClass("is-active")
 		getBookmark(profileUser)
+		$('#pagination').addClass("paging-controller")
+
 	} else if (`${type}`=="comments") {
 		$li_tab.addClass("is-active").siblings().removeClass("is-active")
 		getComments();
+		$('#pagination').removeClass("paging-controller")
 	}
 }
