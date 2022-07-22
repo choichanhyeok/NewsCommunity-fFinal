@@ -2,7 +2,6 @@ const DESC = "DESC";
 const ASC = "ASC";
 
 $(document).ready(function () {
-  console.log("start!!!!")
   detail_listing();
   getComments();
   getCommentCount();
@@ -24,15 +23,11 @@ function addView() {
 
 const detail_listing = () =>{
     let news_id = location.href.split("?")[1].split("=")[1];
-    console.log("test!!!")
-    console.log("이 뉴스의 id는 바로 ~~~~: " + news_id)
-
     $.ajax({
         type: 'GET',
         url: '/api/news/details/'+news_id,
         data: {},
         success: function (response) {
-            console.log(response)
             let newsObj = response;
             $('#news-box').empty();
             // 서버로 부터 받은 뉴스 리스트의 각 뉴스에 접근해 관련 정보를 받는다.
@@ -42,8 +37,6 @@ const detail_listing = () =>{
             let newsUrl = newsObj['news_url']
             let imageUrl = newsObj['image_url'];
             let writeTime = newsObj['write_time']
-            console.log(writeTime)
-            console.log(title)
             let view = newsObj['view']
             // 받아온 정보를 토대로 card-box html을 구성해준다.
             let html_data = `<div class="news_title title" id = "news_title"><h4>${title}</h4></div>
@@ -186,29 +179,6 @@ function getProfileUrl(username) {
     return profileUrl;
 }
 
-// // 댓글 리스팅
-// function getComments() {
-//     let newsId = getNewsId();
-//     $("#comment-box").empty();
-//
-//     $.ajax({
-//         type: "GET",
-//         url: `/api/user/comments/${newsId}`,
-//         success: function (response) {
-//             for (let i=0; i<response.length; i++) {
-//                 let comment = response[i];
-//                 let commentId = comment.commentId;
-//                 let modifiedDate = comment.modifiedAt;
-//                 let time = time2str(new Date(modifiedDate));
-//                 let content = comment.content;
-//                 let username = comment.profileResponseDto.username;
-//                 let nickname = comment.profileResponseDto.nickname;
-//                 let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
-//                 addHTML(commentId, time, content, username, nickname, profilePicLink);
-//             }
-//         }
-//     })
-// }
 function getComments() {
     let newsId = getNewsId();
     $('#comment-container').empty();
@@ -229,7 +199,6 @@ function getComments() {
             }
         },
         callback: function(data, pagination) {
-            console.log(pagination);
             $('#comment-container').empty();
             for (let i=0; i<data.length; i++) {
                 let comment = data[i];
@@ -475,7 +444,6 @@ function bookmarked() {
         async: false,
         success: function (response) {
             let bookmark_by_me = response
-            console.log(bookmark_by_me)
             let icon = bookmark_by_me ? "fa-bookmark" : "fa-bookmark-o"
             let temp_html = `<div id="${newsId}" class="bookmark">
                                 <a class="level-item is-sparta" aria-label="bookmark"
@@ -498,7 +466,6 @@ function toggleBookmark(post_id) {
     let data = {'newsId': post_id,
                 'userId': userName,
                 'title': title}
-    console.log(title)
     if ($i_bookmark.hasClass("fa-bookmark")) {
         $.ajax({
             type: "DELETE",
