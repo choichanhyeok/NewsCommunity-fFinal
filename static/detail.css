@@ -168,3 +168,7 @@
 .dropdown {
     margin-left: 500px;
 }
+
+.profile-image {
+    cursor: pointer;
+}
