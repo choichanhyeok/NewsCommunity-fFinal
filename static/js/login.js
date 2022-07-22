@@ -4,7 +4,7 @@ var token = localStorage.getItem('les_uid');
 $(document).ready(function () {
 	if (token != null) {
 		alert("로그아웃을 먼저 해주세요!")
-		window.location.replace("/NewsCommunity-fFinal/index.html")
+		window.location.replace("index.html")
 	}
 	var csrftoken = $('meta[name=csrf-token]').attr('content')
 	$.ajaxSetup({
@@ -118,7 +118,7 @@ function signUp() {
 		},
 		success: function () {
 			alert("회원가입을 축하드립니다!")
-			window.location.replace("/NewsCommunity-fFinal/login.html")
+			window.location.replace("login.html")
 		}
 	});
 }
