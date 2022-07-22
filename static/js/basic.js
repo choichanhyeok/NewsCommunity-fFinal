@@ -11,9 +11,10 @@ $(document).ready(function () {
 			}
 			if (token != null) xhr.setRequestHeader("Authorization", "Bearer " + token)
 		},
-		error: function (output, status, response) {
-			if (status === 403) {
+		error: function (output) {
+			if (output['status'] == 403) {
 				refreshToken($.ajax(this))
+				window.location.reload();
 			}
 		}
 	});
