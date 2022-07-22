@@ -240,7 +240,7 @@ function getComments() {
 	}).responseText;
 
 	$('#pagination').pagination({
-		dataSource: `http://localhost:4993/api/user/comments/profile/${profileUser}`,
+		dataSource: `http://localhost:4993/api/comments/profile/${profileUser}`,
 		locator: 'items',
 		totalNumber: 120,
 		alias: {
