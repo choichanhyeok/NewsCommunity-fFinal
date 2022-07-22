@@ -64,10 +64,16 @@ $(document).on("click", ".logout_icon", function signOut() {
 		data: {},
 		xhrFields: { withCredentials: true },
 		success: function () {
-			localStorage.removeItem('les_uid');
-			localStorage.removeItem('IllllIlIII_hid');
-			alert('로그아웃!')
-			window.location.href = "/NewsCommunity-fFinal/index.html"
+			afterSignOut()
+		}, error: function () {
+			afterSignOut()
 		}
 	});
 });
+
+function afterSignOut() {
+	localStorage.removeItem('les_uid');
+	localStorage.removeItem('IllllIlIII_hid');
+	alert('로그아웃!')
+	window.location.href = "/NewsCommunity-fFinal/index.html"
+}
