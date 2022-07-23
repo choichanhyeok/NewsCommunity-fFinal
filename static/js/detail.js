@@ -77,8 +77,10 @@ String.replaceAll = function(search, replacement) {
 
 function commentTextAreaControl() {
     let loginUserId = localStorage.getItem('IllllIlIII_hid');
+	let tempHtml =`<div style="text-align: center;width: 100%;color: #e9efe9">댓글 작성은 로그인 후 이용이 가능합니다.</div>`
     if (loginUserId == null) {
-        $('#editArea').empty();
+        $('#editArea').empty().append(tempHtml);
+
     }
 }
 
