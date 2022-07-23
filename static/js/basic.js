@@ -41,7 +41,7 @@ function refreshToken(a) {
 		error: function () {
 			localStorage.removeItem('les_uid');
 			localStorage.removeItem('IllllIlIII_hid');
-			alert("재로그인 해주세요!")
+			token!=null ? alert("재로그인 해주세요!") : alert("로그인 후 이용이 가능합니다.");
 			window.location.href = "login.html"
 		}
 	});

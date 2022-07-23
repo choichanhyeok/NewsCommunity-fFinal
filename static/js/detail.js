@@ -77,8 +77,10 @@ String.replaceAll = function(search, replacement) {
 
 function commentTextAreaControl() {
     let loginUserId = localStorage.getItem('IllllIlIII_hid');
+	let tempHtml =`<div style="text-align: center;width: 100%;color: #e9efe9">댓글 작성은 로그인 후 이용이 가능합니다.</div>`
     if (loginUserId == null) {
-        $('#editArea').empty();
+        $('#editArea').empty().append(tempHtml);
+
     }
 }
 
@@ -110,18 +112,37 @@ function checkCommentByte(obj) {
     }
 }
 
+function escapeHtml(content) {
+	'use strict';
+	var entityMap = {
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#39;',
+		'/': '&#x2F;',
+		'`': '&#x60;',
+		'=': '&#x3D;'
+	};
+	return String(content).replace(/[&<>"'`=\/]/g, function (s) {
+		return entityMap[s];
+	});
+}
+
 // 댓글 작성 함수
 function postComment() {
     let content = $('#comment').val();
     let newsId = getNewsId();
-    let data = {
-        "content": content,
-        "newsId": newsId
+    if (content.trim() == "" || content == null) {
+        alert("내용을 입력하세요!");
+		return
+    } else {
+	    content = escapeHtml(content)
     }
-    if (content == "") {
-        alert("내용을 입력하세요");
-        return
-    }
+	let data = {
+		"content": content,
+		"newsId": newsId
+	}
     $.ajax({
         type: "POST",
         url: `/api/user/comments`,
@@ -489,7 +510,9 @@ function toggleBookmark(post_id) {
             data: JSON.stringify(data),
             success: function (response) {
                 $i_bookmark.addClass("fa-bookmark").removeClass("fa-bookmark-o")
-            }
+            }, error: function () {
+				if (token == null) alert("로그인 후 이용이 가능합니다!")
+	        }
         })
     }
 }

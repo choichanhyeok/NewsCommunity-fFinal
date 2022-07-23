@@ -151,16 +151,14 @@ function signIn() {
 		},
 		xhrFields: { withCredentials: true },
 		success: function (output,status,response) {
-			if (output == "success") {
-				token = response.getResponseHeader("token");
-				id = atob(response.getResponseHeader("username"));
-				localStorage.setItem("les_uid",token)
-				localStorage.setItem("IllllIlIII_hid",id)
-				window.location.replace("./index.html")
-				alert("login success")
-			} else {
-				alert("error")
-			}
+			token = response.getResponseHeader("token");
+			id = atob(response.getResponseHeader("username"));
+			localStorage.setItem("les_uid",token)
+			localStorage.setItem("IllllIlIII_hid",id)
+			window.location.replace("./index.html")
+			alert("환영합니다!")
+		}, error: function () {
+			alert("아이디와 비밀번호를 정확히 입력해 주세요!")
 		}
 	});
 }
