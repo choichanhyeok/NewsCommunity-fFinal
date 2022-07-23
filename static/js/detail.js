@@ -489,7 +489,9 @@ function toggleBookmark(post_id) {
             data: JSON.stringify(data),
             success: function (response) {
                 $i_bookmark.addClass("fa-bookmark").removeClass("fa-bookmark-o")
-            }
+            }, error: function () {
+				if (token == null) alert("로그인 후 이용이 가능합니다!")
+	        }
         })
     }
 }
