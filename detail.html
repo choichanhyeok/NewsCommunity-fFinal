@@ -21,11 +21,11 @@
     <!-- script 모음 -->
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <!-- Font Awesome CSS -->
     <script src="https://kit.fontawesome.com/f6788aacd4.js" crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
 
     <script defer src="static/js/basic.js"></script>
     <script defer src="static/js/listing.js"></script>
@@ -80,10 +80,16 @@
     <div id="comment_box-head" class="comment_box_head fixed level">
 
     </div>
-    <div id="pagination" class="pagination"></div>
-    <div id="comment-container" class="container fixed">
-
+    <div class="pagination">
+        정렬:
+        <select id="sorting" onchange="getComments()">
+            <option value="createdAt">생성일</option>
+        </select>
+        <input type="radio" name="isAsc" value="true" onchange="getComments()" checked /> 오름차순
+        <input type="radio" name="isAsc" value="false" onchange="getComments()" /> 내림차순
     </div>
+    <div id="pagination" class="pagination"></div>
+    <div id="comment-container" class="container fixed">=</div>
 </section>
 
     <div class="ad-banner">
