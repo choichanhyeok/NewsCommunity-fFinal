@@ -14,66 +14,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Do+Hyeon&family=Nanum+Gothic:wght@400;700&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="/NewsCommunity-fFinal/static/base.css">
-    <link rel="stylesheet" href="/NewsCommunity-fFinal/static/detail.css">
+    <link rel="stylesheet" href="static/base.css">
+    <link rel="stylesheet" href="static/detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
 
     <!-- script 모음 -->
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <!-- Font Awesome CSS -->
     <script src="https://kit.fontawesome.com/f6788aacd4.js" crossorigin="anonymous"></script>
 
-<!--    <script src="/NewsCommunity-fFinal/static/js/login.js"></script>-->
-<!--    <script src="/NewsCommunity-fFinal/static/js/ui.js"></script>-->
-<!--    <script src="/NewsCommunity-fFinal/static/js/listing.js"></script>-->
-<!--    <script src="/NewsCommunity-fFinal/static/js/profile_about.js"></script>-->
-<!--    <script src="/NewsCommunity-fFinal/static/js/detail.js"></script>-->
+
+    <script defer src="static/js/basic.js"></script>
+    <script defer src="static/js/listing.js"></script>
+    <script defer src="./static/js/detail.js"></script>
 </head>
 
 <body class="has-navbar-fixed-top">
 <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="/NewsCommunity-fFinal/index.html">
+        <a class="navbar-item" href="index.html">
             <small class="navbar_team">TEAM.</small>
             <div class="navbar_text">harmony</div>
         </a>
     </div>
     <div class="navbar_icon">
-        {% if status == False %}
-            <a class="login_icon" onclick="window.location.href = '/NewsCommunity-fFinal/login.html'"><i
-                    class="fa-solid fa-arrow-right-to-bracket"></i></a>
-        {% else %}
-            <a class="profile_icon" href="/NewsCommunity-fFinal/profile.html/{{ user_info.user_id }}"><i class="fa-regular fa-user"></i></a>
-            <a class="logout_icon" onclick="sign_out()"><i class="fa-solid fa-right-from-bracket"
-                                                           aria-hidden="true"></i></a>
-        {% endif %}
     </div>
 </nav>
 
 <div class="news_wrap box fixed" id = "news-box">
-    <div class="news_title title"><h4>{{ post.title }}</h4></div>
-    <div class="news_time level-left">
-        <small>{{ post.write_time }}</small>
-    </div>
-    <div class="news_icon level-right">
-        <div class="news_url level-item">
-            <a href="{{ post.news_url }}" target="_blank">
-                <span class="icon is-small"><i class="icon_ fa-solid fa-link"></i></span>
-            </a>
-        </div>
-        <div id="bookmark" class="bookmark level-item">
-            <div id="{{ post.post_id }}">
-                <a class="is-sparta" aria-label="bookmark"
-                   onclick="toggle_bookmark({{ post.post_id }})">
-                                                <span class="icon is-small"><i class="icon_ fa fa-solid fa-bookmark-o"
-                                                                               aria-hidden="true"></i></span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <span class="news_photo"><img src="{{ post.image_url }}" alt="Image"></span>
-    <div class="news_summary" style="white-space: pre-line">{{ post.summary|safe }}</div>
+
 </div>
 
 
@@ -81,15 +53,10 @@
 
 <div class="comment_wrap fixed">
     <article id="editArea" class="media comment-textarea">
-        <figure class="media-left">
-            <p class="image is-64x64">
-                <img src="https://bulma.io/images/placeholders/128x128.png">
-            </p>
-        </figure>
         <div class="media-content">
             <div class="field">
                 <p class="control">
-                    <textarea id="comment" class="textarea" placeholder="의견을 남겨주세요"></textarea>
+                    <textarea id="comment" class="textarea" placeholder="의견을 남겨주세요" onkeyup="checkCommentByte(this)"></textarea>
                 </p>
             </div>
             <nav class="level">
@@ -107,72 +74,22 @@
         </div>
     </article>
 </div>
-<hr class="comment_hr_second fixed">
 
 
 <section class="section">
-    <div class="comment_box_head fixed level">
-        <div class="comments_count level-left">
-            <p class="subtitle is-5">
-                <strong>{{ count_comments }}</strong>
-            </p>
-            <small style="margin-bottom: 1rem">&nbsp;comments</small>
-        </div>
+    <div id="comment_box-head" class="comment_box_head fixed level">
 
-        <div class="dropdown is-right is-hoverable level-right">
-            <div class="dropdown-trigger">
-                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
-                    <span id="sort_comments_txt">댓글 정렬</span>
-                    <span class="icon is-small">
-                        <i class="fas fa-angle-down" aria-hidden="true"></i>
-                    </span>
-                </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu3" role="menu">
-                <div class="dropdown-content">
-                    <a class="dropdown-item" onclick="set_sorting_method(this)">
-                        최신 순
-                    </a>
-                    <a class="dropdown-item" onclick="set_sorting_method(this)">
-                        오래된 순
-                    </a>
-                    <a class="dropdown-item" onclick="set_sorting_method(this)">
-                        좋아요 순
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
-
-    <div id="comment-box" class="container fixed">
-        <article class="media">
-            <figure class="media-left">
-                <p class="image is-64x64">
-                    <img src="https://bulma.io/images/placeholders/128x128.png">
-                </p>
-            </figure>
-            <div class="media-content">
-                <div class="content">
-                    <p>
-                        <strong>nickname</strong> <small>username</small> <small>time</small>
-                        <br>
-                        <span id="1-content">content</span>
-                    </p>
-                </div>
-                <nav class="level is-mobile">
-                    <div class="level-left">
-                        <a class="level-item">
-                            <span class="heart icon is-small"><i class="fa fa-heart-o"></i></span>
-                        </a>
-                    </div>
-                </nav>
-            </div>
-            <div class="media-right">
-                <i class="fa-solid fa-pen-to-square" onclick="showEditTextarea(1)"></i>
-                <i class="fa-solid fa-trash-can" onclick="deleteConfirm(1)"></i>
-            </div>
-        </article>
+    <div class="pagination">
+        정렬:
+        <select id="sorting" onchange="getComments()">
+            <option value="createdAt">생성일</option>
+        </select>
+        <input type="radio" name="isAsc" value="true" onchange="getComments()" checked /> 오름차순
+        <input type="radio" name="isAsc" value="false" onchange="getComments()" /> 내림차순
     </div>
+    <div id="pagination" class="pagination"></div>
+    <div id="comment-container" class="container fixed">=</div>
 </section>
 
     <div class="ad-banner">
@@ -183,10 +100,5 @@
         <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
     </div>
 
-    <script src="/NewsCommunity-fFinal/static/js/login.js"></script>
-    <script src="/NewsCommunity-fFinal/static/js/ui.js"></script>
-    <script src="/NewsCommunity-fFinal/static/js/listing.js"></script>
-    <script src="/NewsCommunity-fFinal/static/js/profile_about.js"></script>
-    <script src="/NewsCommunity-fFinal/static/js/detail.js"></script>
 </body>
 </html>

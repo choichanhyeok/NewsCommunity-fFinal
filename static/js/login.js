@@ -1,19 +1,25 @@
+var id = localStorage.getItem('IllllIlIII_hid');
 var token = localStorage.getItem('les_uid');
 
 $(document).ready(function () {
+	if (token != null) {
+		alert("로그아웃을 먼저 해주세요!")
+		window.location.replace("index.html")
+	}
 	var csrftoken = $('meta[name=csrf-token]').attr('content')
 	$.ajaxSetup({
 		beforeSend: function (xhr, settings) {
-			settings.url = "http://localhost:4993"+this.url; // have to modify
+			settings.url = "https://www.chanhyeoking.com"+this.url; // have to modify
 			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			}
-			xhr.setRequestHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbXkiLCJyb2xlcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjU3MDExMTUwfQ.OlcAvIA2ZLzyd7Naoal89ErTF63RCB4PHpQmut85jeM");
+			xhr.setRequestHeader("Authorization", "Bearer " + token);
 		}
 	});
 })
+
 // 회원가입 버튼, 취소 버튼 전환
-function toggle_sign_up() {
+function toggleSignUp() {
 	$("#double_ck").toggleClass("is-hidden")
 	$("#undertext_id").toggleClass("is-hidden")
 	$("#undertext_pw").toggleClass("is-hidden")
@@ -21,30 +27,29 @@ function toggle_sign_up() {
 	$("#signin_up_btn").toggleClass("is-hidden")
 	$("#sign_up_nav").toggleClass("is-hidden")
 	$("#pw_ch2").toggleClass("is-hidden")
-	console.log("toggle")
 }
 
 // 아이디 양식 확인
-function is_nickname(asValue) {
+function isNickname(asValue) {
 	var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
 	return regExp.test(asValue);
 }
+
 // 비밀번호 양식 확인
-function is_password(asValue) {
+function isPassword(asValue) {
 	var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
 	return regExp.test(asValue);
 }
 
 // 아이디 중복 확인
-function check_dup() {
+function checkDuplication() {
 	let username = $("#input_id").val()
-	console.log(username)
 	if (username == "") {
 		$("#undertext_id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
 		$("#input_id").focus()
 		return;
 	}
-	if (!is_nickname(username)) {
+	if (!isNickname(username)) {
 		$("#undertext_id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
 		$("#input_id").focus()
 		return;
@@ -55,16 +60,13 @@ function check_dup() {
 		type: "POST",
 		url: "/api/signup/checkdup",
 		data: {
-			username_give: username
+			"username": username
 		},
 		success: function (response) {
-			console.log(typeof response["exists"]);
 			if (response["exists"]) {
-				console.log("true")
 				$("#undertext_id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
 				$("#input_id").focus()
 			} else {
-				console.log("false")
 				$("#undertext_id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
 			}
 			$("#undertext_id").removeClass("is-loading")
@@ -73,7 +75,7 @@ function check_dup() {
 }
 
 // 회원가입
-function sign_up() {
+function signUp() {
 	let username = $("#input_id").val()
 	let password = $("#input_pw").val()
 	let password2 = $("#input_pw2").val()
@@ -89,7 +91,7 @@ function sign_up() {
 		$("#undertext_pw").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
 		$("#input_pw").focus()
 		return;
-	} else if (!is_password(password)) {
+	} else if (!isPassword(password)) {
 		$("#undertext_pw").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
 		$("#input_pw").focus()
 		return
@@ -111,19 +113,18 @@ function sign_up() {
 		type: "POST",
 		url: "/api/signup",
 		data: {
-			username_give: username,
-			password_give: password
+			username: username,
+			password: password
 		},
-		success: function (response) {
+		success: function () {
 			alert("회원가입을 축하드립니다!")
-			window.location.replace("/login")
+			window.location.replace("login.html")
 		}
 	});
-
 }
 
 // 로그인
-function sign_in() {
+function signIn() {
 	let username = $("#input_id").val()
 	let password = $("#input_pw").val()
 
@@ -145,21 +146,19 @@ function sign_in() {
 		type: "POST",
 		url: "/api/login",
 		data: {
-			username_give: username,
-			password_give: password
+			username: username,
+			password: password
 		},
 		xhrFields: { withCredentials: true },
 		success: function (output,status,response) {
-
-			console.log("test")
-			if (output == "success") {
-				token = response.getResponseHeader("token");
-				localStorage.setItem("les_uid",token)
-				window.location.replace("./index.html")
-				alert("login success")
-			} else {
-				alert("error")
-			}
+			token = response.getResponseHeader("token");
+			id = atob(response.getResponseHeader("username"));
+			localStorage.setItem("les_uid",token)
+			localStorage.setItem("IllllIlIII_hid",id)
+			window.location.replace("./index.html")
+			alert("환영합니다!")
+		}, error: function () {
+			alert("아이디와 비밀번호를 정확히 입력해 주세요!")
 		}
 	});
 }

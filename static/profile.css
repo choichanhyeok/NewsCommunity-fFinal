@@ -76,3 +76,11 @@ input::-webkit-calendar-picker-indicator {
 .ad-banner {
     bottom: -3px;
 }
+
+.paging-controller {
+    display: none;
+}
+
+#like-heart {
+    pointer-events: none;
+}
