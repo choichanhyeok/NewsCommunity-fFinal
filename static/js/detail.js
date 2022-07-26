@@ -260,52 +260,8 @@ function getCommentCount() {
                         </p>
                         <small style="margin-bottom: 1rem">&nbsp;comments</small>
                     </div>
-            
-                    <div class="dropdown is-right is-hoverable level-right">
-                        <div class="dropdown-trigger">
-                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
-                                <span id="sort_comments_txt">댓글 정렬</span>
-                                <span class="icon is-small">
-                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu3" role="menu">
-                            <div class="dropdown-content">
-                                <a class="dropdown-item" onclick="getSortedComments(DESC)">
-                                    최신 순
-                                </a>
-                                <a class="dropdown-item" onclick="getSortedComments(ASC)">
-                                    오래된 순
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>`;
             $('#comment_box-head').append(tempHtml);
-        }
-    })
-}
-
-// 댓글 정렬
-function getSortedComments(direction) {
-    let newsId = getNewsId();
-    $("#comment-container").empty()
-    $.ajax({
-        type: "GET",
-        url: `/api/user/comments/sort/${newsId}?direction=${direction}`,
-        success: function(response) {
-            for (let i=0; i<response.length; i++) {
-                let comment = response[i];
-                let commentId = comment.commentId;
-                let createdDate = comment.createdAt;
-                let time = time2str(new Date(createdDate));
-                let content = comment.content;
-                let username = comment.profileResponseDto.username;
-                let nickname = comment.profileResponseDto.nickname;
-                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
-                addHTML(commentId, time, content, username, nickname, profilePicLink);
-            }
         }
     })
 }
