@@ -204,22 +204,23 @@ function getComments() {
     let newsId = getNewsId();
 	let loginUserId = localStorage.getItem('IllllIlIII_hid');
 	if (loginUserId==null) loginUserId = "="
+    let sorting = $("#sorting option:selected").val();
+    let isAsc = $(':radio[name="isAsc"]:checked').val();
+
 	$('#comment-container').empty();
     $('#pagination').pagination({
-        dataSource: `https://www.chanhyeoking.com/api/comments/${newsId}/${loginUserId}`,
-        locator: 'items',
-        totalNumber: 120,
+        dataSource: `http://localhost:4993/api/comments/${newsId}/${loginUserId}?sortBy=${sorting}&isAsc=${isAsc}`,
+        locator: 'content',
         alias: {
             pageNumber: 'page',
             pageSize: 'size'
         },
-	    showLastOnEllipsisShow: false,
-	    autoHidePrevious: true,
-	    autoHideNext: true,
+        totalNumberLocator: (response) => {
+            return response.totalElements;
+        },
         pageSize: 5,
         showPrevious: true,
         showNext: true,
-	    showLast: false,
         ajax: {
             beforeSend: function() {
                 $('#comment-container').html('댓글 불러오는 중...');
@@ -240,7 +241,7 @@ function getComments() {
                 addHTML(commentId, time, content, username, nickname, profilePicLink, commentLike);
             }
         }
-    })
+    });
 }
 
 // 댓글 개수 가져오는 함수 + 정렬 UI
