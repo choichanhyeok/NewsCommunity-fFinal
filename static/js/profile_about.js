@@ -210,7 +210,7 @@ function getComments() {
 	let loginUserId = localStorage.getItem('IllllIlIII_hid');
 	if (loginUserId==null) loginUserId = "="
 	$('#pagination').pagination({
-		dataSource: `http://localhost:4993/api/comments/profile/${profileUser}/${loginUserId}`,
+		dataSource: `https://www.chanhyeoking.com/api/comments/profile/${profileUser}/${loginUserId}`,
 		locator: 'content',
 		alias: {
 			pageNumber: 'page',
