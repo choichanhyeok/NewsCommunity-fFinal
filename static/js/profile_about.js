@@ -222,6 +222,7 @@ function getComments() {
 		pageSize: 5,
 		showPrevious: true,
 		showNext: true,
+		className: 'paginationjs-theme-green paginationjs-big',
 		ajax: {
 			beforeSend: function() {
 				$('#comment-box').html('댓글 불러오는 중...');

@@ -77,6 +77,11 @@ input::-webkit-calendar-picker-indicator {
     bottom: -3px;
 }
 
+#pagination {
+    margin: auto;
+    margin-top: 20px;
+}
+
 .paging-controller {
     display: none;
 }
