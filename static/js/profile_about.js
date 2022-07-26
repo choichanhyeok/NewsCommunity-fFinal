@@ -210,20 +210,18 @@ function getComments() {
 	let loginUserId = localStorage.getItem('IllllIlIII_hid');
 	if (loginUserId==null) loginUserId = "="
 	$('#pagination').pagination({
-		dataSource: `https://www.chanhyeoking.com/api/comments/profile/${profileUser}/${loginUserId}`,
-		locator: 'items',
-		totalNumber: 120,
+		dataSource: `http://localhost:4993/api/comments/profile/${profileUser}/${loginUserId}`,
+		locator: 'content',
 		alias: {
 			pageNumber: 'page',
 			pageSize: 'size'
 		},
-		showLastOnEllipsisShow: false,
-		autoHidePrevious: true,
-		autoHideNext: true,
+		totalNumberLocator: (response) => {
+			return response.totalElements;
+		},
 		pageSize: 5,
 		showPrevious: true,
 		showNext: true,
-		showLast: false,
 		ajax: {
 			beforeSend: function() {
 				$('#comment-box').html('댓글 불러오는 중...');
