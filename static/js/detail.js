@@ -209,7 +209,7 @@ function getComments() {
 
 	$('#comment-container').empty();
     $('#pagination').pagination({
-        dataSource: `http://localhost:4993/api/comments/${newsId}/${loginUserId}?sortBy=${sorting}&isAsc=${isAsc}`,
+        dataSource: `https://www.chanhyeoking.com/api/comments/${newsId}/${loginUserId}?sortBy=${sorting}&isAsc=${isAsc}`,
         locator: 'content',
         alias: {
             pageNumber: 'page',
