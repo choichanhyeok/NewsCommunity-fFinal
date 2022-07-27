@@ -238,7 +238,7 @@ function getComments() {
                 let username = comment.profileResponseDto.username;
                 let nickname = comment.profileResponseDto.nickname;
                 let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
-                let commentLike = comment.like ? 'fa-heart' : 'fa-heart-o'
+                let commentLike = comment.like ? 'fa-heart' : 'fa-heart-o';
                 addHTML(commentId, time, content, username, nickname, profilePicLink, commentLike);
             }
         }
@@ -401,16 +401,23 @@ function updateLike(commentId) {
                     type: "GET",
                     dataType: "text"
                 }).responseText;
+
+                let isLiked = $.ajax({
+                    async: false,
+                    url: `/api/user/likes/isLiked/${commentId}`,
+                    type: "GET",
+                    dataType: "text"
+                }).responseText;
+
                 $(`.${commentId}-like-number`).empty();
                 $(`.${commentId}-like-number`).append(likesCount);
-                if(likesCount++) {
+
+                if (isLiked == 'true') {
                     $(`#${commentId}-heart`).removeClass('fa-heart-o');
                     $(`#${commentId}-heart`).addClass('fa-heart');
-                } else if(likesCount--) {
-                    if($(`#${commentId}-heart`).hasClass('fa-heart')) {
-                        $(`#${commentId}-heart`).removeClass('fa-heart')
-                        $(`#${commentId}-heart`).addClass('fa-heart-o');
-                    }
+                } else {
+                    $(`#${commentId}-heart`).removeClass('fa-heart');
+                    $(`#${commentId}-heart`).addClass('fa-heart-o');
                 }
             }
         })
