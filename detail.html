@@ -80,15 +80,16 @@
     <div id="comment_box-head" class="comment_box_head fixed level">
 
     </div>
-    <div class="pagination">
-        정렬:
-        <select id="sorting" onchange="getComments()">
-            <option value="createdAt">생성일</option>
-        </select>
-        <input type="radio" name="isAsc" value="true" onchange="getComments()" checked /> 오름차순
-        <input type="radio" name="isAsc" value="false" onchange="getComments()" /> 내림차순
+    <div class="comment-control">
+        <div id="pagination" class="page-locator"></div>
+        <div class="pagination">
+            <select id="sorting" onchange="getComments()">
+                <option value="createdAt">생성일</option>
+            </select>
+            <input type="radio" name="isAsc" value="true" onchange="getComments()" checked /> 오래된 순
+            <input type="radio" name="isAsc" value="false" onchange="getComments()" /> 최신순
+        </div>
     </div>
-    <div id="pagination" class="pagination"></div>
     <div id="comment-container" class="container fixed">=</div>
 </section>
 

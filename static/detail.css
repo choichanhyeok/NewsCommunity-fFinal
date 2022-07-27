@@ -172,3 +172,26 @@
 .profile-image {
     cursor: pointer;
 }
+
+.comment-control {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pagination {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width: 250px;
+}
+
+.page-locator {
+    margin-bottom: 0px;
+}
+
+#sorting {
+    padding: 5px;
+}
+
+#comment-container {
+    margin-top: 40px;
+}

@@ -209,7 +209,7 @@ function getComments() {
 
 	$('#comment-container').empty();
     $('#pagination').pagination({
-        dataSource: `http://localhost:4993/api/comments/${newsId}/${loginUserId}?sortBy=${sorting}&isAsc=${isAsc}`,
+        dataSource: `https://www.chanhyeoking.com/api/comments/${newsId}/${loginUserId}?sortBy=${sorting}&isAsc=${isAsc}`,
         locator: 'content',
         alias: {
             pageNumber: 'page',
@@ -221,6 +221,7 @@ function getComments() {
         pageSize: 5,
         showPrevious: true,
         showNext: true,
+        className: 'paginationjs-theme-green',
         ajax: {
             beforeSend: function() {
                 $('#comment-container').html('댓글 불러오는 중...');
@@ -237,7 +238,7 @@ function getComments() {
                 let username = comment.profileResponseDto.username;
                 let nickname = comment.profileResponseDto.nickname;
                 let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
-                let commentLike = comment.like ? 'fa-heart' : 'fa-heart-o'
+                let commentLike = comment.like ? 'fa-heart' : 'fa-heart-o';
                 addHTML(commentId, time, content, username, nickname, profilePicLink, commentLike);
             }
         }
@@ -260,52 +261,8 @@ function getCommentCount() {
                         </p>
                         <small style="margin-bottom: 1rem">&nbsp;comments</small>
                     </div>
-            
-                    <div class="dropdown is-right is-hoverable level-right">
-                        <div class="dropdown-trigger">
-                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
-                                <span id="sort_comments_txt">댓글 정렬</span>
-                                <span class="icon is-small">
-                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu3" role="menu">
-                            <div class="dropdown-content">
-                                <a class="dropdown-item" onclick="getSortedComments(DESC)">
-                                    최신 순
-                                </a>
-                                <a class="dropdown-item" onclick="getSortedComments(ASC)">
-                                    오래된 순
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>`;
             $('#comment_box-head').append(tempHtml);
-        }
-    })
-}
-
-// 댓글 정렬
-function getSortedComments(direction) {
-    let newsId = getNewsId();
-    $("#comment-container").empty()
-    $.ajax({
-        type: "GET",
-        url: `/api/user/comments/sort/${newsId}?direction=${direction}`,
-        success: function(response) {
-            for (let i=0; i<response.length; i++) {
-                let comment = response[i];
-                let commentId = comment.commentId;
-                let createdDate = comment.createdAt;
-                let time = time2str(new Date(createdDate));
-                let content = comment.content;
-                let username = comment.profileResponseDto.username;
-                let nickname = comment.profileResponseDto.nickname;
-                let profilePicLink = comment.profileResponseDto.profile_pic == "default" ? "/static/profile_pics/profile_placeholder.png" : getProfileUrl(username);
-                addHTML(commentId, time, content, username, nickname, profilePicLink);
-            }
         }
     })
 }
@@ -444,16 +401,23 @@ function updateLike(commentId) {
                     type: "GET",
                     dataType: "text"
                 }).responseText;
+
+                let isLiked = $.ajax({
+                    async: false,
+                    url: `/api/user/likes/isLiked/${commentId}`,
+                    type: "GET",
+                    dataType: "text"
+                }).responseText;
+
                 $(`.${commentId}-like-number`).empty();
                 $(`.${commentId}-like-number`).append(likesCount);
-                if(likesCount++) {
+
+                if (isLiked == 'true') {
                     $(`#${commentId}-heart`).removeClass('fa-heart-o');
                     $(`#${commentId}-heart`).addClass('fa-heart');
-                } else if(likesCount--) {
-                    if($(`#${commentId}-heart`).hasClass('fa-heart')) {
-                        $(`#${commentId}-heart`).removeClass('fa-heart')
-                        $(`#${commentId}-heart`).addClass('fa-heart-o');
-                    }
+                } else {
+                    $(`#${commentId}-heart`).removeClass('fa-heart');
+                    $(`#${commentId}-heart`).addClass('fa-heart-o');
                 }
             }
         })
