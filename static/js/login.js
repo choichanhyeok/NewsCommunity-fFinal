@@ -55,13 +55,14 @@ function checkDuplication() {
 		return;
 	}
 	$("#undertext_id").addClass("is-loading")
-
+	let data = {
+		"username": username
+	}
 	$.ajax({
 		type: "POST",
 		url: "/api/signup/checkdup",
-		data: {
-			"username": username
-		},
+		contentType: "application/json",
+		data: JSON.stringify(data),
 		success: function (response) {
 			if (response["exists"]) {
 				$("#undertext_id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
@@ -109,13 +110,15 @@ function signUp() {
 	} else {
 		$("#undertext_pw2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
 	}
+	let data = {
+		username: username,
+		password: password
+	}
 	$.ajax({
 		type: "POST",
 		url: "/api/signup",
-		data: {
-			username: username,
-			password: password
-		},
+		contentType: "application/json",
+		data: JSON.stringify(data),
 		success: function () {
 			alert("회원가입을 축하드립니다!")
 			window.location.replace("login.html")
